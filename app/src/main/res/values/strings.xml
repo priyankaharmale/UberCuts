@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">UberCuts</string>
+
+    <!--Login-->
+    <string name="str_you">You Are</string>
+    <string name="str_user">User</string>
+    <string name="str_vendor">Vendor</string>
+    <string name="str_sign">Sign In</string>
+    <string name="str_email">Email ID</string>
+    <string name="str_forgot">Forgot Password ?</string>
+    <string name="str_dont">Do not Have an Account?</string>
+    <string name="btn_create">Create an Account</string>
+
+    <!--Register-->
+    <string name="str_account">Account Information</string>
+    <string name="str_name">Full Name</string>
+    <string name="str_phone">Mobile No.</string>
+    <string name="str_password">Password</string>
+    <string name="str_recreatepwd">Confirm Password</string>
+    <string name="str_proceed">Proceed</string>
+    <string name="str_alreadyacc">Already Have An Account?</string>
+    <string name="str_addresst">Address</string>
+    <string name="str_steet">Street</string>
+    <string name="str_city">City</string>
+    <string name="str_state">State</string>
+    <string name="str_country">Country</string>
+    <string name="str_zip">Zip Code</string>
+    <string name="str_credit">Credit Card Details</string>
+    <string name="str_card">Card No</string>
+    <string name="str_mm">MM</string>
+    <string name="str_yyy">YYY</string>
+    <string name="str_cvv">CVV</string>
+    <string name="str_register">Register</string>
+
+    <!--Forgot Password-->
+    <string name="str_enteremail">Enter Your Email ID</string>
+    <string name="str_submit">Submit</string>
+    <string name="str_cancle">Cancel</string>
+
+    <!--Errors-->
+    <string name="time_our_error">Time out.</string>
+    <string name="can_not_connect">No Internet Connection Available.</string>
+    <string name="auth_fail">Authentication Failed.</string>
+    <string name="server_error">Server error.</string>
+    <string name="netwotk_error">Unable to connect with network.</string>
+    <string name="parser_error">Parse error.</string>
+    <string name="unknow_error_txt">Unknown Error.</string>
+
+    <string name="type_a_message">Type a message</string>
+    <string name="title_activity__view__profile">Activity_View_Profile</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="hint_view_message">View Message</string>
+    <string name="processing">Processing...</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="contacts2">CONTACTS</string>
+    <string name="sort_by">Sort By</string>
+    <string name="grant">Grant</string>
+
+</resources>
