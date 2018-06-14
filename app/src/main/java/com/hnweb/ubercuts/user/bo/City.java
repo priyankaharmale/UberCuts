@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.bo;
+package com.hnweb.ubercuts.user.bo;
 
 public class City {
     String cityName,id;

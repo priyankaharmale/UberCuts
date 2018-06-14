@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.Utils;
+package com.hnweb.ubercuts.utils;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;

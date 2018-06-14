@@ -21,12 +21,13 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_20" />
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profilepic"
+            android:layout_width="@dimen/dimens_100dp"
+            android:layout_height="@dimen/dimens_100dp"
             android:layout_marginTop="@dimen/dimens_10dp"
-            android:src="@drawable/camera" />
+            android:layout_gravity="center"
+            android:src="@drawable/user_register" />
 
         <TextView
             android:id="@+id/tv_you"
@@ -49,6 +50,7 @@
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_country"
+            android:editable="false"
             android:inputType="text"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
@@ -62,6 +64,7 @@
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_state"
+            android:editable="false"
             android:inputType="text"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
@@ -77,6 +80,7 @@
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_city"
             android:inputType="text"
+            android:editable="false"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />

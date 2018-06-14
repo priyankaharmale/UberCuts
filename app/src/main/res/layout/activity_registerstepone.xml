@@ -26,10 +26,10 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_20" />
 
-            <ImageView
-                android:id="@+id/logo"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profilepic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dimens_100dp"
                 android:layout_marginTop="@dimen/dimens_10dp"
                 android:src="@drawable/camera" />
 

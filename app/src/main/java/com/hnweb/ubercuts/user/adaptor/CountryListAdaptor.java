@@ -1,18 +1,16 @@
-package com.hnweb.ubercuts.adaptor;
+package com.hnweb.ubercuts.user.adaptor;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hnweb.ubercuts.R;
-import com.hnweb.ubercuts.bo.Country;
+import com.hnweb.ubercuts.user.bo.Country;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
 
 import java.util.ArrayList;
@@ -84,7 +82,7 @@ public class CountryListAdaptor extends RecyclerView.Adapter<CountryListAdaptor.
     }
 
     private void fetchcountry(String id, String name) {
-        onCallBack.callbackList(id, name);
+        onCallBack.callcountryList(id, name);
         dialog.dismiss();
 
     }

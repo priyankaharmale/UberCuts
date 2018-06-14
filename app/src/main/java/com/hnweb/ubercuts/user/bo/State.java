@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.bo;
+package com.hnweb.ubercuts.user.bo;
 
 public class State {
     String stateName,id;

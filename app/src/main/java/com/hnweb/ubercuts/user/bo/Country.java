@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.bo;
+package com.hnweb.ubercuts.user.bo;
 
 public class Country {
     String countyName,id;

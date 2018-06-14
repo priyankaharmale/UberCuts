@@ -1,5 +1,6 @@
-package com.hnweb.ubercuts.adaptor;
+package com.hnweb.ubercuts.user.adaptor;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hnweb.ubercuts.R;
-import com.hnweb.ubercuts.bo.State;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
+import com.hnweb.ubercuts.user.bo.State;
 
 import java.util.ArrayList;
 
@@ -19,11 +21,15 @@ import java.util.ArrayList;
 public class StateListAdaptor extends RecyclerView.Adapter<StateListAdaptor.MyViewHolder> {
     private ArrayList<State> states;
     Context context;
+    OnCallBack onCallBack;
+    Dialog dialog;
 
-    public StateListAdaptor(ArrayList<State> states, Context context) {
+    public StateListAdaptor(ArrayList<State> states, Context contex, OnCallBack onCallBack, Dialog dialog) {
 
         this.states = states;
         this.context = context;
+        this.onCallBack = onCallBack;
+        this.dialog = dialog;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -33,10 +39,8 @@ public class StateListAdaptor extends RecyclerView.Adapter<StateListAdaptor.MyVi
         public MyViewHolder(View view) {
             super(view);
             tv_state = (TextView) view.findViewById(R.id.tv_year);
-
         }
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,6 +55,12 @@ public class StateListAdaptor extends RecyclerView.Adapter<StateListAdaptor.MyVi
 
         final State state = states.get(position);
         holder.tv_state.setText(state.getStateName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchcountry(state.getId(), state.getStateName());
+            }
+        });
     }
 
     @Override
@@ -63,4 +73,9 @@ public class StateListAdaptor extends RecyclerView.Adapter<StateListAdaptor.MyVi
         notifyDataSetChanged();
     }
 
+    private void fetchcountry(String id, String name) {
+        onCallBack.callstateList(id, name);
+        dialog.dismiss();
+
+    }
 }

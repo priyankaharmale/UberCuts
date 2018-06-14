@@ -22,10 +22,10 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_20" />
 
-        <ImageView
-            android:id="@+id/logo"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profilepic"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimens_100dp"
             android:layout_marginTop="@dimen/dimens_10dp"
             android:src="@drawable/user_register" />
 
@@ -72,6 +72,7 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/bg_textbox"
                 android:drawablePadding="@dimen/dimens_20dp"
+                android:focusableInTouchMode="false"
                 android:hint="@string/str_mm"
                 android:inputType="number"
                 android:paddingLeft="@dimen/dimens_20dp"
@@ -87,8 +88,10 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/bg_textbox"
                 android:drawablePadding="@dimen/dimens_20dp"
+                android:focusableInTouchMode="false"
                 android:hint="@string/str_yyy"
                 android:inputType="number"
+
                 android:paddingLeft="@dimen/dimens_20dp"
                 android:paddingRight="@dimen/dimens_10dp"
                 android:textColor="@color/colorWhite"
@@ -105,7 +108,7 @@
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_cvv"
-            android:inputType="number"
+            android:inputType="numberPassword"
             android:maxLength="3"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"

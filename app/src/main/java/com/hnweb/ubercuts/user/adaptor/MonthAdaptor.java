@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.adaptor;
+package com.hnweb.ubercuts.user.adaptor;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ import com.hnweb.ubercuts.interfaces.OnCallBack;
 import java.util.ArrayList;
 
 
-public class YearAdaptor extends BaseAdapter {
+public class MonthAdaptor extends BaseAdapter {
     Context context;
     ArrayList<String> logos;
     LayoutInflater inflter;
@@ -24,7 +24,7 @@ public class YearAdaptor extends BaseAdapter {
     Dialog dialog;
 
 
-    public YearAdaptor(Context applicationContext, ArrayList<String> logos, OnCallBack onCallBack, Dialog dialog) {
+    public MonthAdaptor(Context applicationContext, ArrayList<String> logos, OnCallBack onCallBack, Dialog dialog) {
         this.context = applicationContext;
         this.logos = logos;
         inflter = (LayoutInflater.from(applicationContext));
@@ -66,6 +66,6 @@ public class YearAdaptor extends BaseAdapter {
     }
 
     private void fetchcount(String count) {
-        onCallBack.callbackYear(count);
+        onCallBack.callback(count);
     }
 }

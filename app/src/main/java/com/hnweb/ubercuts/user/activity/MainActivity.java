@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.activity;
+package com.hnweb.ubercuts.user.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

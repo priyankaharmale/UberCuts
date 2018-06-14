@@ -1,5 +1,6 @@
-package com.hnweb.ubercuts.adaptor;
+package com.hnweb.ubercuts.user.adaptor;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hnweb.ubercuts.R;
-import com.hnweb.ubercuts.bo.City;
-import com.hnweb.ubercuts.bo.Country;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
+import com.hnweb.ubercuts.user.bo.City;
+import com.hnweb.ubercuts.user.bo.Country;
 
 import java.util.ArrayList;
 
@@ -22,10 +24,14 @@ public class CityListAdaptor extends RecyclerView.Adapter<CityListAdaptor.MyView
     private ArrayList<City> cities;
     Context context;
     Drawable drawable;
+    OnCallBack onCallBack;
+    Dialog dialog;
 
-    public CityListAdaptor(ArrayList<City> cities, Context context) {
+    public CityListAdaptor(ArrayList<City> cities, Context context, OnCallBack onCallBack, Dialog dialog) {
 
         this.cities = cities;
+        this.onCallBack=onCallBack;
+        this.dialog=dialog;
         this.context = context;
     }
 
@@ -55,6 +61,12 @@ public class CityListAdaptor extends RecyclerView.Adapter<CityListAdaptor.MyView
 
         final City city = cities.get(position);
         holder.tv_city.setText(city.getCityName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchcountry(city.getId(), city.getCityName());
+            }
+        });
     }
 
     @Override
@@ -67,5 +79,9 @@ public class CityListAdaptor extends RecyclerView.Adapter<CityListAdaptor.MyView
         this.cities = filterdNames;
         notifyDataSetChanged();
     }
+    private void fetchcountry(String id, String name) {
+        onCallBack.callcityList(id, name);
+        dialog.dismiss();
 
+    }
 }
