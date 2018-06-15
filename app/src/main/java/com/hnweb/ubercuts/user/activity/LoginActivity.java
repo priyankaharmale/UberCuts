@@ -30,6 +30,7 @@ import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.Utils;
 import com.hnweb.ubercuts.utils.Validations;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText et_password, et_email;
     Button btn_signIn;
     LoadingDialog loadingDialog;
-
+    SharedPreferences prefUser;
+    SharedPreferences.Editor editorUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         et_password = (EditText) findViewById(R.id.et_password);
         et_email = (EditText) findViewById(R.id.et_email);
         loadingDialog = new LoadingDialog(LoginActivity.this);
+        prefUser = getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        editorUser = prefUser.edit();
 
         btn_createaccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         System.out.println("res_register" + response);
                         try {
-                            JSONObject j = new JSONObject(response);
+                            final JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
 
@@ -171,15 +175,87 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if (message_code == 1) {
 
-                                JSONObject jsonObject = j.getJSONObject("details");
-
-
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
 
+                                                try {
+                                                    JSONArray jsonArray = j.getJSONArray("details");
+
+                                                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                                        String user_id = jsonObject.getString("u_id");
+                                                        String user_name = jsonObject.getString("u_name");
+                                                        String user_email = jsonObject.getString("u_email");
+                                                        String user_phone = jsonObject.getString("u_phone");
+                                                        String user_image = jsonObject.getString("u_img");
+                                                        String device_type = jsonObject.getString("device_type");
+                                                        String user_street = jsonObject.getString("u_street");
+                                                        String user_city = jsonObject.getString("u_city");
+                                                        String user_state = jsonObject.getString("u_state");
+                                                        String user_country = jsonObject.getString("u_country");
+                                                        String user_zipcode = jsonObject.getString("u_zipcode");
+                                                        String user_is_card = jsonObject.getString("is_credit_card_added");
+                                                        String user_type = jsonObject.getString("type");
+
+                                                        /*    if (user_type.equals("0")) {*/
+                                                        //user_type_value = "User";
+                                                        editorUser.putString(AppConstant.KEY_U_ID, user_id);
+                                                        editorUser.putString(AppConstant.KEY_U_NAME, user_name);
+                                                        editorUser.putString(AppConstant.KEY_U_EMAIL, user_email);
+                                                        editorUser.putString(AppConstant.KEY_U_PHONE, user_phone);
+                                                        editorUser.putString(AppConstant.KEY_U_IMAGE, user_image);
+                                                        editorUser.putString(AppConstant.KEY_U_DEVICETYPE, user_type);
+                                                        editorUser.putString(AppConstant.KEY_U_STREET, user_street);
+                                                        editorUser.putString(AppConstant.KEY_U_CITY, user_city);
+                                                        editorUser.putString(AppConstant.KEY_U_STATE, user_state);
+                                                        editorUser.putString(AppConstant.KEY_U_COUNTRY, user_country);
+                                                        editorUser.putString(AppConstant.KEY_U_ZIPCODE, user_zipcode);
+                                                        editorUser.commit();
+                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        finish();
+                                                        startActivity(intent);
+                                                        // }
+                                                        /*else {
+                                                            //user_type_value = "Vendor";
+                                                            editorVendor.putString("user_id_vendor", user_id);
+                                                            editorVendor.apply();
+                                                            editorVendor.putString("Username", user_name);
+                                                            editorVendor.putString("Email", user_email);
+                                                            editorVendor.putString("UserPhone", user_phone);
+                                                            editorVendor.putString("UserDob", user_dob);
+                                                            editorVendor.putString("UserImage", user_image);
+                                                            editorVendor.putString("UserType", user_type);
+                                                            editorVendor.putString("UserStreet", user_street);
+                                                            editorVendor.putString("UserCity", user_city);
+                                                            editorVendor.putString("UserState", user_state);
+                                                            editorVendor.putString("UserCountry", user_country);
+                                                            editorVendor.putString("UserZipcode", user_zipcode);
+                                                            editorVendor.commit();
+                                                            Intent intent = new Intent(LoginActivityUser.this, MainActivityVendor.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            finish();
+                                                            startActivity(intent);
+                                                        }*/
+
+
+                            /*Intent intent = new Intent(LoginActivityUser.this, MainActivityUser.class);
+                            intent.putExtra("UserIDS",user_id);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intent);*/
+
+                                                    }
+                                                } catch (JSONException e) {
+                                                    System.out.println("jsonexeption" + e.toString());
+                                                }
+                                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                                startActivity(intent);
                                                 dialog.dismiss();
                                             }
                                         });
@@ -253,9 +329,6 @@ public class LoginActivity extends AppCompatActivity {
                                 loadingDialog.dismiss();
                             }
                             if (message_code == 1) {
-
-                                JSONObject jsonObject = j.getJSONObject("details");
-
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(message)

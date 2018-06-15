@@ -11,6 +11,7 @@ public class AppConstant {
 
     /*============================================Register==================================================*/
     public static final String KEY_U_NAME = "u_name";
+    public static final String KEY_U_ID = "u_id";
     public static final String KEY_U_EMAIL = "u_email";
     public static final String KEY_U_PHONE = "u_phone";
     public static final String KEY_U_STREET = "u_street";
@@ -36,7 +37,7 @@ public class AppConstant {
     public static final String API_LOGIN_USER = BASE_URL +"login.php";
 
     /*=================================================Forgot Password User=========================================================*/
-    public static final String API_FORGOTPWD_USER = BASE_URL +"login.php";
+    public static final String API_FORGOTPWD_USER = BASE_URL +"forgot_password.php";
     /*=================================================Country List=========================================================*/
     public static final String API_GETLIST_COUNTRIES = BASE_URL + "get_countries.php";
     public static final String API_GETLIST_STATE = BASE_URL + "get_states.php";

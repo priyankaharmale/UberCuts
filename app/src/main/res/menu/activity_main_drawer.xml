@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_home" />
+
+    </group>
+    <group
+        android:id="@+id/tasks"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_tasks"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_my_tasks" />
+
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/offer">
+        <item
+            android:id="@+id/nav_todays_offer"
+            android:icon="@drawable/email_id"
+            android:title="Today's Offers"
+            tools:ignore="HardcodedText" />
+
+    </group>
+    <group
+        android:id="@+id/history"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_payment_history"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_payment_hoistory" />
+
+    </group>
+    <group
+        android:id="@+id/fav"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_favourites"
+            app:itemIconTint="@color/colorBlack"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_favourites" />
+
+    </group>
+    <group
+        android:id="@+id/message"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_message" />
+
+    </group>
+
+    <group
+        android:id="@+id/change_pass"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_change_password"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_change_pass" />
+
+    </group>
+
+    <group
+        android:id="@+id/logout"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/email_id"
+            android:title="@string/nav_logout" />
+    </group>
+
+</menu>
