@@ -9,7 +9,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/email_id"
+            android:icon="@drawable/home_navigation"
             android:title="@string/nav_home" />
 
     </group>
@@ -18,17 +18,17 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_my_tasks"
-            android:icon="@drawable/email_id"
+            android:icon="@drawable/my_tasks_navigation"
             android:title="@string/nav_my_tasks" />
 
     </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/offer">
+    <group
+        android:id="@+id/offer"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_todays_offer"
-            android:icon="@drawable/email_id"
-            android:title="Today's Offers"
-            tools:ignore="HardcodedText" />
+            android:icon="@drawable/todays_offer_navigation"
+            android:title="Today's Offers" />
 
     </group>
     <group
@@ -36,7 +36,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_payment_history"
-            android:icon="@drawable/email_id"
+            android:icon="@drawable/payment_history_navigation"
             android:title="@string/nav_payment_hoistory" />
 
     </group>
@@ -46,8 +46,8 @@
 
         <item
             android:id="@+id/nav_favourites"
-            app:itemIconTint="@color/colorBlack"
-            android:icon="@drawable/email_id"
+
+            android:icon="@drawable/favourites_navigation"
             android:title="@string/nav_favourites" />
 
     </group>
@@ -57,21 +57,11 @@
 
         <item
             android:id="@+id/nav_message"
-            android:icon="@drawable/email_id"
+            android:icon="@drawable/messages_navigation"
             android:title="@string/nav_message" />
 
     </group>
 
-    <group
-        android:id="@+id/change_pass"
-        android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/nav_change_password"
-            android:icon="@drawable/email_id"
-            android:title="@string/nav_change_pass" />
-
-    </group>
 
     <group
         android:id="@+id/logout"
@@ -79,7 +69,7 @@
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/email_id"
+            android:icon="@drawable/logout_navigation"
             android:title="@string/nav_logout" />
     </group>
 

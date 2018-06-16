@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,11 +62,12 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
     EditText et_country, et_state, et_city, et_steet, et_zip;
     LoadingDialog loadingDialog;
     OnCallBack onCallBack;
-    ArrayList<Country> countryArrayList = new ArrayList<>();
-    ArrayList<State> stateArrayList = new ArrayList<>();
-    ArrayList<City> cityArrayList = new ArrayList<>();
+    ArrayList<Country> countryArrayList;
+    ArrayList<State> stateArrayList;
+    ArrayList<City> cityArrayList;
     ImageView iv_profilepic;
     String profilepic;
+    Button btn_signIn;
     Drawable drawable;
 
     @Override
@@ -79,6 +81,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         et_zip = (EditText) findViewById(R.id.et_zip);
         et_steet = (EditText) findViewById(R.id.et_steet);
         iv_profilepic = (ImageView) findViewById(R.id.iv_profilepic);
+        btn_signIn = (Button) findViewById(R.id.btn_signIn);
         drawable = ContextCompat.getDrawable(RegistrationActivityStepTwo.this, R.drawable.user_register);
 
         onCallBack = RegistrationActivityStepTwo.this;
@@ -103,6 +106,14 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                     }
                 }
 
+            }
+        });
+        btn_signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivityStepTwo.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
         et_country.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +165,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
     public void dialogContry() {
         Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         dialog.setContentView(R.layout.dialog_list);
 
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
@@ -171,6 +184,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
     public void dialogState() {
         Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         dialog.setContentView(R.layout.dialog_list);
 
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
@@ -188,6 +203,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
     public void dialogCity() {
         Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         dialog.setContentView(R.layout.dialog_list);
 
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
@@ -213,7 +230,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-
+                            countryArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -282,7 +299,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-
+                            stateArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -369,7 +386,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-
+                            cityArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -489,6 +506,13 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
     @Override
     public void callstateList(String id, String name) {
         et_state.setText(name);
+        et_city.setText("");
+        et_steet.setText("");
+        et_zip.setText("");
+
+        et_city.setHint("City");
+        et_steet.setHint("Street");
+        et_zip.setHint("Zip Code");
         getCityList(id);
     }
 

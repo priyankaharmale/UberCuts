@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -24,11 +25,13 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.user.activity.HomeActivity;
+import com.hnweb.ubercuts.user.adaptor.ServicesAdaptor;
 import com.hnweb.ubercuts.user.adaptor.SlidingPagerAdapter;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,6 +44,9 @@ public class HomeFragment extends Fragment implements  View.OnClickListener{
     ArrayList<Integer> slider_image_list;
     private TextView[] dots;
     int page_position = 0;
+    ArrayList<String> stockList = new ArrayList<String>();
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,7 +55,19 @@ public class HomeFragment extends Fragment implements  View.OnClickListener{
 
         initViewById(view);
         addBottomDots(0);
+        stockList.add("Manicure");
+        stockList.add("Pedicure");
+        stockList.add("Gel Nails");
+        stockList.add("Acrylic Nails");
+        stockList.add("Acrylic Filling");
+        stockList.add("Nail Art");
+        stockList.add("Nail Extension");
 
+
+        ServicesAdaptor adapter = new ServicesAdaptor(getActivity(), stockList);
+// Attach the adapter to a ListView
+        ListView listView = (ListView) view.findViewById(R.id.listview_services);
+        listView.setAdapter(adapter);
         final Handler handler = new Handler();
 
         final Runnable update = new Runnable() {

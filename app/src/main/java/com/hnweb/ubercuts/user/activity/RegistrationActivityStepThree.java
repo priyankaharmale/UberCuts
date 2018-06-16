@@ -53,6 +53,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
     String profilepic, fullname, emailId, mobileNo, password, country, state, city, street, zipcode, cardNo, month, year, cvv;
     ImageView iv_profilepic;
     Drawable drawable;
+    Button btn_signIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +69,17 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         et_cardNo = (EditText) findViewById(R.id.et_cardNo);
         drawable = ContextCompat.getDrawable(RegistrationActivityStepThree.this, R.drawable.user_register);
         loadingDialog = new LoadingDialog(RegistrationActivityStepThree.this);
-
+        btn_signIn = (Button) findViewById(R.id.btn_signIn);
         getSavedData();
 
-
+        btn_signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivityStepThree.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         if (!profilepic.equals("")) {
             try {
                 Glide.with(RegistrationActivityStepThree.this)
@@ -108,7 +116,10 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
                     et_yyyy.setError("Please Select the Year");
                 } else if (et_cvv.getText().toString().equals("")) {
                     et_cvv.setError("Please Enter CVV Number");
-                } else {
+                }
+                if (et_cardNo.getText().length()<19) {
+                    et_cardNo.setError("Please Enter the Card Number");
+                }else {
                     cardNo = et_cardNo.getText().toString();
                     month = et_mm.getText().toString();
                     year = et_yyyy.getText().toString();
@@ -134,16 +145,19 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         et_cardNo.addTextChangedListener(new TextWatcher() {
             private static final char space = ' ';
             boolean isDelete = true;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
+            }
+
+            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (before == 0)
                     isDelete = false;
                 else
                     isDelete = true;
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 String source = editable.toString();
@@ -158,7 +172,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
 
                     et_cardNo.setText(stringBuilder);
                     et_cardNo.setSelection(et_cardNo.getText().length());
-                    }
+                }
             }
         });
     }

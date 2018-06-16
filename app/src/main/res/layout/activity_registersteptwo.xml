@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/splash">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,8 +26,8 @@
             android:id="@+id/iv_profilepic"
             android:layout_width="@dimen/dimens_100dp"
             android:layout_height="@dimen/dimens_100dp"
-            android:layout_marginTop="@dimen/dimens_10dp"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimens_10dp"
             android:src="@drawable/user_register" />
 
         <TextView
@@ -34,10 +35,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
-            android:textAllCaps="true"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimens_10dp"
             android:text="@string/str_addresst"
+            android:textAllCaps="true"
             android:textColor="@color/yellow"
             android:textSize="@dimen/text_size_18sp" />
 
@@ -49,12 +50,15 @@
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
-            android:hint="@string/str_country"
             android:editable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/str_country"
             android:inputType="text"
+
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
+
         <EditText
             android:id="@+id/et_state"
             android:layout_width="match_parent"
@@ -63,8 +67,8 @@
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
-            android:hint="@string/str_state"
             android:editable="false"
+            android:hint="@string/str_state"
             android:inputType="text"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
@@ -78,9 +82,9 @@
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
+            android:editable="false"
             android:hint="@string/str_city"
             android:inputType="text"
-            android:editable="false"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
@@ -144,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dimens_10dp"
             android:layout_marginLeft="@dimen/text_20"
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_10dp"

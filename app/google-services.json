@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "1043737100293",
+    "firebase_url": "https://ubercutsapp.firebaseio.com",
+    "project_id": "ubercutsapp",
+    "storage_bucket": "ubercutsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043737100293:android:14278b9756f1d167",
+        "android_client_info": {
+          "package_name": "com.hnweb.ubercuts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043737100293-ei07gq85ls30hi24t1re053dff2s3qa7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hnweb.ubercuts",
+            "certificate_hash": "2ec5b6e3e0368343c94a1589930f6284d4f33df6"
+          }
+        },
+        {
+          "client_id": "1043737100293-9ekk79nfdtc0qjmmjuufmq93uqraq88t.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1043737100293-9ekk79nfdtc0qjmmjuufmq93uqraq88t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8_6l-6enCzIDZ5v7pZNE29RHGFUBQACQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043737100293-9ekk79nfdtc0qjmmjuufmq93uqraq88t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

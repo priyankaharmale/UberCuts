@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/back" />
+        app:srcCompat="@drawable/cross_navigation" />
 
     <RelativeLayout
         android:id="@+id/relative_layout2"
@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dimens_75dp"
             android:layout_marginTop="@dimen/dimens_20dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/edit_navigation" />
 
     </RelativeLayout>
 

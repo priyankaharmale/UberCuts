@@ -1,19 +1,18 @@
 package com.hnweb.ubercuts.user.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,8 +21,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hnweb.ubercuts.MainActivity;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.helper.SharedPrefManager;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
@@ -48,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText et_password, et_email;
     Button btn_signIn;
     LoadingDialog loadingDialog;
+    String deviceToken = "";
+
     SharedPreferences prefUser;
     SharedPreferences.Editor editorUser;
 
@@ -294,7 +297,11 @@ public class LoginActivity extends AppCompatActivity {
                     params.put(AppConstant.KEY_U_EMAIL, email);
                     params.put(AppConstant.KEY_U_PASSWORD, password);
                     params.put(AppConstant.KEY_U_DEVICETYPE, "Android");
-                    params.put(AppConstant.KEY_U_DEVICETOKEN, "122");
+                    if (deviceToken.equals("")) {
+                        params.put(AppConstant.KEY_U_DEVICETOKEN, "dfgf");
+                    } else {
+                        params.put(AppConstant.KEY_U_DEVICETOKEN, deviceToken);
+                    }
 
                 } catch (Exception e) {
                     System.out.println("error" + e.toString());
@@ -389,5 +396,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    private void getdeviceToken() {
+        try {
+            String token = SharedPrefManager.getInstance(this).getDeviceToken();
+
+            if (token.equals("")) {
+                Log.d("Tokan", "t-NULL");
+                deviceToken = token;
+            } else {
+                Log.d("Tokan", token);
+                deviceToken = token;
+            }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
 

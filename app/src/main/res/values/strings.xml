@@ -82,4 +82,7 @@
     <string name="action_message">Messages</string>
     <string name="action_list">List</string>
     <string name="action_map">Map</string>
+
+    <!--User Home Page-->
+    <string name="select">Select Your Services</string>
 </resources>

@@ -52,6 +52,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
     protected static final int REQUEST_STORAGE_ACCESS_PERMISSION = 102;
     String camImage = "", imagePath12;
     Drawable drawable;
+    Button btn_signIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,16 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
         et_password = (EditText) findViewById(R.id.et_password);
         et_confrimpassword = (EditText) findViewById(R.id.et_confrimpassword);
         iv_profilepic = (ImageView) findViewById(R.id.iv_profilepic);
-
+        btn_signIn = (Button) findViewById(R.id.btn_signIn);
         drawable = ContextCompat.getDrawable(RegistrationActivityStepOne.this, R.drawable.user_register);
-
+        btn_signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivityStepOne.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         btn_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

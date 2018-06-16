@@ -31,13 +31,13 @@ public class AppConstant {
     public static final String BASE_URL = "http://tech599.com/tech599.com/johnaks/Ubercuts/api/";
 
     /*=================================================Register User=========================================================*/
-    public static final String API_REGISTER_USER = "register_user.php";
+    public static final String API_REGISTER_USER = BASE_URL + "register_user.php";
 
     /*=================================================Login User=========================================================*/
-    public static final String API_LOGIN_USER = BASE_URL +"login.php";
+    public static final String API_LOGIN_USER = BASE_URL + "login.php";
 
     /*=================================================Forgot Password User=========================================================*/
-    public static final String API_FORGOTPWD_USER = BASE_URL +"forgot_password.php";
+    public static final String API_FORGOTPWD_USER = BASE_URL + "forgot_password.php";
     /*=================================================Country List=========================================================*/
     public static final String API_GETLIST_COUNTRIES = BASE_URL + "get_countries.php";
     public static final String API_GETLIST_STATE = BASE_URL + "get_states.php";
