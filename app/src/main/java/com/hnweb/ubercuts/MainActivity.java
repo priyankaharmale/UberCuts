@@ -14,9 +14,10 @@ import android.widget.Toast;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.helper.SharedPrefManager;
 import com.hnweb.ubercuts.user.activity.HomeActivity;
-import com.hnweb.ubercuts.user.activity.LoginActivity;
+import com.hnweb.ubercuts.user.activity.UserLoginActivity;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.PermissionUtility;
+import com.hnweb.ubercuts.vendor.activity.VendorLoginActivity;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Button btn_user, btn_vendor;
     SharedPreferences pref;
-    String useridUser;
+    String useridUser, userType;
     ConnectionDetector connectionDetector;
     private PermissionUtility putility;
     ArrayList<String> permission_list;
@@ -41,27 +42,39 @@ public class MainActivity extends AppCompatActivity {
 
         runTimePermission();
         getdeviceToken();
-        useridUser = pref.getString(AppConstant.KEY_U_ID, null);
+        useridUser = pref.getString(AppConstant.KEY_ID, null);
+        userType = pref.getString(AppConstant.KEY_TYPE, null);
         btn_user = (Button) findViewById(R.id.btn_user);
         btn_vendor = (Button) findViewById(R.id.btn_vendor);
-       /* btn_vendor.setOnClickListener(new View.OnClickListener() {
+        btn_vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                if (connectionDetector.isConnectingToInternet()) {
+                    if (useridUser != null && userType.equals("1")) {
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    } else {
+                        Intent intentLogin = new Intent(MainActivity.this, VendorLoginActivity.class);
+                        intentLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intentLogin);
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+                }
             }
-        });*/
+        });
 
         btn_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (connectionDetector.isConnectingToInternet()) {
-                    if (useridUser != null) {
+                    if (useridUser != null && userType.equals("0")) {
                         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {
-                        Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+                        Intent intentLogin = new Intent(MainActivity.this, UserLoginActivity.class);
                         intentLogin.putExtra("UserVendorFlag", "USER");
                         intentLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentLogin);

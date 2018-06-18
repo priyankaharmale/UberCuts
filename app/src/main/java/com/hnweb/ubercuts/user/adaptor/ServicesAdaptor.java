@@ -10,17 +10,19 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.user.bo.City;
+import com.hnweb.ubercuts.user.bo.Services;
 
 import java.util.ArrayList;
 
 public class ServicesAdaptor extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> version;
+    private ArrayList<Services> version;
     private LayoutInflater inflater;
     private RadioButton selected = null;
 
-    public ServicesAdaptor(Context context, ArrayList<String> version) {
+    public ServicesAdaptor(Context context, ArrayList<Services> version) {
         this.context = context;
         this.version = version;
         inflater = LayoutInflater.from(context);
@@ -56,8 +58,9 @@ public class ServicesAdaptor extends BaseAdapter {
         } else {
             holder = (Holder) view.getTag();
         }
+        final Services services = version.get(position);
 
-        holder.textViewVersion.setText(version.get(position));
+        holder.textViewVersion.setText(services.getServicesName());
 
         //by default last radio button selected
         if (position == getCount() - 1) {

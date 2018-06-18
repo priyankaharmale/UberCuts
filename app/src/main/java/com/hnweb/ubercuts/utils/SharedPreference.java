@@ -10,7 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.hnweb.ubercuts.contants.AppConstant;
-import com.hnweb.ubercuts.user.activity.LoginActivity;
+import com.hnweb.ubercuts.user.activity.UserLoginActivity;
 
 
 public class SharedPreference {
@@ -52,20 +52,21 @@ public class SharedPreference {
     }
 
 
-    public static void profileSave(Context context, String full_name, String email, String mobileNo, String password, String camimage) {
+    public static void profileSave(Context context, String full_name, String email, String mobileNo, String password, String camimage, String experience) {
         SharedPreferences settings;
         Editor editor;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
         editor = settings.edit(); //2
-        editor.putString(AppConstant.KEY_U_NAME, full_name);
-        editor.putString(AppConstant.KEY_U_EMAIL, email);
-        editor.putString(AppConstant.KEY_U_PHONE, mobileNo);
-        editor.putString(AppConstant.KEY_U_PASSWORD, password);
+        editor.putString(AppConstant.KEY_NAME, full_name);
+        editor.putString(AppConstant.KEY_EMAIL, email);
+        editor.putString(AppConstant.KEY_PHONE, mobileNo);
+        editor.putString(AppConstant.KEY_PASSWORD, password);
+        editor.putString(AppConstant.KEY_PASSWORD, password);
         if (!camimage.equals("")) {
-            editor.putString(AppConstant.KEY_U_IMAGE, camimage);
+            editor.putString(AppConstant.KEY_IMAGE, camimage);
 
         } else {
-            editor.putString(AppConstant.KEY_U_IMAGE, "");
+            editor.putString(AppConstant.KEY_IMAGE, "");
 
         }
         editor.commit();
@@ -76,11 +77,11 @@ public class SharedPreference {
         Editor editor;
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); //1
         editor = settings.edit(); //2
-        editor.putString(AppConstant.KEY_U_COUNTRY, country);
-        editor.putString(AppConstant.KEY_U_STATE, state);
-        editor.putString(AppConstant.KEY_U_CITY, city);
-        editor.putString(AppConstant.KEY_U_STREET, street);
-        editor.putString(AppConstant.KEY_U_ZIPCODE, zipcode);
+        editor.putString(AppConstant.KEY_COUNTRY, country);
+        editor.putString(AppConstant.KEY_STATE, state);
+        editor.putString(AppConstant.KEY_CITY, city);
+        editor.putString(AppConstant.KEY_STREET, street);
+        editor.putString(AppConstant.KEY_ZIPCODE, zipcode);
         editor.commit();
     }
 
@@ -110,7 +111,7 @@ public class SharedPreference {
             public void onClick(DialogInterface dialog, int i) {
 
                 SharedPreference.clearSharedPreference(context);
-                Intent in = new Intent(context, LoginActivity.class);
+                Intent in = new Intent(context, UserLoginActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 context.startActivity(in);
                 dialog.cancel();

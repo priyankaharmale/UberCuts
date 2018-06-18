@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,26 +24,43 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
+import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.SharedPreference;
 import com.hnweb.ubercuts.utils.Utils;
 import com.hnweb.ubercuts.utils.Validations;
+import com.hnweb.ubercuts.vendor.activity.VendorRegistrationActivityStepOne;
+import com.hnweb.ubercuts.vendor.activity.VendorRegistrationActivityStepTwo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Priyanka H on 13/06/2018.
  */
-public class RegistrationActivityStepOne extends AppCompatActivity {
+public class UserRegistrationActivityStepOne extends AppCompatActivity {
     Button btn_proceed;
     EditText et_fullname, et_email, et_mobile, et_password, et_confrimpassword;
     ImageView iv_profilepic;
@@ -53,6 +71,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
     String camImage = "", imagePath12;
     Drawable drawable;
     Button btn_signIn;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +85,14 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
         et_confrimpassword = (EditText) findViewById(R.id.et_confrimpassword);
         iv_profilepic = (ImageView) findViewById(R.id.iv_profilepic);
         btn_signIn = (Button) findViewById(R.id.btn_signIn);
-        drawable = ContextCompat.getDrawable(RegistrationActivityStepOne.this, R.drawable.user_register);
+
+        loadingDialog = new LoadingDialog(UserRegistrationActivityStepOne.this);
+
+        drawable = ContextCompat.getDrawable(UserRegistrationActivityStepOne.this, R.drawable.user_register);
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivityStepOne.this, LoginActivity.class);
+                Intent intent = new Intent(UserRegistrationActivityStepOne.this, UserLoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -81,26 +103,12 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
 
                 if (checkValidation()) {
 
-                    if (Utils.isNetworkAvailable(RegistrationActivityStepOne.this)) {
-                        String password = et_password.getText().toString();
+                    if (Utils.isNetworkAvailable(UserRegistrationActivityStepOne.this)) {
                         String email = et_email.getText().toString();
-                        String phoneNo = et_mobile.getText().toString();
-                        String name = et_fullname.getText().toString();
-                        if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
-                            Toast.makeText(RegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (!camImage.equals("")) {
-                            SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, camImage);
 
-                        } else {
-                            SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, "");
-
-                        }
-                        Intent intent = new Intent(RegistrationActivityStepOne.this, RegistrationActivityStepTwo.class);
-                        startActivity(intent);
+                        emailexists(email);
                     } else {
-                        Utils.myToast1(RegistrationActivityStepOne.this);
+                        Utils.myToast1(UserRegistrationActivityStepOne.this);
                     }
                 }
 
@@ -138,7 +146,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
     }
 
     private void showPictureDialog() {
-        android.app.AlertDialog.Builder pictureDialog = new android.app.AlertDialog.Builder(RegistrationActivityStepOne.this);
+        android.app.AlertDialog.Builder pictureDialog = new android.app.AlertDialog.Builder(UserRegistrationActivityStepOne.this);
         pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
                 "Select photo from gallery",
@@ -165,7 +173,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
 
         System.out.println("Click Image");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
-                && ActivityCompat.checkSelfPermission(RegistrationActivityStepOne.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                && ActivityCompat.checkSelfPermission(UserRegistrationActivityStepOne.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                     getString(R.string.mis_permission_rationale),
@@ -179,7 +187,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
     public void isPermissionGrantedImage() {
         System.out.println("Click Image");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
-                && ActivityCompat.checkSelfPermission(RegistrationActivityStepOne.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                && ActivityCompat.checkSelfPermission(UserRegistrationActivityStepOne.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                     getString(R.string.mis_permission_rationale),
@@ -191,20 +199,20 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
     }
 
     private void requestPermission(final String permission, String rationale, final int requestCode) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(RegistrationActivityStepOne.this, permission)) {
-            new android.app.AlertDialog.Builder(RegistrationActivityStepOne.this)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(UserRegistrationActivityStepOne.this, permission)) {
+            new android.app.AlertDialog.Builder(UserRegistrationActivityStepOne.this)
                     .setTitle(R.string.mis_permission_dialog_title)
                     .setMessage(rationale)
                     .setPositiveButton(R.string.mis_permission_dialog_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(RegistrationActivityStepOne.this, new String[]{permission}, requestCode);
+                            ActivityCompat.requestPermissions(UserRegistrationActivityStepOne.this, new String[]{permission}, requestCode);
                         }
                     })
                     .setNegativeButton(R.string.mis_permission_dialog_cancel, null)
                     .create().show();
         } else {
-            ActivityCompat.requestPermissions(RegistrationActivityStepOne.this, new String[]{permission}, requestCode);
+            ActivityCompat.requestPermissions(UserRegistrationActivityStepOne.this, new String[]{permission}, requestCode);
         }
     }
 
@@ -217,7 +225,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(destination));
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(RegistrationActivityStepOne.this, getApplicationContext().getPackageName() + ".my.package.name.provider", destination));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(UserRegistrationActivityStepOne.this, getApplicationContext().getPackageName() + ".my.package.name.provider", destination));
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -256,7 +264,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
                     camImage = imagePath12;
 
                     try {
-                        Glide.with(RegistrationActivityStepOne.this)
+                        Glide.with(UserRegistrationActivityStepOne.this)
                                 .load(camImage)
                                 .error(drawable)
                                 .centerCrop()
@@ -278,7 +286,7 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(RegistrationActivityStepOne.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegistrationActivityStepOne.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -290,10 +298,10 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
             String imagePath = destination.getAbsolutePath();
             Log.i("Path", imagePath);
             camImage = imagePath;
-            Toast.makeText(RegistrationActivityStepOne.this, camImage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserRegistrationActivityStepOne.this, camImage, Toast.LENGTH_SHORT).show();
 
             try {
-                Glide.with(RegistrationActivityStepOne.this)
+                Glide.with(UserRegistrationActivityStepOne.this)
                         .load(camImage)
                         .error(drawable)
                         .centerCrop()
@@ -314,6 +322,95 @@ public class RegistrationActivityStepOne extends AppCompatActivity {
                 Log.e("Exception", e.getMessage());
             }
         }
+    }
+    private void emailexists(final String email) {
+        loadingDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_EMAIL_EXISTS,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("res_register" + response);
+                        try {
+                            final JSONObject j = new JSONObject(response);
+                            int message_code = j.getInt("message_code");
+                            String message = j.getString("message");
+                            if (loadingDialog.isShowing()) {
+                                loadingDialog.dismiss();
+                            }
+                            if (message_code == 1) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepOne.this);
+                                builder.setMessage(message)
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                String password = et_password.getText().toString();
+                                                String email = et_email.getText().toString();
+                                                String phoneNo = et_mobile.getText().toString();
+                                                String name = et_fullname.getText().toString();
+                                                if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
+                                                    Toast.makeText(UserRegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                                if (!camImage.equals("")) {
+                                                    SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, camImage, "");
+
+                                                } else {
+                                                    SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, "", "");
+
+                                                }
+                                                Intent intent = new Intent(UserRegistrationActivityStepOne.this, UserRegistrationActivityStepTwo.class);
+                                                startActivity(intent);
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
+                                message = j.getString("message");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepOne.this);
+                                builder.setMessage(message)
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(UserRegistrationActivityStepOne.this, error);
+                        AlertUtility.showAlert(UserRegistrationActivityStepOne.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put(AppConstant.KEY_EMAIL, email);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
     }
 
 }

@@ -31,7 +31,7 @@
             android:src="@drawable/user_register" />
 
         <TextView
-            android:id="@+id/tv_you"
+            android:id="@+id/textView_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
@@ -41,6 +41,21 @@
             android:textAllCaps="true"
             android:textColor="@color/yellow"
             android:textSize="@dimen/text_size_18sp" />
+
+        <EditText
+            android:id="@+id/et_businessName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:background="@drawable/bg_textbox"
+            android:hint="@string/str_business"
+            android:inputType="text"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/et_country"
@@ -118,6 +133,24 @@
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
 
+        <EditText
+            android:id="@+id/et_aboutme"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_70dp"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:background="@drawable/bg_textbox"
+            android:ems="10"
+            android:visibility="gone"
+            android:gravity="start"
+            android:hint="@string/str_aboutme"
+            android:inputType="text"
+            android:paddingLeft="@dimen/dimens_20dp"
+
+            android:paddingTop="@dimen/dimens_10dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
 
         <Button
             android:id="@+id/btn_proceed"

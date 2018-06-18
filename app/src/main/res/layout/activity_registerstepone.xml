@@ -94,7 +94,23 @@
                 android:paddingLeft="@dimen/dimens_10dp"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite" />
-
+            <EditText
+                android:id="@+id/et_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:background="@drawable/bg_textbox"
+                android:drawableLeft="@drawable/mobile_no"
+                android:drawablePadding="@dimen/dimens_20dp"
+                android:hint="@string/str_experience"
+                android:visibility="gone"
+                android:focusableInTouchMode="false"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
 
             <EditText
                 android:id="@+id/et_password"

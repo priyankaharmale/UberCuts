@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_user);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,11 +54,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         loadingDialog = new LoadingDialog(HomeActivity.this);
 
         prefs = getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
-        user_id = prefs.getString(AppConstant.KEY_U_ID, null);
-        profile_image = prefs.getString(AppConstant.KEY_U_IMAGE, null);
-        user_name = prefs.getString(AppConstant.KEY_U_NAME, null);
-        user_street = prefs.getString(AppConstant.KEY_U_STREET, null);
-        user_city = prefs.getString(AppConstant.KEY_U_CITY, null);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
+        profile_image = prefs.getString(AppConstant.KEY_IMAGE, null);
+        user_name = prefs.getString(AppConstant.KEY_NAME, null);
+        user_street = prefs.getString(AppConstant.KEY_STREET, null);
+        user_city = prefs.getString(AppConstant.KEY_CITY, null);
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

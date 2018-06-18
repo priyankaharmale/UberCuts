@@ -23,19 +23,28 @@
     <string name="str_steet">Street</string>
     <string name="str_city">City</string>
     <string name="str_state">State</string>
+    <string name="str_business">Business Name</string>
     <string name="str_country">Country</string>
     <string name="str_zip">Zip Code</string>
+    <string name="str_aboutme">About Me</string>
     <string name="str_credit">Credit Card Details</string>
     <string name="str_card">Card No</string>
     <string name="str_mm">MM</string>
     <string name="str_yyy">YYY</string>
     <string name="str_cvv">CVV</string>
     <string name="str_register">Register</string>
+    <string name="str_experience">Experience</string>
 
     <!--Forgot Password-->
     <string name="str_enteremail">Enter Your Email ID</string>
     <string name="str_submit">Submit</string>
     <string name="str_cancle">Cancel</string>
+
+    <!--Exeperience-->
+    <string name="hint_strater">Starter</string>
+    <string name="hint_zero_one">0 - 1 Years</string>
+    <string name="hint_one_five">1 - 5 Years</string>
+    <string name="hint_five_ten">5 - 10 Years</string>
 
     <!--Errors-->
     <string name="time_our_error">Time out.</string>
@@ -85,4 +94,11 @@
 
     <!--User Home Page-->
     <string name="select">Select Your Services</string>
+
+    <!--Navigation drawer Menu Vedor-->
+    <string name="nav_lead">Leads</string>
+    <string name="nav_my_bids">My Bids</string>
+    <string name="nav_my_jobs">My Jobs</string>
+    <string name="nav_my_service_offers">My Service &amp; Offers</string>
+    <string name="nav_rating_raviews">Rating &amp; Reviews</string>
 </resources>

@@ -45,7 +45,7 @@ import java.util.Map;
  * Created by Priyanka H on 13/06/2018.
  */
 
-public class RegistrationActivityStepThree extends AppCompatActivity implements OnCallBack {
+public class UserRegistrationActivityStepThree extends AppCompatActivity implements OnCallBack {
     Button btn_proceed;
     OnCallBack onCallBack;
     EditText et_mm, et_yyyy, et_cvv, et_cardNo;
@@ -60,29 +60,29 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerstepthree);
 
-        onCallBack = RegistrationActivityStepThree.this;
+        onCallBack = UserRegistrationActivityStepThree.this;
         btn_proceed = (Button) findViewById(R.id.btn_proceed);
         et_mm = (EditText) findViewById(R.id.et_mm);
         et_yyyy = (EditText) findViewById(R.id.et_yyyy);
         et_cvv = (EditText) findViewById(R.id.et_cvv);
         iv_profilepic = (ImageView) findViewById(R.id.iv_profilepic);
         et_cardNo = (EditText) findViewById(R.id.et_cardNo);
-        drawable = ContextCompat.getDrawable(RegistrationActivityStepThree.this, R.drawable.user_register);
-        loadingDialog = new LoadingDialog(RegistrationActivityStepThree.this);
+        drawable = ContextCompat.getDrawable(UserRegistrationActivityStepThree.this, R.drawable.user_register);
+        loadingDialog = new LoadingDialog(UserRegistrationActivityStepThree.this);
         btn_signIn = (Button) findViewById(R.id.btn_signIn);
         getSavedData();
 
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivityStepThree.this, LoginActivity.class);
+                Intent intent = new Intent(UserRegistrationActivityStepThree.this, UserLoginActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
         if (!profilepic.equals("")) {
             try {
-                Glide.with(RegistrationActivityStepThree.this)
+                Glide.with(UserRegistrationActivityStepThree.this)
                         .load(profilepic)
                         .error(drawable)
                         .centerCrop()
@@ -178,7 +178,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
     }
 
     public void dialogYear() {
-        Dialog dialog = new Dialog(RegistrationActivityStepThree.this);
+        Dialog dialog = new Dialog(UserRegistrationActivityStepThree.this);
         dialog.setContentView(R.layout.dialog_month);
         ListView lv = (ListView) dialog.findViewById(R.id.lv);
         dialog.setCancelable(true);
@@ -188,14 +188,14 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         for (int i = thisYear; i <= 2060; i++) {
             years.add(Integer.toString(i));
         }
-        YearAdaptor adapter = new YearAdaptor(RegistrationActivityStepThree.this, years, onCallBack, dialog);
+        YearAdaptor adapter = new YearAdaptor(UserRegistrationActivityStepThree.this, years, onCallBack, dialog);
         lv.setAdapter(adapter);
 
         dialog.show();
     }
 
     public void dialogMonth() {
-        Dialog dialog = new Dialog(RegistrationActivityStepThree.this);
+        Dialog dialog = new Dialog(UserRegistrationActivityStepThree.this);
         dialog.setContentView(R.layout.dialog_month);
         ListView lv = (ListView) dialog.findViewById(R.id.lv);
         dialog.setCancelable(true);
@@ -213,7 +213,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         years.add("10");
         years.add("11");
         years.add("12");
-        MonthAdaptor adapter = new MonthAdaptor(RegistrationActivityStepThree.this, years, onCallBack, dialog);
+        MonthAdaptor adapter = new MonthAdaptor(UserRegistrationActivityStepThree.this, years, onCallBack, dialog);
         lv.setAdapter(adapter);
         dialog.show();
     }
@@ -252,24 +252,24 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         if (profilepic.equals("")) {
             //  fileParams.put("profile_pic", "");
         } else {
-            fileParams.put(AppConstant.KEY_U_IMAGE, profilepic);
+            fileParams.put(AppConstant.KEY_IMAGE, profilepic);
         }
 
         Map<String, String> stringparam = new HashMap<>();
 
-        stringparam.put(AppConstant.KEY_U_NAME, fullname);
-        stringparam.put(AppConstant.KEY_U_EMAIL, emailId);
-        stringparam.put(AppConstant.KEY_U_PHONE, mobileNo);
-        stringparam.put(AppConstant.KEY_U_PASSWORD, password);
-        stringparam.put(AppConstant.KEY_U_COUNTRY, country);
-        stringparam.put(AppConstant.KEY_U_STATE, state);
-        stringparam.put(AppConstant.KEY_U_CITY, city);
-        stringparam.put(AppConstant.KEY_U_STREET, street);
-        stringparam.put(AppConstant.KEY_U_ZIPCODE, zipcode);
-        stringparam.put(AppConstant.KEY_U_CARDNO, cardNo);
-        stringparam.put(AppConstant.KEY_U_MON, month);
-        stringparam.put(AppConstant.KEY_U_YEAR, year);
-        stringparam.put(AppConstant.KEY_U_CVV, cvv);
+        stringparam.put(AppConstant.KEY_NAME, fullname);
+        stringparam.put(AppConstant.KEY_EMAIL, emailId);
+        stringparam.put(AppConstant.KEY_PHONE, mobileNo);
+        stringparam.put(AppConstant.KEY_PASSWORD, password);
+        stringparam.put(AppConstant.KEY_COUNTRY, country);
+        stringparam.put(AppConstant.KEY_STATE, state);
+        stringparam.put(AppConstant.KEY_CITY, city);
+        stringparam.put(AppConstant.KEY_STREET, street);
+        stringparam.put(AppConstant.KEY_ZIPCODE, zipcode);
+        stringparam.put(AppConstant.KEY_CARDNO, cardNo);
+        stringparam.put(AppConstant.KEY_MON, month);
+        stringparam.put(AppConstant.KEY_YEAR, year);
+        stringparam.put(AppConstant.KEY_CVV, cvv);
 
         OneObject.setUrl(AppConstant.API_REGISTER_USER);
         OneObject.setFileparams(fileParams);
@@ -278,7 +278,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
         OneObject.setStringparams(stringparam);
         System.out.println("string" + stringparam);
 
-        MultipartFileUploaderAsync someTask = new MultipartFileUploaderAsync(RegistrationActivityStepThree.this, OneObject, new OnEventListener<String>() {
+        MultipartFileUploaderAsync someTask = new MultipartFileUploaderAsync(UserRegistrationActivityStepThree.this, OneObject, new OnEventListener<String>() {
             @Override
             public void onSuccess(String object) {
                 loadingDialog.dismiss();
@@ -288,14 +288,14 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
                     int flag = jsonObject1response.getInt("message_code");
                     if (flag == 1) {
                         String message = jsonObject1response.getString("message");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivityStepThree.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepThree.this);
                         builder.setMessage(message);
                         builder.setCancelable(false);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
-                                Intent intent = new Intent(RegistrationActivityStepThree.this, LoginActivity.class);
+                                Intent intent = new Intent(UserRegistrationActivityStepThree.this, UserLoginActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -304,7 +304,7 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
                         alertDialog.show();
                     } else {
                         String message = jsonObject1response.getString("message");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivityStepThree.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepThree.this);
                         builder.setMessage(message);
                         builder.setCancelable(false);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -333,15 +333,15 @@ public class RegistrationActivityStepThree extends AppCompatActivity implements 
 
     private void getSavedData() {
         SharedPreferences settings = getSharedPreferences("AOP_PREFS", Context.MODE_PRIVATE);
-        profilepic = settings.getString(AppConstant.KEY_U_IMAGE, null);
-        fullname = settings.getString(AppConstant.KEY_U_NAME, null);
-        emailId = settings.getString(AppConstant.KEY_U_EMAIL, null);
-        mobileNo = settings.getString(AppConstant.KEY_U_PHONE, null);
-        password = settings.getString(AppConstant.KEY_U_PASSWORD, null);
-        country = settings.getString(AppConstant.KEY_U_COUNTRY, null);
-        state = settings.getString(AppConstant.KEY_U_STATE, null);
-        city = settings.getString(AppConstant.KEY_U_CITY, null);
-        street = settings.getString(AppConstant.KEY_U_STREET, null);
-        zipcode = settings.getString(AppConstant.KEY_U_ZIPCODE, null);
+        profilepic = settings.getString(AppConstant.KEY_IMAGE, null);
+        fullname = settings.getString(AppConstant.KEY_NAME, null);
+        emailId = settings.getString(AppConstant.KEY_EMAIL, null);
+        mobileNo = settings.getString(AppConstant.KEY_PHONE, null);
+        password = settings.getString(AppConstant.KEY_PASSWORD, null);
+        country = settings.getString(AppConstant.KEY_COUNTRY, null);
+        state = settings.getString(AppConstant.KEY_STATE, null);
+        city = settings.getString(AppConstant.KEY_CITY, null);
+        street = settings.getString(AppConstant.KEY_STREET, null);
+        zipcode = settings.getString(AppConstant.KEY_ZIPCODE, null);
     }
 }

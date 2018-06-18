@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_50dp"
+        android:gravity="center"
+        android:text="@string/str_experience"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/yellow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radioGroupEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_starter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:checked="true"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="@string/hint_strater"
+                android:textColor="@color/yellow" />
+
+            <RadioButton
+                android:id="@+id/rd_zero_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="@string/hint_zero_one"
+                android:textColor="@color/yellow" />
+
+            <RadioButton
+                android:id="@+id/rb_one_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="@string/hint_one_five"
+                android:textColor="@color/yellow" />
+
+
+            <RadioButton
+                android:id="@+id/rb_five_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="@string/hint_five_ten"
+                android:textColor="@color/yellow" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/cancel_apply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="Apply"
+            android:textColor="@color/yellow" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/yellow" />
+
+        <Button
+            android:id="@+id/cancel_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="Cancel"
+            android:textColor="@color/yellow" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

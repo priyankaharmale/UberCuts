@@ -12,12 +12,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -57,14 +60,19 @@ import java.util.Map;
 /**
  * Created by Priyanka H on 13/06/2018.
  */
-public class RegistrationActivityStepTwo extends AppCompatActivity implements OnCallBack {
+public class UserRegistrationActivityStepTwo extends AppCompatActivity implements OnCallBack {
     Button btn_proceed;
     EditText et_country, et_state, et_city, et_steet, et_zip;
     LoadingDialog loadingDialog;
     OnCallBack onCallBack;
-    ArrayList<Country> countryArrayList;
-    ArrayList<State> stateArrayList;
-    ArrayList<City> cityArrayList;
+    ArrayList<Country> countryArrayList = new ArrayList<>();
+    ArrayList<State> stateArrayList = new ArrayList<>();
+    ;
+    ArrayList<City> cityArrayList = new ArrayList<>();
+    ;
+    CountryListAdaptor countryListAdaptor;
+    StateListAdaptor stateListAdaptor;
+    CityListAdaptor cityListAdaptor;
     ImageView iv_profilepic;
     String profilepic;
     Button btn_signIn;
@@ -82,27 +90,27 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         et_steet = (EditText) findViewById(R.id.et_steet);
         iv_profilepic = (ImageView) findViewById(R.id.iv_profilepic);
         btn_signIn = (Button) findViewById(R.id.btn_signIn);
-        drawable = ContextCompat.getDrawable(RegistrationActivityStepTwo.this, R.drawable.user_register);
+        drawable = ContextCompat.getDrawable(UserRegistrationActivityStepTwo.this, R.drawable.user_register);
 
-        onCallBack = RegistrationActivityStepTwo.this;
-        loadingDialog = new LoadingDialog(RegistrationActivityStepTwo.this);
+        onCallBack = UserRegistrationActivityStepTwo.this;
+        loadingDialog = new LoadingDialog(UserRegistrationActivityStepTwo.this);
 
         btn_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkValidation1()) {
-                    if (Utils.isNetworkAvailable(RegistrationActivityStepTwo.this)) {
+                    if (Utils.isNetworkAvailable(UserRegistrationActivityStepTwo.this)) {
                         String country = et_country.getText().toString();
                         String state = et_state.getText().toString();
                         String city = et_city.getText().toString();
                         String street = et_steet.getText().toString();
                         String zipcode = et_zip.getText().toString();
-                        Intent intent = new Intent(RegistrationActivityStepTwo.this, RegistrationActivityStepThree.class);
+                        Intent intent = new Intent(UserRegistrationActivityStepTwo.this, UserRegistrationActivityStepThree.class);
                         startActivity(intent);
                         SharedPreference.addressSave(getApplicationContext(), country, state, city, street, zipcode);
 
                     } else {
-                        Utils.myToast1(RegistrationActivityStepTwo.this);
+                        Utils.myToast1(UserRegistrationActivityStepTwo.this);
                     }
                 }
 
@@ -111,7 +119,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivityStepTwo.this, LoginActivity.class);
+                Intent intent = new Intent(UserRegistrationActivityStepTwo.this, UserLoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -119,26 +127,37 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         et_country.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getCountryList();
+
+
             }
         });
-        et_state.setOnClickListener(new View.OnClickListener() {
+         et_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogState();
+                if (countryArrayList.size() == 0) {
+                    Toast.makeText(UserRegistrationActivityStepTwo.this, "Please Select Country", Toast.LENGTH_LONG).show();
+                } else {
+                    dialogState();
+                }
             }
         });
         et_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogCity();
+                if (stateArrayList.size() == 0) {
+                    Toast.makeText(UserRegistrationActivityStepTwo.this, "Please Select State", Toast.LENGTH_LONG).show();
+                } else {
+                    dialogCity();
+                }
             }
         });
         SharedPreferences settings = getSharedPreferences("AOP_PREFS", Context.MODE_PRIVATE);
-        profilepic = settings.getString(AppConstant.KEY_U_IMAGE, null);
+        profilepic = settings.getString(AppConstant.KEY_IMAGE, null);
         if (!profilepic.equals("")) {
             try {
-                Glide.with(RegistrationActivityStepTwo.this)
+                Glide.with(UserRegistrationActivityStepTwo.this)
                         .load(profilepic)
                         .error(drawable)
                         .centerCrop()
@@ -164,57 +183,107 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
     }
 
     public void dialogContry() {
-        Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        dialog.setContentView(R.layout.dialog_list);
+        dialog.setContentView(R.layout.dialogbox_list);
 
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RegistrationActivityStepTwo.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(UserRegistrationActivityStepTwo.this);
         recyclerView.setLayoutManager(mLayoutManager);
+
+        TextView textView_header = (TextView) dialog.findViewById(R.id.textView_custom_view);
+        final EditText searchView = (EditText) dialog.findViewById(R.id.search_view);
+        String text = textView_header.getText().toString();
+        if (text.equals("TextView")) {
+            textView_header.setText("Select Country");
+        }
         dialog.setCancelable(true);
-        dialog.setTitle("Select Country");
 
+        countryListAdaptor = new CountryListAdaptor(countryArrayList, UserRegistrationActivityStepTwo.this, onCallBack, dialog);
+        recyclerView.setAdapter(countryListAdaptor);
 
-        CountryListAdaptor adapter = new CountryListAdaptor(countryArrayList, RegistrationActivityStepTwo.this, onCallBack, dialog);
-        recyclerView.setAdapter(adapter);
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCountry(searchView.getText().toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         dialog.show();
     }
 
     public void dialogState() {
-        Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        dialog.setContentView(R.layout.dialog_list);
-
+        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RegistrationActivityStepTwo.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(UserRegistrationActivityStepTwo.this);
         recyclerView.setLayoutManager(mLayoutManager);
+        TextView textView_header = (TextView) dialog.findViewById(R.id.textView_custom_view);
+        final EditText searchView = (EditText) dialog.findViewById(R.id.search_view);
+        String text = textView_header.getText().toString();
+        if (text.equals("TextView")) {
+            textView_header.setText("Select State");
+        }
         dialog.setCancelable(true);
-        dialog.setTitle("Select Country");
+        stateListAdaptor = new StateListAdaptor(stateArrayList, UserRegistrationActivityStepTwo.this, onCallBack, dialog);
+        recyclerView.setAdapter(stateListAdaptor);
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterState(searchView.getText().toString());
 
-        StateListAdaptor adapter = new StateListAdaptor(stateArrayList, RegistrationActivityStepTwo.this, onCallBack, dialog);
-        recyclerView.setAdapter(adapter);
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         dialog.show();
     }
 
     public void dialogCity() {
-        Dialog dialog = new Dialog(RegistrationActivityStepTwo.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        dialog.setContentView(R.layout.dialog_list);
-
+        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(RegistrationActivityStepTwo.this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(UserRegistrationActivityStepTwo.this);
         recyclerView.setLayoutManager(mLayoutManager);
+        TextView textView_header = (TextView) dialog.findViewById(R.id.textView_custom_view);
+        final EditText searchView = (EditText) dialog.findViewById(R.id.search_view);
+        String text = textView_header.getText().toString();
+        if (text.equals("TextView")) {
+            textView_header.setText("Select City");
+        }
         dialog.setCancelable(true);
-        dialog.setTitle("Select Country");
+        cityListAdaptor = new CityListAdaptor(cityArrayList, UserRegistrationActivityStepTwo.this, onCallBack, dialog);
+        recyclerView.setAdapter(cityListAdaptor);
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        CityListAdaptor adapter = new CityListAdaptor(cityArrayList, RegistrationActivityStepTwo.this, onCallBack, dialog);
-        recyclerView.setAdapter(adapter);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCity(searchView.getText().toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         dialog.show();
     }
@@ -230,7 +299,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-                            countryArrayList = new ArrayList<>();
+                            //  countryArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -250,7 +319,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
                             } else {
                                 message = j.getString("message");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivityStepTwo.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepTwo.this);
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -274,8 +343,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(RegistrationActivityStepTwo.this, error);
-                        AlertUtility.showAlert(RegistrationActivityStepTwo.this, reason);
+                        String reason = AppUtils.getVolleyError(UserRegistrationActivityStepTwo.this, error);
+                        AlertUtility.showAlert(UserRegistrationActivityStepTwo.this, reason);
                         System.out.println("jsonexeption" + error.toString());
                     }
                 });
@@ -283,7 +352,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivityStepTwo.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(UserRegistrationActivityStepTwo.this);
         requestQueue.add(stringRequest);
 
     }
@@ -299,7 +368,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-                            stateArrayList = new ArrayList<>();
+                            //stateArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -318,7 +387,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
                             } else {
                                 message = j.getString("message");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivityStepTwo.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepTwo.this);
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -342,8 +411,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(RegistrationActivityStepTwo.this, error);
-                        AlertUtility.showAlert(RegistrationActivityStepTwo.this, reason);
+                        String reason = AppUtils.getVolleyError(UserRegistrationActivityStepTwo.this, error);
+                        AlertUtility.showAlert(UserRegistrationActivityStepTwo.this, reason);
                         System.out.println("jsonexeption" + error.toString());
                     }
                 }) {
@@ -370,7 +439,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivityStepTwo.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(UserRegistrationActivityStepTwo.this);
         requestQueue.add(stringRequest);
 
     }
@@ -386,7 +455,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                             JSONObject j = new JSONObject(response);
                             int message_code = j.getInt("message_code");
                             String message = j.getString("message");
-                            cityArrayList = new ArrayList<>();
+                            //   cityArrayList = new ArrayList<>();
                             if (message_code == 1) {
                                 final JSONArray jsonArrayRow = j.getJSONArray("details");
                                 try {
@@ -406,7 +475,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
                             } else {
                                 message = j.getString("message");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivityStepTwo.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepTwo.this);
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -430,8 +499,8 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(RegistrationActivityStepTwo.this, error);
-                        AlertUtility.showAlert(RegistrationActivityStepTwo.this, reason);
+                        String reason = AppUtils.getVolleyError(UserRegistrationActivityStepTwo.this, error);
+                        AlertUtility.showAlert(UserRegistrationActivityStepTwo.this, reason);
                         System.out.println("jsonexeption" + error.toString());
                     }
                 }) {
@@ -458,7 +527,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivityStepTwo.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(UserRegistrationActivityStepTwo.this);
         requestQueue.add(stringRequest);
 
     }
@@ -500,6 +569,10 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         et_state.setHint("State");
         et_steet.setHint("Street");
         et_zip.setHint("Zip Code");
+
+        stateArrayList.clear();
+        cityArrayList.clear();
+
         getStateList(id);
     }
 
@@ -509,7 +582,7 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
         et_city.setText("");
         et_steet.setText("");
         et_zip.setText("");
-
+        cityArrayList.clear();
         et_city.setHint("City");
         et_steet.setHint("Street");
         et_zip.setHint("Zip Code");
@@ -522,4 +595,54 @@ public class RegistrationActivityStepTwo extends AppCompatActivity implements On
 
     }
 
+    private void filterCountry(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<Country> filterdNames = new ArrayList<>();
+
+        //looping through existing elements
+        for (Country s : countryArrayList) {
+            //if the existing elements contains the search input
+            if (s.getCountyName().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filterdNames.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        countryListAdaptor.filterList(filterdNames);
+    }
+
+    private void filterState(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<State> filterdNames = new ArrayList<>();
+
+        //looping through existing elements
+        for (State s : stateArrayList) {
+            //if the existing elements contains the search input
+            if (s.getStateName().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filterdNames.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        stateListAdaptor.filterList(filterdNames);
+    }
+
+    private void filterCity(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<City> filterdNames = new ArrayList<>();
+
+        //looping through existing elements
+        for (City s : cityArrayList) {
+            //if the existing elements contains the search input
+            if (s.getCityName().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filterdNames.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        cityListAdaptor.filterList(filterdNames);
+    }
 }

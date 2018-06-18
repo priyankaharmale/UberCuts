@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_leads"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_lead" />
+
+    </group>
+    <group
+        android:id="@+id/tasks"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_bids"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_my_bids" />
+
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/jobs">
+        <item
+            android:id="@+id/nav_my_jobs"
+            android:icon="@drawable/my_tasks_navigation"
+            android:title="@string/nav_my_jobs" />
+
+    </group>
+
+    <group
+        android:id="@+id/message"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_vendor_message"
+            android:icon="@drawable/messages_navigation"
+            android:title="@string/nav_message" />
+
+    </group>
+
+    <group
+        android:id="@+id/history"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_payment_history"
+            android:icon="@drawable/payment_history_navigation"
+            android:title="@string/nav_payment_hoistory" />
+
+    </group>
+    <group
+        android:id="@+id/myservice"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_my_service"
+            app:itemIconTint="@color/colorBlack"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_my_service_offers" />
+
+    </group>
+
+    <group
+        android:id="@+id/rating"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_rating_reviws"
+            app:itemIconTint="@color/colorBlack"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_rating_raviews" />
+
+    </group>
+
+    <group
+        android:id="@+id/change_pass"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_change_password"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_change_pass" />
+
+    </group>
+
+    <group
+        android:id="@+id/logout"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/home_navigation"
+            android:title="@string/nav_logout" />
+    </group>
+
+</menu>
