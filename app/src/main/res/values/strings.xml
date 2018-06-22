@@ -101,4 +101,18 @@
     <string name="nav_my_jobs">My Jobs</string>
     <string name="nav_my_service_offers">My Service &amp; Offers</string>
     <string name="nav_rating_raviews">Rating &amp; Reviews</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="hint_service_add">Add More Services</string>
+    <string name="hint_new_service_add">Add New Service</string>
+    <string name="hint_service_name">Service Name :</string>
+    <string name="hint_default_price">Default Price ($) :</string>
+    <string name="hint_todays_offer">Today\'s Offer (%) :</string>
+    <string name="hint_todays_offer1">Today\'s Offer</string>
+    <string name="hint_add_btn">Add</string>
+    <string name="hint_cancel">Cancel</string>
+
+
+
 </resources>

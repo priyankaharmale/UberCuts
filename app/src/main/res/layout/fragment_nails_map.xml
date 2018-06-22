@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayoutMap"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_50dp"
+            android:layout_margin="@dimen/dimens_20dp"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:id="@+id/predictedRow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/address_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:background="@color/colorWhite"
+                    android:hint="Search Place"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/cardview_light_background"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dimens_8dp"
+                android:layout_marginTop="@dimen/dimens_8dp"
+                android:background="@color/grey" />
+
+            <ImageView
+                android:id="@+id/image_filter"
+                android:layout_width="30dp"
+                android:layout_height="@dimen/dimens_30dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.2"
+                android:src="@drawable/filter" />
+
+            <!-- <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="center"
+                 android:layout_weight="0.2"
+                 android:gravity="center"
+                 android:text="Filter"
+                 android:textColor="@color/colorBlue"
+                 android:textStyle="bold" />
+
+                     <AutoCompleteTextView
+                         android:id="@+id/autoCompleteTextView"
+                         android:layout_width="0dp"
+                         android:layout_height="match_parent"
+                         android:layout_weight="0.79"
+                         android:background="@color/colorWhite"
+                         android:paddingLeft="@dimen/dimens_10dp"
+                         android:hint="Search"/>
+
+                     <View
+                         android:layout_width="2dp"
+                         android:layout_height="match_parent"
+                         android:layout_marginTop="@dimen/dimens_8dp"
+                         android:layout_marginBottom="@dimen/dimens_8dp"
+                         android:background="@color/colorGray"/>
+                     <TextView
+                         android:layout_width="0dp"
+                         android:layout_height="match_parent"
+                         android:layout_weight="0.2"
+                         android:layout_gravity="center"
+                         android:gravity="center"
+                         android:textStyle="bold"
+                         android:textColor="@color/colorBlue"
+                         android:text="Filter" />-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/button_regular_post_your_task"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimens_50dp"
+                android:layout_weight="0.495"
+                android:background="@drawable/bg_button_blue"
+                android:text="Regular Booking"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:background="@color/colorWhite" />
+
+            <Button
+                android:id="@+id/button_post_your_task"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimens_50dp"
+                android:layout_weight="0.495"
+                android:background="@drawable/bg_button_blue"
+                android:text="Post Your Task"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_16sp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

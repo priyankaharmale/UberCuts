@@ -1,7 +1,7 @@
-package com.hnweb.ubercuts.user.bo;
+package com.hnweb.ubercuts.vendor.bo;
 
-public class Services {
-    String servicesName, id;
+public class CatgoryModel {
+    String servicesName,id;
 
     public String getServicesName() {
         return servicesName;
@@ -18,10 +18,4 @@ public class Services {
     public void setId(String id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return servicesName;
-    }
-
 }

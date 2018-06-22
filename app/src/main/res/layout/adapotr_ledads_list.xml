@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens_5dp"
+        android:layout_marginTop="@dimen/dimens_5dp"
+        android:background="@drawable/bg_my_tasks"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textView_service_name_leads"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="TextView"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_18sp" />
+
+            <TextView
+                android:id="@+id/textView_offer_price_leads"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="right|center_vertical"
+                android:paddingRight="@dimen/text_size_12sp"
+                android:text="TextView"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_18sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_2dp"
+            android:layout_marginLeft="@dimen/text_size_12sp"
+            android:layout_marginRight="@dimen/text_size_12sp"
+            android:background="@color/yellow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="text"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_customer_name_leads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="Name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="text"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView_job_location_leads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="Name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

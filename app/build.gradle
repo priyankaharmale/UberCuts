@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
@@ -38,11 +39,13 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
 
-    /************************Notification firabase dependancies**********************************************************/
+    /************************Notification firabase dependancies************************/
     compile 'com.google.firebase:firebase-core:12.0.1'
     compile 'com.firebase:firebase-client-android:2.5.1'
     compile 'com.google.firebase:firebase-auth:12.0.1'
     compile 'com.google.firebase:firebase-messaging:12.0.1'
-
+    /**************************Google Map integration***************************************/
+    compile 'com.google.maps.android:android-maps-utils:0.4'
+    compile 'com.google.android.gms:play-services:12.0.1'
 }
-apply plugin: 'com.google.gms.google-services'
+

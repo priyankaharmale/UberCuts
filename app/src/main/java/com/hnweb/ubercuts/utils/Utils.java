@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -248,7 +249,21 @@ public class Utils {
         }
 
     }
+    public static void AlertDialog(FragmentActivity activity, String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Live Business Appointment")
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                        dialog.dismiss();
 
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     public static boolean checkNull(String s) {
         return s != null;

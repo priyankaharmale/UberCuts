@@ -34,6 +34,13 @@ public class AppConstant {
     public static final String KEY_BUSINESSNAME = "u_business_name";
     public static final String KEY_ABOUTME = "u_bio";
     public static final String KEY_CATEGORY_ID = "category_id";
+    public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_VENDOR_ID = "vendor_id";
+    public static final String KEY_SUBCATEGORY_ID = "sub_category_id";
+    public static final String KEY_DEFAULT_PRICE = "default_price";
+    public static final String KEY_TODAYS_OFFER = "todays_offer";
+
+
 
     public static final String BASE_URL = "http://tech599.com/tech599.com/johnaks/Ubercuts/api/";
 
@@ -58,6 +65,18 @@ public class AppConstant {
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/
     public static final String API_REGISTER_VENDOR = BASE_URL + "register_vendor.php";
+
+    /*=================================================MY Services and Offers Vendor=========================================================*/
+    public static final String API_VENDOR_OFFERS = BASE_URL + "my_service_list.php";
+
+    /*=================================================ADD Services Vendor=========================================================*/
+    public static final String API_VENDOR_ADDSERVICES = BASE_URL + "post_my_service.php";
+    /*=================================================Update Services Vendor=========================================================*/
+    public static final String API_VENDOR_UPDATESERVICES = BASE_URL + "update_my_service.php";
+    /*=================================================Get Vendor Services List=========================================================*/
+    public static final String API_GET_SERVICELIST_VENDOR= BASE_URL + "vendor_get_sub_category.php";
+
+
     /**/
     public static String dateToString(Date date, String format) {
         SimpleDateFormat df = new SimpleDateFormat(format);

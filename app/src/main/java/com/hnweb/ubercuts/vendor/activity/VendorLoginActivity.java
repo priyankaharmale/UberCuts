@@ -225,12 +225,12 @@ public class VendorLoginActivity extends AppCompatActivity {
                                                         editorUser.putString(AppConstant.KEY_USERTYPE, user_type);
                                                         editorUser.putString(AppConstant.KEY_ISCREDIT, user_is_card);
                                                         editorUser.commit();
-                                                        Intent intent = new Intent(VendorLoginActivity.this, MainActivity.class);
+                                                        Intent intent = new Intent(VendorLoginActivity.this, MainActivityVendor.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         finish();
                                                         startActivity(intent);
 
-                                                        Toast.makeText(VendorLoginActivity.this,"In Progress......",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(VendorLoginActivity.this, "In Progress......", Toast.LENGTH_SHORT).show();
                                                     }
                                                 } catch (JSONException e) {
                                                     System.out.println("jsonexeption" + e.toString());

@@ -17,6 +17,7 @@ import com.hnweb.ubercuts.user.activity.HomeActivity;
 import com.hnweb.ubercuts.user.activity.UserLoginActivity;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.PermissionUtility;
+import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
 import com.hnweb.ubercuts.vendor.activity.VendorLoginActivity;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (connectionDetector.isConnectingToInternet()) {
                     if (useridUser != null && userType.equals("1")) {
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(MainActivity.this, MainActivityVendor.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {

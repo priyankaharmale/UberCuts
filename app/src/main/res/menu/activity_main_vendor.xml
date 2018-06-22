@@ -9,7 +9,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_leads"
-            android:icon="@drawable/home_navigation"
+            android:icon="@drawable/leads_vendor"
             android:title="@string/nav_lead" />
 
     </group>
@@ -18,7 +18,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_my_bids"
-            android:icon="@drawable/home_navigation"
+            android:icon="@drawable/my_bids_vendor"
             android:title="@string/nav_my_bids" />
 
     </group>
@@ -26,7 +26,7 @@
         android:id="@+id/jobs">
         <item
             android:id="@+id/nav_my_jobs"
-            android:icon="@drawable/my_tasks_navigation"
+            android:icon="@drawable/my_jobs_vendor"
             android:title="@string/nav_my_jobs" />
 
     </group>
@@ -37,7 +37,7 @@
 
         <item
             android:id="@+id/nav_vendor_message"
-            android:icon="@drawable/messages_navigation"
+            android:icon="@drawable/messages_vendor"
             android:title="@string/nav_message" />
 
     </group>
@@ -47,7 +47,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_payment_history"
-            android:icon="@drawable/payment_history_navigation"
+            android:icon="@drawable/payment_history_vendor"
             android:title="@string/nav_payment_hoistory" />
 
     </group>
@@ -58,7 +58,7 @@
         <item
             android:id="@+id/nav_my_service"
             app:itemIconTint="@color/colorBlack"
-            android:icon="@drawable/home_navigation"
+            android:icon="@drawable/my_services_and_offers_vendor"
             android:title="@string/nav_my_service_offers" />
 
     </group>
@@ -70,21 +70,12 @@
         <item
             android:id="@+id/nav_rating_reviws"
             app:itemIconTint="@color/colorBlack"
-            android:icon="@drawable/home_navigation"
+            android:icon="@drawable/rating_and_reviews_vendor"
             android:title="@string/nav_rating_raviews" />
 
     </group>
 
-    <group
-        android:id="@+id/change_pass"
-        android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/nav_change_password"
-            android:icon="@drawable/home_navigation"
-            android:title="@string/nav_change_pass" />
-
-    </group>
 
     <group
         android:id="@+id/logout"
@@ -92,7 +83,7 @@
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/home_navigation"
+            android:icon="@drawable/logout_vendor"
             android:title="@string/nav_logout" />
     </group>
 

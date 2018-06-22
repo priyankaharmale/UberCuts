@@ -76,6 +76,7 @@
             android:layout_gravity="bottom"
             android:background="@drawable/bg_button_blue_home"
             android:text="@string/str_proceed"
+            android:id="@+id/btn_proceed"
             android:textColor="@color/colorWhite" />
 
     </RelativeLayout>

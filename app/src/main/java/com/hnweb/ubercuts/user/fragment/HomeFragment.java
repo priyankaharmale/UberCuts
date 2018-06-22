@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ArrayList<Services> stockList = new ArrayList<Services>();
     LoadingDialog loadingDialog;
     ListView listView;
+    Button btn_proceed;
 
     @Nullable
     @Override
@@ -115,7 +117,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         vp_slider = view.findViewById(R.id.vp_slider);
         ll_dots = view.findViewById(R.id.ll_dots);
 
-
+        btn_proceed=view.findViewById(R.id.btn_proceed);
         slider_image_list = new ArrayList<>();
 
         //Add few items to slider_image_list ,this should contain url of images which should be displayed in slider
@@ -145,6 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+        btn_proceed.setOnClickListener(this);
 
     }
 
@@ -177,7 +180,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Fragment fragment;
         Bundle bundle = new Bundle();
         switch (v.getId()) {
+            case R.id.btn_proceed:
 
+                //fragment = new NailsFragment();
+                fragment = new NailsFragment();
+                changeFragment(fragment);
+                break;
 
             default:
                 break;
