@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dimens_5dp"
@@ -9,14 +10,21 @@
         android:id="@+id/radio1"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:button="@drawable/radio_button_unselected" />
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+
+        android:focusable="false" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_10dp"
+        android:focusable="false"
         android:text="text"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
 

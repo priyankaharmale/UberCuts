@@ -113,6 +113,14 @@
     <string name="hint_add_btn">Add</string>
     <string name="hint_cancel">Cancel</string>
 
-
+    <!--Post Task-->
+    <string name="hint_regular_booking_post_task">Regular Booking</string>
+    <string name="hint_post_task">Post Your Offer</string>
+    <string name="hint_post_msg">Your Message :</string>
+    <string name="hint_your_price">Your Price :</string>
+    <string name="hint_job_location">Jobs Location :</string>
+    <string name="hint_cat">Category :</string>
+    <string name="hint_sub_cat">Sub Category :</string>
+    <string name="hint_post_task_btn">Post</string>
 
 </resources>

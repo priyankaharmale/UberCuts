@@ -230,7 +230,7 @@ public class VendorLoginActivity extends AppCompatActivity {
                                                         finish();
                                                         startActivity(intent);
 
-                                                        Toast.makeText(VendorLoginActivity.this, "In Progress......", Toast.LENGTH_SHORT).show();
+                                                       // Toast.makeText(VendorLoginActivity.this, "In Progress......", Toast.LENGTH_SHORT).show();
                                                     }
                                                 } catch (JSONException e) {
                                                     System.out.println("jsonexeption" + e.toString());

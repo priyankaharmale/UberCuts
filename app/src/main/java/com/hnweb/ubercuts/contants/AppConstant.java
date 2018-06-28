@@ -61,6 +61,10 @@ public class AppConstant {
     public static final String API_EMAIL_EXISTS= BASE_URL + "email_checking.php";
     /*=================================================Get Services List=========================================================*/
     public static final String API_GET_SERVICELIST= BASE_URL + "get_sub_category.php";
+    /*=================================================Get Services List=========================================================*/
+    public static final String API_GET_VENDORLISTNEARBY= BASE_URL + "get_service_provider_near_by_me.php";
+    /*=================================================Get Vendor  Details=========================================================*/
+    public static final String API_GET_VENDORDETAILS= BASE_URL + "get_beautician_details.php";
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/

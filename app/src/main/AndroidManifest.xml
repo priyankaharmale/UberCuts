@@ -106,6 +106,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".user.activity.BeauticianDetailsActivity"
+            android:label="Beautician Deatils"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".vendor.activity.MainActivityVendor"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

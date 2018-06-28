@@ -1,7 +1,8 @@
 package com.hnweb.ubercuts.user.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,14 +12,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -27,18 +30,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
-import com.hnweb.ubercuts.user.activity.HomeActivity;
-import com.hnweb.ubercuts.user.activity.UserLoginActivity;
-import com.hnweb.ubercuts.user.adaptor.ServicesAdaptor;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
+import com.hnweb.ubercuts.user.activity.UserRegistrationActivityStepThree;
+import com.hnweb.ubercuts.user.adaptor.NewServicesAdaptor;
 import com.hnweb.ubercuts.user.adaptor.SlidingPagerAdapter;
 import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.utils.AlertUtility;
@@ -52,13 +49,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.content.Context.MODE_PRIVATE;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+
+public class HomeFragment extends Fragment implements View.OnClickListener, OnCallBack {
     private SliderLayout mDemoSlider;
     SlidingPagerAdapter sliderPagerAdapter;
     private ViewPager vp_slider;
@@ -66,27 +64,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ArrayList<Integer> slider_image_list;
     private TextView[] dots;
     int page_position = 0;
-    ArrayList<Services> stockList = new ArrayList<Services>();
+    ArrayList<Services> stockList;
     LoadingDialog loadingDialog;
     ListView listView;
     Button btn_proceed;
+    NewServicesAdaptor adapter;
+    Services services;
+    String serviceId;
+    OnCallBack onCallBack;
+    SharedPreferences prefs;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
 
+        onCallBack = this;
         initViewById(view);
 
 
         addBottomDots(0);
 
-        loadingDialog = new LoadingDialog(getActivity());
-
-
+       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Services services = (Services) adapter.getItem(position);
+                serviceId = services.getId();
+            }
+        });*/
 // Attach the adapter to a ListView
-        listView = (ListView) view.findViewById(R.id.listview_services);
 
         final Handler handler = new Handler();
 
@@ -108,7 +116,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 handler.post(update);
             }
         }, 100, 5000);
-        getServices();
+
         return view;
     }
 
@@ -116,8 +124,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         vp_slider = view.findViewById(R.id.vp_slider);
         ll_dots = view.findViewById(R.id.ll_dots);
+        listView = (ListView) view.findViewById(R.id.listview_services);
+        loadingDialog = new LoadingDialog(getActivity());
 
-        btn_proceed=view.findViewById(R.id.btn_proceed);
+        btn_proceed = view.findViewById(R.id.btn_proceed);
         slider_image_list = new ArrayList<>();
 
         //Add few items to slider_image_list ,this should contain url of images which should be displayed in slider
@@ -147,6 +157,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+        getServices();
+
         btn_proceed.setOnClickListener(this);
 
     }
@@ -183,8 +195,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_proceed:
 
                 //fragment = new NailsFragment();
-                fragment = new NailsFragment();
-                changeFragment(fragment);
+
+                if (serviceId == null) {
+                    Toast.makeText(getActivity(), "Please Select the Service " + serviceId, Toast.LENGTH_SHORT).show();
+                } else {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("SubcategoryId", serviceId);
+                    editor.commit();
+                    fragment = new NailsFragment();
+                    changeFragment(fragment);
+                }
+
                 break;
 
             default:
@@ -215,42 +236,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             if (loadingDialog.isShowing()) {
                                 loadingDialog.dismiss();
                             }
+                            stockList = new ArrayList<Services>();
                             if (message_code == 1) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                               /* AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+*/
+                                try {
+                                    JSONArray jsonArray = j.getJSONArray("details");
 
-                                                try {
-                                                    JSONArray jsonArray = j.getJSONArray("details");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
 
-                                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        Services services = new Services();
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                                        Services services = new Services();
-                                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        String serviceId = jsonObject.getString("sub_category_id");
+                                        String serviceName = jsonObject.getString("sub_category_name");
+                                        services.setId(serviceId);
+                                        services.setServicesName(serviceName);
 
-                                                        String serviceId = jsonObject.getString("sub_category_id");
-                                                        String serviceName = jsonObject.getString("sub_category_name");
-                                                        services.setId(serviceId);
-                                                        services.setServicesName(serviceName);
+                                        stockList.add(services);
+                                        adapter = new NewServicesAdaptor(getActivity(), stockList, onCallBack);
+                                        listView.setAdapter(adapter);
+                                    }
 
-                                                        stockList.add(services);
 
-                                                    }
-
-                                                    ServicesAdaptor adapter = new ServicesAdaptor(getActivity(), stockList);
-                                                    listView.setAdapter(adapter);
-                                                } catch (JSONException e) {
-                                                    System.out.println("jsonexeption" + e.toString());
-                                                }
+                                } catch (JSONException e) {
+                                    System.out.println("jsonexeption" + e.toString());
+                                }
                                                
-                                                dialog.dismiss();
+                                              /*  dialog.dismiss();
                                             }
                                         });
                                 AlertDialog alert = builder.create();
-                                alert.show();
+                                alert.show();*/
                             } else {
                                 message = j.getString("message");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -298,4 +320,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
+    @Override
+    public void callback(String count) {
+
+        serviceId = count;
+    }
+
+    @Override
+    public void callbackYear(String count) {
+
+    }
+
+    @Override
+    public void callcountryList(String id, String name) {
+
+    }
+
+    @Override
+    public void callstateList(String id, String name) {
+
+    }
+
+    @Override
+    public void callcityList(String id, String name) {
+
+    }
+
+    @Override
+    public void callrefresh() {
+
+    }
 }

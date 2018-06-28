@@ -1,4 +1,5 @@
 package com.hnweb.ubercuts.utils;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,11 +13,14 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
 import com.hnweb.ubercuts.R;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
@@ -110,14 +114,14 @@ public class Utils {
         try {
             date1 = (Date) formatter.parse(msg_date);
 
-            Log.d("Message_date1", "original date1 of : "+tgifid+" is:" + date1);
+            Log.d("Message_date1", "original date1 of : " + tgifid + " is:" + date1);
             SimpleDateFormat newFormat = new SimpleDateFormat("MM/dd/yyyy");
 
             finalString = newFormat.format(date1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.d("Message_date1", "finalString of : "+tgifid+" is:"+ finalString);
+        Log.d("Message_date1", "finalString of : " + tgifid + " is:" + finalString);
 
         return finalString;
 
@@ -249,9 +253,10 @@ public class Utils {
         }
 
     }
-    public static void AlertDialog(FragmentActivity activity, String msg){
+
+    public static void AlertDialog(FragmentActivity activity, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Live Business Appointment")
+        builder.setTitle("UberCut")
                 .setMessage(msg)
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

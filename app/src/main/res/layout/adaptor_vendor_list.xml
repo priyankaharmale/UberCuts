@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/slider_one1"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_offer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_60dp"
+        android:background="@drawable/bg_offer"
+        android:textColor="@color/colorWhite" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/dimens_10dp"
+        android:src="@drawable/fav_selected" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_info_received_offers">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_100dp"
+            android:layout_marginBottom="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/dimens_10dp"
+            android:src="@drawable/judy_ward_received_offers" />
+
+        <ImageView
+            android:id="@+id/rating"
+            android:layout_width="@dimen/dimens_50dp"
+            android:layout_height="@dimen/dimens_15dp"
+            android:layout_below="@+id/iv_profilepic"
+            android:layout_marginTop="@dimen/dimens_60dp"
+            android:src="@drawable/star_selected_recceived_offers" />
+
+        <TextView
+            android:id="@+id/tv_vendroName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_50dp"
+            android:layout_marginTop="@dimen/dimens_30dp"
+            android:layout_toRightOf="@+id/rating"
+
+            android:text="Judy Ward"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_40dp"
+            android:layout_below="@+id/tv_vendroName"
+            android:layout_marginLeft="@dimen/dimens_100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Experience: "
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/tv_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Years"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

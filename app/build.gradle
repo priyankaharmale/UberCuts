@@ -47,5 +47,10 @@ dependencies {
     /**************************Google Map integration***************************************/
     compile 'com.google.maps.android:android-maps-utils:0.4'
     compile 'com.google.android.gms:play-services:12.0.1'
+
+
+    /*Rnage Bar*/
+    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+
 }
 

@@ -132,6 +132,7 @@
         android:padding="@dimen/dimens_10dp"
         android:scaleType="center"
         android:src="@drawable/unselected_my_services_and_offers"
+        android:visibility="gone"
         app:backgroundTint="@color/colorWhite"
         app:fabSize="normal" />
 </RelativeLayout>

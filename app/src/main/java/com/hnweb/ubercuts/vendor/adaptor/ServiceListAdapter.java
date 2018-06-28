@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
 import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
@@ -69,6 +70,8 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
     String user_id;
     SharedPreferences prefs;
 
+    OnCallBack onCallBack;
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_service_name, tv_default_price, tv_todays_offer;
         ImageView iv_edit;
@@ -85,13 +88,14 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
     }
 
 
-    public ServiceListAdapter(FragmentActivity activity, ArrayList<ServiceListModel> serviceList, ConnectionDetector connectionDetector, LoadingDialog loadingDialog, ArrayList<Services> catgoryModels) {
+    public ServiceListAdapter(FragmentActivity activity, ArrayList<ServiceListModel> serviceList, ConnectionDetector connectionDetector, LoadingDialog loadingDialog, ArrayList<Services> catgoryModels, OnCallBack onCallBack) {
         this.serviceList = serviceList;
         this.context = activity;
         //this.subCategoriesList = subCategoriesList;
         this.connectionDetector = connectionDetector;
         this.catgoryModels = catgoryModels;
         this.loadingDialog = loadingDialog;
+        this.onCallBack = onCallBack;
     }
 
     @Override
@@ -115,7 +119,8 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
         holder.iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAlertDailog(serviceListModel.getService_service_id(), serviceListModel.getService_default_price(), serviceListModel.getService_todays_offer(), serviceListModel.getService_sub_category_name());
+
+                updateAlertDailog(serviceListModel.getService_service_id(), serviceListModel.getService_default_price(), serviceListModel.getService_todays_offer(), serviceListModel.getService_sub_category_name(), serviceListModel.getService_sub_category_id());
             }
         });
     }
@@ -125,7 +130,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
         return serviceList.size();
     }
 
-    private void updateAlertDailog(final String service_id, String service_default_price, String service_todays_offer, String service_sub_category_name) {
+    private void updateAlertDailog(final String service_id, String service_default_price, String service_todays_offer, final String service_sub_category_name, final String service_sub_category_id) {
 
         //getServices();
 
@@ -170,17 +175,14 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
                 if (!default_price.matches("")) {
                     if (!todays_offer.matches("")) {
-                        if (selected_ids.equals("")) {
-                            Toast.makeText(context, "Please Select Category", Toast.LENGTH_SHORT).show();
+                        if (connectionDetector.isConnectingToInternet()) {
+                            updateervices(service_sub_category_name, default_price, todays_offer, price, todays_offers, dialog, service_id, service_sub_category_id);
                         } else {
-                            if (connectionDetector.isConnectingToInternet()) {
-                                updateervices(selected_ids, default_price, todays_offer, price, todays_offers, dialog, service_id);
-                            } else {
-                                Snackbar snackbar = Snackbar
-                                        .make(((MainActivityVendor) context).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar
+                                    .make(((MainActivityVendor) context).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
-                                snackbar.show();
-                            }
+                            snackbar.show();
+
                         }
                     } else {
                         todays_offers.setError("Please Enter Today's Offer");
@@ -303,7 +305,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
     }
 */
 
-    private void updateervices(final String selected_ids, final String default_price, final String todays_offer, final EditText price, final EditText todays_offers, final Dialog dialog, final String service_id) {
+    private void updateervices(final String selected_ids, final String default_price, final String todays_offer, final EditText price, final EditText todays_offers, final Dialog dialog, final String service_id, final String service_sub_category_id) {
         loadingDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_VENDOR_UPDATESERVICES,
@@ -329,6 +331,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
                                             public void onClick(DialogInterface dialog1, int id) {
                                                 dialog1.dismiss();
                                                 dialog.dismiss();
+                                                refreshList();
 
                                                 //getServices();
                                             }
@@ -369,7 +372,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
                     params.put(AppConstant.KEY_USER_ID, user_id);
                     params.put(AppConstant.KEY_CATEGORY_ID, "1");
-                    params.put(AppConstant.KEY_SUBCATEGORY_ID, selected_ids);
+                    params.put(AppConstant.KEY_SUBCATEGORY_ID, service_sub_category_id);
                     params.put(AppConstant.KEY_DEFAULT_PRICE, default_price);
                     params.put(AppConstant.KEY_TODAYS_OFFER, todays_offer);
                     params.put("service_id", service_id);
@@ -390,4 +393,8 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
     }
 
+    private void refreshList() {
+        onCallBack.callrefresh();
+
+    }
 }

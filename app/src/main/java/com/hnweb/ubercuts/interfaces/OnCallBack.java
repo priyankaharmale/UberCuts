@@ -10,5 +10,6 @@ public interface OnCallBack {
     public void callcountryList(String id, String name);
     public void callstateList(String id, String name);
     public void callcityList(String id, String name);
+    public void callrefresh();
 
 }

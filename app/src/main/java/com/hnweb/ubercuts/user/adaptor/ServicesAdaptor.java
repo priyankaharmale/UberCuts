@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class ServicesAdaptor extends BaseAdapter {
     private ArrayList<Services> version;
     private LayoutInflater inflater;
     private RadioButton selected = null;
+    private int selectedPosition = -1;
 
     public ServicesAdaptor(Context context, ArrayList<Services> version) {
         this.context = context;
@@ -53,6 +55,7 @@ public class ServicesAdaptor extends BaseAdapter {
 
             holder.radioButton = (RadioButton) view.findViewById(R.id.radio1);
             holder.textViewVersion = (TextView) view.findViewById(R.id.textView1);
+            holder.ll_main=(LinearLayout) view.findViewById(R.id.ll_main);
 
             view.setTag(holder);
         } else {
@@ -63,35 +66,41 @@ public class ServicesAdaptor extends BaseAdapter {
         holder.textViewVersion.setText(services.getServicesName());
 
         //by default last radio button selected
-        if (position == getCount() - 1) {
+       /* if (position == getCount() - 1) {
             if (selected == null) {
                 holder.radioButton.setChecked(true);
                 selected = holder.radioButton;
             }
-        }
+        }*/
+
+      /*  holder.ll_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
+
+
+
 
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                notifyDataSetChanged();
+                if(position == 0) {
 
-                if (selected != null) {
-                    selected.setChecked(false);
-                    }
-
-                if(holder.radioButton.isChecked())
-                {
+                    holder.radioButton.setChecked(position==getCount()-1);
                     holder.radioButton.setButtonDrawable(R.drawable.radio_button_selected);
-
+                    holder.radioButton.setChecked(true);
                 }
-                else
-                {
-
+                else{
                     holder.radioButton.setButtonDrawable(R.drawable.radio_button_unselected);
+                    holder.radioButton.setChecked(position == position);
+                    holder.radioButton.setChecked(false);
+                }
 
-                    }
-
-                holder.radioButton.setChecked(true);
-                selected = holder.radioButton;
+               /* holder.radioButton.setChecked(true);
+                selected = holder.radioButton;*/
             }
         });
         return view;
@@ -100,5 +109,6 @@ public class ServicesAdaptor extends BaseAdapter {
     private class Holder {
         private RadioButton radioButton;
         private TextView textViewVersion;
+        LinearLayout ll_main;
     }
 }

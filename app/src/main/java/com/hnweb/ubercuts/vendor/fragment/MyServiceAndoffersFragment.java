@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
 import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
@@ -58,8 +59,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by PC-21 on 09-Apr-18.
  */
-
-public class MyServiceAndoffersFragment extends Fragment {
+public class MyServiceAndoffersFragment extends Fragment implements OnCallBack {
 
     private SharedPreferences prefs;
     String user_id;
@@ -72,6 +72,7 @@ public class MyServiceAndoffersFragment extends Fragment {
     TextView textViewTotal;
     Button btnAddService;
     String selected_ids;
+    OnCallBack onCallBack;
     FloatingActionButton fb_btn_add_service_nails;
 
     @Override
@@ -96,7 +97,7 @@ public class MyServiceAndoffersFragment extends Fragment {
         connectionDetector = new ConnectionDetector(getActivity());
         prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
 
-
+        onCallBack = MyServiceAndoffersFragment.this;
         user_id = prefs.getString(AppConstant.KEY_ID, null);
         category_id = "1";
         initViewById(view);
@@ -174,7 +175,7 @@ public class MyServiceAndoffersFragment extends Fragment {
                                     serviceListModel.setService_sub_category_name(jsonObject.getString("sub_category_name"));
                                     serviceListModels.add(serviceListModel);
                                 }
-                                ServiceListAdapter mAdapter = new ServiceListAdapter(getActivity(), serviceListModels, connectionDetector, loadingDialog,catgoryModels);
+                                ServiceListAdapter mAdapter = new ServiceListAdapter(getActivity(), serviceListModels, connectionDetector, loadingDialog, catgoryModels, onCallBack);
                                 recyclerViewServiceList.setAdapter(mAdapter);
 
                             } else {
@@ -240,41 +241,43 @@ public class MyServiceAndoffersFragment extends Fragment {
                             if (loadingDialog.isShowing()) {
                                 loadingDialog.dismiss();
                             }
-                            catgoryModels=new ArrayList<>();
+                            catgoryModels = new ArrayList<>();
                             if (message_code == 1) {
+                                fb_btn_add_service_nails.setVisibility(View.VISIBLE);
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                             /*   AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+*/
+                                try {
+                                    JSONArray jsonArray = j.getJSONArray("details");
 
-                                                try {
-                                                    JSONArray jsonArray = j.getJSONArray("details");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
 
-                                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        Services catgoryModel = new Services();
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                                        Services catgoryModel = new Services();
-                                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        String serviceId = jsonObject.getString("sub_category_id");
+                                        String serviceName = jsonObject.getString("sub_category_name");
+                                        catgoryModel.setId(serviceId);
+                                        catgoryModel.setServicesName(serviceName);
 
-                                                        String serviceId = jsonObject.getString("sub_category_id");
-                                                        String serviceName = jsonObject.getString("sub_category_name");
-                                                        catgoryModel.setId(serviceId);
-                                                        catgoryModel.setServicesName(serviceName);
+                                        catgoryModels.add(catgoryModel);
 
-                                                        catgoryModels.add(catgoryModel);
+                                    }
 
-                                                    }
+                                } catch (JSONException e) {
+                                    System.out.println("jsonexeption" + e.toString());
+                                }
 
-                                                } catch (JSONException e) {
-                                                    System.out.println("jsonexeption" + e.toString());
-                                                }
-
-                                                dialog.dismiss();
-                                            }
+                                //  dialog.dismiss();
+                                          /*  }
                                         });
                                 AlertDialog alert = builder.create();
-                                alert.show();
+                                alert.show();*/
                             } else {
                                 message = j.getString("message");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -282,6 +285,7 @@ public class MyServiceAndoffersFragment extends Fragment {
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+                                                fb_btn_add_service_nails.setVisibility(View.GONE);
                                             }
                                         });
                                 AlertDialog alert = builder.create();
@@ -480,5 +484,36 @@ public class MyServiceAndoffersFragment extends Fragment {
         requestQueue.add(stringRequest);
 
     }
+
+    @Override
+    public void callback(String count) {
+    }
+
+    @Override
+    public void callbackYear(String count) {
+
+    }
+
+    @Override
+    public void callcountryList(String id, String name) {
+
+    }
+
+    @Override
+    public void callstateList(String id, String name) {
+
+    }
+
+    @Override
+    public void callcityList(String id, String name) {
+
+    }
+
+    @Override
+    public void callrefresh() {
+        getServiceList();
+
+    }
+
 
 }

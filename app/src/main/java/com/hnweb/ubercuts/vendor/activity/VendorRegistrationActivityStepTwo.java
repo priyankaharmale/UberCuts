@@ -62,6 +62,7 @@ import java.util.Map;
 /**
  * Created by Priyanka H on 13/06/2018.
  */
+
 public class VendorRegistrationActivityStepTwo extends AppCompatActivity implements OnCallBack {
     Button btn_proceed;
     EditText et_country, et_state, et_city, et_steet, et_zip, et_businessName, et_aboutme;
@@ -611,6 +612,11 @@ public class VendorRegistrationActivityStepTwo extends AppCompatActivity impleme
     @Override
     public void callcityList(String id, String name) {
         et_city.setText(name);
+
+    }
+
+    @Override
+    public void callrefresh() {
 
     }
 

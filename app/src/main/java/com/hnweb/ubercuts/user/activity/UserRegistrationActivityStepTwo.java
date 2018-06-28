@@ -595,6 +595,11 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
 
     }
 
+    @Override
+    public void callrefresh() {
+
+    }
+
     private void filterCountry(String text) {
         //new array list that will hold the filtered data
         ArrayList<Country> filterdNames = new ArrayList<>();

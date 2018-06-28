@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <ImageView
+        android:id="@+id/iv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:src="@drawable/slider_three" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/iv_main"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:background="@drawable/bg_info_received_offers">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_below="@+id/iv_main">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_100dp"
+            android:layout_marginBottom="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/dimens_10dp"
+            android:src="@drawable/judy_ward_received_offers" />
+
+        <ImageView
+            android:id="@+id/rating"
+            android:layout_width="@dimen/dimens_50dp"
+            android:layout_height="@dimen/dimens_15dp"
+            android:layout_below="@+id/iv_profilepic"
+            android:layout_marginTop="@dimen/dimens_60dp"
+            android:src="@drawable/star_selected_recceived_offers" />
+
+        <TextView
+            android:id="@+id/tv_vendroName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:layout_toRightOf="@+id/rating"
+
+            android:text="Judy Ward"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_40dp"
+            android:layout_below="@+id/tv_vendroName"
+            android:layout_marginLeft="@dimen/dimens_70dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Experience: "
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/tv_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Years"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dimens_30dp"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_8dp"
+                android:src="@drawable/fav_selected" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_10dp"
+                android:src="@drawable/track_disable" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_10dp"
+                android:src="@drawable/chat_disable" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ll_main"
+            android:layout_marginRight="@dimen/dimens_30dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:background="@drawable/bg_offer"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_profile"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:background="@drawable/bg_services_home"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_5dp"
+            android:layout_marginRight="@dimen/dimens_5dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/yellow"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/yellow"
+            app:tabTextColor="@color/colorWhite" />
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:background="@color/colorPrimary"
+        android:text="Book Now"
+        android:textColor="@color/colorWhite" />
+</RelativeLayout>

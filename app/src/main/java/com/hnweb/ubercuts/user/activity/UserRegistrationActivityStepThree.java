@@ -44,7 +44,6 @@ import java.util.Map;
 /**
  * Created by Priyanka H on 13/06/2018.
  */
-
 public class UserRegistrationActivityStepThree extends AppCompatActivity implements OnCallBack {
     Button btn_proceed;
     OnCallBack onCallBack;
@@ -241,6 +240,11 @@ public class UserRegistrationActivityStepThree extends AppCompatActivity impleme
 
     @Override
     public void callcityList(String id, String name) {
+
+    }
+
+    @Override
+    public void callrefresh() {
 
     }
 
