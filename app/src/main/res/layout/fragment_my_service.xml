@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/text_20">
 
     <ListView
         android:id="@+id/listview_services"
@@ -10,12 +11,22 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/view"
         android:layout_margin="@dimen/dimens_10dp"
-        android:divider="@null"
         android:choiceMode="singleChoice"
+        android:divider="@null"
 
 
         android:dividerHeight="0dp"></ListView>
 
+    <TextView
+        android:id="@+id/textView_empty_service_nails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_100dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="No service Found"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

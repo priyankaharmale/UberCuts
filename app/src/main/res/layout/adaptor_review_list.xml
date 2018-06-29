@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="UselessLeaf">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_10dp"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.18">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/user_register" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView_user_name_reviews"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.44"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="TextView"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_18dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.38"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView_reviews_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/colorWhite"
+                    android:textAllCaps="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.15"
+                    android:gravity="center">
+
+                    <RatingBar
+                        android:id="@+id/rtb_reviews_rating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="3.5"
+                        android:stepSize="0.01"
+                        android:theme="@style/RatingBar" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_user_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimens_10dp"
+            android:text="TextView"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_add_a_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:layout_weight="0.75"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="Add a comment"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimens_35dp"
+                android:layout_marginRight="@dimen/dimens_10dp"
+                android:layout_weight="0.25"
+                android:background="@color/yellow"
+                android:text="More" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="@dimen/dimens_10dp"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:background="@color/yellow" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

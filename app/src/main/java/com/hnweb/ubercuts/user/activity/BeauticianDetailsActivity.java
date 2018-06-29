@@ -81,7 +81,10 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         Intent intent = getIntent();
         user_details_task_ids = intent.getStringExtra("user_details_ids").toString();
         Log.d("UserDetailsIds", user_details_task_ids);
-
+        imageViewBeautician = findViewById(R.id.iv_profile);
+        textViewBeauticianName = findViewById(R.id.tv_vendroName);
+        textViewExperience = findViewById(R.id.tv_experience);
+        initViewByIds();
         viewPager = findViewById(R.id.viewpager);
         //setupViewPager(viewPager);
 
@@ -95,11 +98,9 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         textViewListCount = findViewById(R.id.textView_list_count);
         tabLayout.setOnTabSelectedListener(this);
 
-        imageViewBeautician = findViewById(R.id.iv_profile);
-        textViewBeauticianName = findViewById(R.id.tv_vendroName);
-        textViewExperience = findViewById(R.id.tv_experience);
 
-        initViewByIds();
+
+
     }
 
     private void initViewByIds() {
@@ -123,7 +124,6 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         }
 
     }
-
 
 
     private void getServices(final String user_details_task_ids) {
@@ -151,49 +151,49 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                                 JSONObject jsonObject = jobj.getJSONObject("details");
                                 beauticianDeatilsModels = new ArrayList<BeauticianDetailsModel>();
 
-                                    BeauticianDetailsModel beauticianDetailsModel = new BeauticianDetailsModel();
+                                BeauticianDetailsModel beauticianDetailsModel = new BeauticianDetailsModel();
 
-                                    beauticianDetailsModel.setBeautician_id(jsonObject.getString("u_id"));
-                                    beauticianDetailsModel.setBeautician_name(jsonObject.getString("u_name"));
-                                    beauticianDetailsModel.setBeautician_email(jsonObject.getString("u_email"));
-                                    beauticianDetailsModel.setBeautician_business_name(jsonObject.getString("u_business_name"));
-                                    beauticianDetailsModel.setBeautician_img(jsonObject.getString("u_img"));
-                                    beauticianDetailsModel.setBeautician_experience(jsonObject.getString("experience"));
-                                    beauticianDetailsModel.setBeautician_street(jsonObject.getString("u_street"));
-                                    beauticianDetailsModel.setBeautician_city(jsonObject.getString("u_city"));
-                                    beauticianDetailsModel.setBeautician_state(jsonObject.getString("u_state"));
-                                    beauticianDetailsModel.setBeautician_country(jsonObject.getString("u_country"));
-                                    beauticianDetailsModel.setBeautician_zipcode(jsonObject.getString("u_zipcode"));
-                                    beauticianDetailsModel.setBeautician_about_us(jsonObject.getString("u_bio"));
+                                beauticianDetailsModel.setBeautician_id(jsonObject.getString("u_id"));
+                                beauticianDetailsModel.setBeautician_name(jsonObject.getString("u_name"));
+                                beauticianDetailsModel.setBeautician_email(jsonObject.getString("u_email"));
+                                beauticianDetailsModel.setBeautician_business_name(jsonObject.getString("u_business_name"));
+                                beauticianDetailsModel.setBeautician_img(jsonObject.getString("u_img"));
+                                beauticianDetailsModel.setBeautician_experience(jsonObject.getString("experience"));
+                                beauticianDetailsModel.setBeautician_street(jsonObject.getString("u_street"));
+                                beauticianDetailsModel.setBeautician_city(jsonObject.getString("u_city"));
+                                beauticianDetailsModel.setBeautician_state(jsonObject.getString("u_state"));
+                                beauticianDetailsModel.setBeautician_country(jsonObject.getString("u_country"));
+                                beauticianDetailsModel.setBeautician_zipcode(jsonObject.getString("u_zipcode"));
+                                beauticianDetailsModel.setBeautician_about_us(jsonObject.getString("u_bio"));
 
-                                    beautician_id = jsonObject.getString("u_id");
-                                    about_us = jsonObject.getString("u_bio");
-                                    beauticianDeatilsModels.add(beauticianDetailsModel);
+                                beautician_id = jsonObject.getString("u_id");
+                                about_us = jsonObject.getString("u_bio");
+                                beauticianDeatilsModels.add(beauticianDetailsModel);
 
-                                    String beautician_image = jsonObject.getString("u_img");
+                                String beautician_image = jsonObject.getString("u_img");
 
-                                    if (beautician_image.equals("")) {
-                                        Glide.with(BeauticianDetailsActivity.this).load(R.drawable.user_register).into(imageViewBeautician);
-                                    } else {
-                                        Glide.with(BeauticianDetailsActivity.this).load(beautician_image).into(imageViewBeautician);
-                                    }
+                                if (beautician_image.equals("")) {
+                                    Glide.with(BeauticianDetailsActivity.this).load(R.drawable.user_register).into(imageViewBeautician);
+                                } else {
+                                    Glide.with(BeauticianDetailsActivity.this).load(beautician_image).into(imageViewBeautician);
+                                }
 
-                                    String beautician_name = jsonObject.getString("u_name");
-                                    if (beautician_name.equals("")) {
-                                        textViewBeauticianName.setText("No Name");
-                                    } else {
-                                        textViewBeauticianName.setText(beautician_name);
-                                    }
+                                String beautician_name = jsonObject.getString("u_name");
+                                if (beautician_name.equals("")) {
+                                    textViewBeauticianName.setText("No Name");
+                                } else {
+                                    textViewBeauticianName.setText(beautician_name);
+                                }
 
-                                    String beautician_experience = jsonObject.getString("experience");
-                                    if (beautician_experience.equals("")) {
-                                        textViewExperience.setText("No Name");
-                                    } else {
-                                        textViewExperience.setText(beautician_experience + " " + "Years");
-                                    }
+                                String beautician_experience = jsonObject.getString("experience");
+                                if (beautician_experience.equals("")) {
+                                    textViewExperience.setText("No Name");
+                                } else {
+                                    textViewExperience.setText(beautician_experience + " " + "Years");
+                                }
 
 
-                                    Log.d("ArraySize", String.valueOf(beauticianDeatilsModels.size()));
+                                Log.d("ArraySize", String.valueOf(beauticianDeatilsModels.size()));
 
 
                             } else {
@@ -273,13 +273,13 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                     fragment = new AboutMeFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("BeauticianIds", user_details_task_ids);
-                    //bundle.putString("AboutUS", about_us);
                     fragment.setArguments(bundle);
                     break;
                 case 1:
                     fragment = new MyServicesFragment();
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("BeauticianIds", user_details_task_ids);
+
                     fragment.setArguments(bundle1);
                     break;
                 case 2:

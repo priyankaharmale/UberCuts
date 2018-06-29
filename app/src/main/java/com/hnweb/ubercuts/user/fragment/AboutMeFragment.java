@@ -11,16 +11,31 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.user.activity.BeauticianDetailsActivity;
+import com.hnweb.ubercuts.user.bo.BeauticianDetailsModel;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.DataUtility;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.RequestInfo;
+import com.hnweb.ubercuts.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,102 +44,90 @@ public class AboutMeFragment extends Fragment {
 
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
-    String beautician_id,about_us;
+    String beautician_id, about_us;
     TextView textViewAboutUs;
-
+    private ArrayList<BeauticianDetailsModel> beauticianDeatilsModels;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_about_me, container, false);
-
-        beautician_id= getArguments().getString("BeauticianIds");
-        //Toast.makeText(getActivity(), "IDS "+beautician_id, Toast.LENGTH_SHORT).show();
-
-        //Log.d("UserAboutMe",beautician_id);
-
+        beautician_id = getArguments().getString("BeauticianIds");
         initViewByIds(view);
-
         return view;
     }
 
     private void initViewByIds(View view) {
-
         textViewAboutUs = view.findViewById(R.id.textView_about_me);
-
         connectionDetector = new ConnectionDetector(getActivity());
         loadingDialog = new LoadingDialog(getActivity());
         if (connectionDetector.isConnectingToInternet()) {
-            //getBeaticianDeatailsList(beautician_id);
+            getServices(beautician_id);
         } else {
-            /*Snackbar snackbar = Snackbar
-                    .make(((MainActivityUser) BeauticianDetailsActivity.this).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
-
-            snackbar.show();*/
             Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
     }
-/*
-    private void getBeaticianDeatailsList(String beautician_id) {
 
-        Map<String, String> params = new HashMap<>();
-
-        params.put("u_id", beautician_id);
-
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("login");
-        request_info.setUrl(WebsServiceURLUser.USER_GET_BEAUTICIAN_DEATAILS);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "ServiceList= " + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-
-                        JSONArray userdetails = jobj.getJSONArray("details");
-
-                        Log.d("ArrayLength", String.valueOf(userdetails.length()));
-
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
-
-                            about_us = jsonObject.getString("about_us");
-                            textViewAboutUs.setText(about_us);
-
+    private void getServices(final String user_details_task_ids) {
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_VENDORDETAILS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
                         }
-                    } else {
-                        Utils.AlertDialog(getActivity(), msg);
+                        Log.i("Response", "ServiceListDeatils= " + response);
 
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+
+                                JSONObject jsonObject = jobj.getJSONObject("details");
+                                beauticianDeatilsModels = new ArrayList<BeauticianDetailsModel>();
+                                about_us = jsonObject.getString("u_bio");
+                                textViewAboutUs.setText(about_us);
+                                Log.d("ArraySize", String.valueOf(beauticianDeatilsModels.size()));
+                            } else {
+                                Utils.AlertDialog(getActivity(), msg);
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
+                },
 
-            }
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(getActivity(), error);
+                        AlertUtility.showAlert(getActivity(), reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("beautician_id", user_details_task_ids);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-                AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
-    }*/
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+
+    }
 }

@@ -1,8 +1,10 @@
 package com.hnweb.ubercuts.user.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,11 +12,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.interfaces.OnCallBack;
+import com.hnweb.ubercuts.user.adaptor.NewServicesAdaptor;
+import com.hnweb.ubercuts.user.bo.Services;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 
@@ -24,30 +40,30 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MyServicesFragment extends Fragment {
-    
-    ImageView imageViewNails,imageViewHairs;
-    RecyclerView recyclerViewNails,recyclerViewHairs;
+public class MyServicesFragment extends Fragment implements OnCallBack {
+
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
-    TextView textViewEmptyNails,textViewEmptyHairs;
-   // private ArrayList<ServiceNailsModels> serviceNailsModels = null;
-
- ///   private ArrayList<ServiceHairsModels> serviceHairsModels = null;
-
- //   NailsServiceAdapter nailsServiceAdapter;
- //   HairsServiceAdapter hairsServiceAdapter;
+    TextView textView_empty_service_nails;
+    ListView listview_services;
     String beautician_id;
+    ArrayList<Services> serivcesList;
+    OnCallBack onCallBack;
+    String serviceId;
+    NewServicesAdaptor newServicesAdaptor;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_my_service,container,false);
+        View view = inflater.inflate(R.layout.fragment_my_service, container, false);
 
-        beautician_id= getArguments().getString("BeauticianIds");
+        onCallBack = this;
+        beautician_id = getArguments().getString("BeauticianIds");
 
         initViewById(view);
 
@@ -57,169 +73,150 @@ public class MyServicesFragment extends Fragment {
     private void initViewById(View view) {
 
 
-
         connectionDetector = new ConnectionDetector(getActivity());
         loadingDialog = new LoadingDialog(getActivity());
+        listview_services = (ListView) view.findViewById(R.id.listview_services);
+        textView_empty_service_nails = (TextView) view.findViewById(R.id.textView_empty_service_nails);
         if (connectionDetector.isConnectingToInternet()) {
-            //getServiceNailsList();
-            //getServiceHairsList();
+            getServices();
         } else {
-           /* Snackbar snackbar = Snackbar
-                    .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
-            snackbar.show();*/
             Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
 
     }
 
 
+    private void getServices() {
+        loadingDialog.show();
 
-   /* private void getServiceNailsList() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_VENDORSERVICES,
+                new Response.Listener<String>() {
 
-        //loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("res_register" + response);
+                        try {
+                            final JSONObject j = new JSONObject(response);
+                            int message_code = j.getInt("message_code");
+                            String message = j.getString("message");
 
-        params.put("u_id", "17");
-        params.put("category_id", "1");
-        Log.e("Params", params.toString());
+                            if (loadingDialog.isShowing()) {
+                                loadingDialog.dismiss();
+                            }
+                            serivcesList = new ArrayList<Services>();
+                            if (message_code == 1) {
+                                try {
+                                    JSONArray jsonArray = j.getJSONArray("details");
 
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("login");
-        request_info.setUrl(WebsServiceURLUser.USER_VIEW_BEAUTICIAN_LIST);
-        request_info.setParams(params);
+                                    for (int i = 0; i < jsonArray.length(); i++) {
 
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "NailsResponse= " + data);
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
+                                        Services services = new Services();
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
+                                        String serviceId = jsonObject.getString("service_id");
+                                        String serviceName = jsonObject.getString("sub_category_name");
+                                        String ref_id_category = jsonObject.getString("ref_id_category");
+                                        String ref_id_sub_category = jsonObject.getString("ref_id_sub_category");
+                                        String default_price = jsonObject.getString("default_price");
+                                        String todays_offer = jsonObject.getString("todays_offer");
+                                        String category_name = jsonObject.getString("category_name");
+                                        services.setId(serviceId);
+                                        services.setServicesName(serviceName);
+                                        services.setRef_id_category(ref_id_category);
+                                        services.setRef_id_sub_category(ref_id_sub_category);
+                                        services.setDefault_price(default_price);
+                                        services.setTodays_offer(todays_offer);
+                                        services.setCategory_name(category_name);
 
-                    if (message_code == 1) {
+                                        serivcesList.add(services);
+                                        newServicesAdaptor = new NewServicesAdaptor(getActivity(), serivcesList, onCallBack);
+                                        listview_services.setAdapter(newServicesAdaptor);
+                                    }
 
-                        JSONArray userdetails = jobj.getJSONArray("details");
-                        serviceNailsModels = new ArrayList<ServiceNailsModels>();
-                        Log.d("ArrayLengthNails", String.valueOf(userdetails.length()));
 
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
+                                } catch (JSONException e) {
+                                    System.out.println("jsonexeption" + e.toString());
+                                }
 
-                            ServiceNailsModels serviceNailsModel = new ServiceNailsModels();
-
-                            serviceNailsModel.setNails_service_id(jsonObject.getString("service_id"));
-                            serviceNailsModel.setNails_service_name(jsonObject.getString("service_name"));
-                            serviceNailsModel.setNails_default_price(jsonObject.getString("default_price"));
-
-                            serviceNailsModels.add(serviceNailsModel);
-
-                            Log.d("ArraySize", String.valueOf(serviceNailsModels.size()));
-
+                            } else {
+                                message = j.getString("message");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(message)
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                listview_services.setVisibility(View.GONE);
+                                                textView_empty_service_nails.setVisibility(View.VISIBLE);
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
                         }
-                        nailsServiceAdapter = new NailsServiceAdapter(getActivity(), serviceNailsModels);
-                        recyclerViewNails.setAdapter(nailsServiceAdapter);
-
-                    } else {
-                        //Utils.AlertDialog(getActivity(), msg);
-                        //textViewEmptyNails.setVisibility(View.VISIBLE);
-                        recyclerViewNails.setVisibility(View.GONE);
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(getActivity(), error);
+                        AlertUtility.showAlert(getActivity(), reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("beautician_id", beautician_id);
+
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-                AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+
     }
 
-    private void getServiceHairsList() {
-
-        Map<String, String> params = new HashMap<>();
-
-        params.put("u_id", beautician_id);
-        params.put("category_id", "1");
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("login");
-        request_info.setUrl(WebsServiceURLUser.USER_VIEW_BEAUTICIAN_LIST);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "HairsList= " + data);
-                //recyclerViewHairs.setVisibility(View.VISIBLE);
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-
-                        JSONArray userdetails = jobj.getJSONArray("details");
-                        serviceHairsModels = new ArrayList<ServiceHairsModels>();
-                        Log.d("ArrayLength", String.valueOf(userdetails.length()));
-
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
-
-                            ServiceHairsModels serviceHairsModel = new ServiceHairsModels();
-
-                            serviceHairsModel.setHairs_service_id(jsonObject.getString("service_id"));
-                            serviceHairsModel.setHairs_service_name(jsonObject.getString("service_name"));
-                            serviceHairsModel.setHairs_default_price(jsonObject.getString("default_price"));
-
-                            serviceHairsModels.add(serviceHairsModel);
-
-                            Log.d("ArraySize", String.valueOf(serviceHairsModels.size()));
-
-                        }
-                        hairsServiceAdapter = new HairsServiceAdapter(getActivity(), serviceHairsModels);
-                        recyclerViewHairs.setAdapter(hairsServiceAdapter);
-                        //textViewEmptyHairs.setVisibility(View.GONE);
-                    } else {
-                        //Utils.AlertDialog(getActivity(), msg);
-                        //textViewEmptyHairs.setVisibility(View.VISIBLE);
-                        recyclerViewHairs.setVisibility(View.GONE);
+    @Override
+    public void callback(String count) {
+        serviceId = count;
+    }
 
 
-                    }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
 
-            }
+    @Override
+    public void callbackYear(String count) {
 
-            @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
-            }
-        });
-    }*/
+    }
+
+    @Override
+    public void callcountryList(String id, String name) {
+
+    }
+
+    @Override
+    public void callstateList(String id, String name) {
+
+    }
+
+    @Override
+    public void callcityList(String id, String name) {
+
+    }
+
+    @Override
+    public void callrefresh() {
+
+    }
 }

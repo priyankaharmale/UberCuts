@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
@@ -25,10 +23,10 @@ public class NewServicesAdaptor extends BaseAdapter {
     OnCallBack onCallBack;
     private int selectedPosition = -1;
 
-    public NewServicesAdaptor(Context context, ArrayList<Services> arrayList,   OnCallBack onCallBack) {
+    public NewServicesAdaptor(Context context, ArrayList<Services> arrayList, OnCallBack onCallBack) {
         this.context = context;
         this.arrayList = arrayList;
-        this.onCallBack=onCallBack;
+        this.onCallBack = onCallBack;
         inflater = LayoutInflater.from(context);
     }
 
@@ -78,14 +76,14 @@ public class NewServicesAdaptor extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_selected);
-                itemCheckChanged(v, viewHolder);
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getId());
             }
         });
 
         viewHolder.label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemCheckChanged(v, viewHolder);
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getId());
             }
 
 
@@ -94,10 +92,10 @@ public class NewServicesAdaptor extends BaseAdapter {
     }
 
     //On selecting any view set the current position to selectedPositon and notify adapter
-    private void itemCheckChanged(View v, ViewHolder viewHolder) {
+    private void itemCheckChanged(View v, ViewHolder viewHolder, String id) {
         selectedPosition = (Integer) v.getTag();
         //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_unselected);
-        fetchcount(services.getId());
+        fetchcount(id);
 
         notifyDataSetChanged();
     }

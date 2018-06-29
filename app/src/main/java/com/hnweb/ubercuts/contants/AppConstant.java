@@ -41,7 +41,6 @@ public class AppConstant {
     public static final String KEY_TODAYS_OFFER = "todays_offer";
 
 
-
     public static final String BASE_URL = "http://tech599.com/tech599.com/johnaks/Ubercuts/api/";
 
     /*******************************User***************************************************************************************************/
@@ -58,13 +57,20 @@ public class AppConstant {
     /*=================================================City List=========================================================*/
     public static final String API_GETLIST_CITY = BASE_URL + "get_cities.php";
     /*=================================================Email Exists=========================================================*/
-    public static final String API_EMAIL_EXISTS= BASE_URL + "email_checking.php";
+    public static final String API_EMAIL_EXISTS = BASE_URL + "email_checking.php";
     /*=================================================Get Services List=========================================================*/
-    public static final String API_GET_SERVICELIST= BASE_URL + "get_sub_category.php";
+    public static final String API_GET_SERVICELIST = BASE_URL + "get_sub_category.php";
     /*=================================================Get Services List=========================================================*/
-    public static final String API_GET_VENDORLISTNEARBY= BASE_URL + "get_service_provider_near_by_me.php";
+    public static final String API_GET_VENDORLISTNEARBY = BASE_URL + "get_service_provider_near_by_me.php";
     /*=================================================Get Vendor  Details=========================================================*/
-    public static final String API_GET_VENDORDETAILS= BASE_URL + "get_beautician_details.php";
+    public static final String API_GET_VENDORDETAILS = BASE_URL + "get_beautician_details.php";
+
+    /*=================================================Get Vendor  SErvices=========================================================*/
+    public static final String API_GET_VENDORSERVICES = BASE_URL + "get_beautician_services.php";
+
+    /*=================================================Get Vendor  SErvices=========================================================*/
+    public static final String API_GET_VENDORREVIEWS = BASE_URL + "get_beautician_reviews.php";
+
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/
@@ -78,7 +84,7 @@ public class AppConstant {
     /*=================================================Update Services Vendor=========================================================*/
     public static final String API_VENDOR_UPDATESERVICES = BASE_URL + "update_my_service.php";
     /*=================================================Get Vendor Services List=========================================================*/
-    public static final String API_GET_SERVICELIST_VENDOR= BASE_URL + "vendor_get_sub_category.php";
+    public static final String API_GET_SERVICELIST_VENDOR = BASE_URL + "vendor_get_sub_category.php";
 
 
     /**/
