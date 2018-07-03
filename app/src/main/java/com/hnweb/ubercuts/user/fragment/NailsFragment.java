@@ -32,6 +32,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +74,7 @@ import com.hnweb.ubercuts.utils.LocationSet;
 import com.hnweb.ubercuts.utils.MyLocationListener;
 import com.hnweb.ubercuts.utils.Utils;
 import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,6 +88,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.hnweb.ubercuts.utils.MainApplication.TAG;
 
 /**
  * Created by PC-21 on 03-Apr-18.
@@ -97,6 +101,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
     MapView mMapView;
     private GoogleMap googleMap;
     String category_id;
+    int maxValues;
     private SharedPreferences prefs;
     String user_id, serviceId;
     LocationSet locationSet = new LocationSet();
@@ -121,6 +126,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
     TextView textViewEmpty;
     EditText etSearchPlace;
     private Circle mCircle;
+    String experience_value;
     private Marker mMarker;
     Context context;
     MyLocationListener myLocationListener;
@@ -134,7 +140,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         liveitemList = menu.findItem(R.id.action_list);
         liveitemMap = menu.findItem(R.id.action_map);
-        liveitemList.setVisible(true);
+        liveitemList.setVisible(false);
         liveitemMap.setVisible(false);
     }
 
@@ -186,7 +192,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
         connectionDetector = new ConnectionDetector(getActivity());
         if (connectionDetector.isConnectingToInternet()) {
             //  getNailsList();
-            getServices();
+            getServices("20", "");
         } else {
             Snackbar snackbar = Snackbar
                     .make(((MainActivityVendor) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
@@ -223,7 +229,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                     for (int i = 0; i < detailsArrayList.size(); i++) {
 
                         Double latitude = Double.valueOf(detailsArrayList.get(i).getLatitude());
-                        Double longitude = Double.valueOf(detailsArrayList.get(i).getLatitude());
+                        Double longitude = Double.valueOf(detailsArrayList.get(i).getLongitude());
 
                     /*BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.nails_icon_map);
                     LatLng sydney = new LatLng(-34, 151);
@@ -486,7 +492,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
         if (id == R.id.action_list) {
             liveitemList.setVisible(false);
-            liveitemMap.setVisible(true);
+            liveitemMap.setVisible(false);
             linearLayoutMap.setVisibility(View.GONE);
             linearLayoutList.setVisibility(View.VISIBLE);
 
@@ -495,6 +501,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
         if (id == R.id.action_map) {
             //liveitemList.setVisible(true);
+            liveitemList.setVisible(false);
             liveitemMap.setVisible(false);
             linearLayoutMap.setVisibility(View.VISIBLE);
             linearLayoutList.setVisibility(View.GONE);
@@ -530,21 +537,14 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                 transaction1.commit();
 
                 break;*/
-/*
             case R.id.button_regular_post_your_task:
 
-                fragment = new RegularBookingFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("Nails", category_id);
-                bundle.putString("ArrayList", String.valueOf(arrayListCategory));
-                fragment.setArguments(bundle);
-                FragmentManager managerRG = getActivity().getSupportFragmentManager();
-                FragmentTransaction transactionRG = managerRG.beginTransaction();
-                transactionRG.addToBackStack(null);
-                transactionRG.replace(R.id.frame_layout, fragment);
-                transactionRG.commit();
+                liveitemList.setVisible(false);
+                liveitemMap.setVisible(false);
+                linearLayoutMap.setVisibility(View.GONE);
+                linearLayoutList.setVisibility(View.VISIBLE);
 
-                break;*/
+                break;
 
             case R.id.image_filter:
                 filterDialog();
@@ -614,14 +614,63 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
     private void filterDialog() {
         final Dialog dailofFilter = new Dialog(getActivity());
+        TextView tv_submit;
+
+        RangeSeekBar rangeSeekBar;
         dailofFilter.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dailofFilter.setContentView(R.layout.dialog_filter);
+        String c;
+        tv_submit = (TextView) dailofFilter.findViewById(R.id.tv_submit);
+        rangeSeekBar = (RangeSeekBar) dailofFilter.findViewById(R.id.rangeseekbar);
+        final RadioGroup radioGroup = (RadioGroup) dailofFilter.findViewById(R.id.radioGroupEx);
+
+        tv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                RadioButton radioSexButton = (RadioButton) dailofFilter.findViewById(selectedId);
+                String rd_button = radioSexButton.getText().toString();
+                if (rd_button.equals("All")) {
+                    experience_value = "0";
+                } else if (rd_button.equals("Starter")) {
+                    experience_value = "1";
+                } else if (rd_button.equals("0 - 1 Years")) {
+                    experience_value = "2";
+                } else if (rd_button.equals("1 - 5 Years")) {
+                    experience_value = "3";
+                } else if (rd_button.equals("5 - 10 Years")) {
+                    experience_value = "4";
+                }
+                if (experience_value.equals("") || experience_value == null ) {
+                    Toast.makeText(getActivity(), "Please Select the Experience", Toast.LENGTH_SHORT).show();
+                } else {
+                    getServices(String.valueOf(maxValues), "experience_value");
+
+                }
+            }
+        });
+        rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+
+            @Override
+            public void onRangeSeekBarValuesChanged(
+                    RangeSeekBar<?> bar, Integer minValue,
+                    Integer maxValue) {
+
+                maxValues = maxValue;
+                Log.i(TAG, "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
+                Toast.makeText(getActivity(), "MIN=" + minValue + " MAX=" + maxValue, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
         dailofFilter.setCancelable(true);
 
         dailofFilter.show();
     }
 
-    private void getServices() {
+    private void getServices(final String range, final String exp) {
         loadingDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_VENDORLISTNEARBY,
@@ -710,7 +759,8 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                     params.put("long", String.valueOf(longitude));*/
                     params.put("lat", "25.7617");
                     params.put("long", "-80.1918");
-                    params.put("range", "20");
+                    params.put("range", range);
+                    params.put("exp", exp);
                 } catch (Exception e) {
                     System.out.println("error" + e.toString());
                 }

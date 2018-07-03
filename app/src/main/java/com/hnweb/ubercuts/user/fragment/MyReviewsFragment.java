@@ -122,7 +122,7 @@ public class MyReviewsFragment extends Fragment {
                                     reviewsListModel.setCreated_date(jsonObject.getString("created_date"));
                                     reviewsListModel.setUser_name(jsonObject.getString("u_name"));
                                     reviewsListModel.setSender_id(jsonObject.getString("sender_id"));
-                                  //  reviewsListModel.setUser_image(jsonObject.getString("u_img"));
+                                   reviewsListModel.setUser_image(jsonObject.getString("u_img"));
 
                                     reviewsListModels.add(reviewsListModel);
 

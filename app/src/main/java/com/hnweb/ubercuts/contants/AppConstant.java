@@ -71,6 +71,12 @@ public class AppConstant {
     /*=================================================Get Vendor  SErvices=========================================================*/
     public static final String API_GET_VENDORREVIEWS = BASE_URL + "get_beautician_reviews.php";
 
+    /*=================================================Add Vendor  Fav=========================================================*/
+    public static final String API_ADD_VENDORFAV = BASE_URL + "add_favorite_vendor.php";
+
+    /*=================================================Remove Vendor  Fav=========================================================*/
+    public static final String API_REMOVE_VENDORFAV = BASE_URL + "remove_favorite_vendor.php";
+
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/

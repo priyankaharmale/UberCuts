@@ -33,6 +33,7 @@
 
 
     <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+        android:id="@+id/rangeseekbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimens_10dp"
@@ -40,7 +41,6 @@
         android:layout_marginRight="@dimen/dimens_10dp"
         rsb:absoluteMaxValue="2"
         rsb:absoluteMinValue="20"
-
         rsb:singleThumb="true" />
 
     <TextView

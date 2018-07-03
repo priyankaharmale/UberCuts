@@ -88,11 +88,11 @@ public class ReviewsListAdapter extends RecyclerView.Adapter<ReviewsListAdapter.
         holder.ratingBarReviwes.setRating(Float.parseFloat(rating_value));
         holder.ratingBarReviwes.setFocusable(false);
 
-      /*  if (user_image.equals("")) {
+       if (user_image.equals("")) {
             Glide.with(context).load(R.drawable.user_register).into(holder.imageViewReviews);
         } else {
             Glide.with(context).load(user_image).into(holder.imageViewReviews);
-        }*/
+        }
 
     }
 

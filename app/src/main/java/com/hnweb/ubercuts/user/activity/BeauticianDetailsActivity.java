@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,26 +59,31 @@ import java.util.Map;
 public class BeauticianDetailsActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
     SharedPreferences prefs;
     String user_id;
-
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
     String user_details_task_ids;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    ImageView iv_fav;
     public TextView textViewListCount;
     ViewPagerBeauticianAdapter adapter;
     private ArrayList<BeauticianDetailsModel> beauticianDeatilsModels = null;
     String beautician_id = "", about_us = "";
     ImageView imageViewBeautician;
+    RatingBar ratingBarReviwes;
+    String str_Fav;
+    String isFavClick = "1";
     TextView textViewBeauticianName, textViewExperience;
     Button btnBookYourTask;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_details);
-
+        ratingBarReviwes = (RatingBar) findViewById(R.id.rtb_reviews_rating);
+        ratingBarReviwes.setFocusable(false);
+        prefs = getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
         Intent intent = getIntent();
         user_details_task_ids = intent.getStringExtra("user_details_ids").toString();
         Log.d("UserDetailsIds", user_details_task_ids);
@@ -87,18 +93,25 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         initViewByIds();
         viewPager = findViewById(R.id.viewpager);
         //setupViewPager(viewPager);
-
+        iv_fav = (ImageView) findViewById(R.id.iv_fav);
         adapter = new ViewPagerBeauticianAdapter(getSupportFragmentManager());
-
         viewPager.setAdapter(adapter);
-
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
         textViewListCount = findViewById(R.id.textView_list_count);
         tabLayout.setOnTabSelectedListener(this);
+        iv_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFavClick.equals("0")) {
 
+                    removeFav();
+                } else {
 
+                    addFav();
+                }
+            }
+        });
 
 
     }
@@ -165,9 +178,21 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                                 beauticianDetailsModel.setBeautician_country(jsonObject.getString("u_country"));
                                 beauticianDetailsModel.setBeautician_zipcode(jsonObject.getString("u_zipcode"));
                                 beauticianDetailsModel.setBeautician_about_us(jsonObject.getString("u_bio"));
+                                beauticianDetailsModel.setBeautician_IsFav(jsonObject.getString("fav_flag"));
+                                beauticianDetailsModel.setBeautician_rating(jsonObject.getString("rating"));
 
                                 beautician_id = jsonObject.getString("u_id");
                                 about_us = jsonObject.getString("u_bio");
+                                str_Fav = jsonObject.getString("fav_flag");
+                                if (str_Fav.equals("Y")) {
+                                    iv_fav.setImageResource(R.drawable.fav_selected);
+                                    isFavClick = "0";
+                                } else {
+                                    iv_fav.setImageResource(R.drawable.fav_unselected);
+                                    isFavClick = "1";
+                                }
+                                ratingBarReviwes.setRating(Float.parseFloat(jsonObject.getString("rating")));
+
                                 beauticianDeatilsModels.add(beauticianDetailsModel);
 
                                 String beautician_image = jsonObject.getString("u_img");
@@ -220,6 +245,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                 Map<String, String> params = new HashMap<String, String>();
                 try {
                     params.put("beautician_id", user_details_task_ids);
+                    params.put("u_id", user_id);
                 } catch (Exception e) {
                     System.out.println("error" + e.toString());
                 }
@@ -327,4 +353,129 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void addFav() {
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_ADD_VENDORFAV,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "ServiceListDeatils= " + response);
+
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                Utils.AlertDialog(BeauticianDetailsActivity.this, msg);
+                                iv_fav.setImageResource(R.drawable.fav_selected);
+                                isFavClick = "0";
+                            } else {
+                                Utils.AlertDialog(BeauticianDetailsActivity.this, msg);
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(BeauticianDetailsActivity.this, error);
+                        AlertUtility.showAlert(BeauticianDetailsActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("vendor_id", user_details_task_ids);
+                    params.put("u_id", user_id);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(BeauticianDetailsActivity.this);
+        requestQueue.add(stringRequest);
+
+    }
+
+    private void removeFav() {
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REMOVE_VENDORFAV,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "ServiceListDeatils= " + response);
+
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                iv_fav.setImageResource(R.drawable.fav_unselected);
+                                isFavClick = "1";
+                                Utils.AlertDialog(BeauticianDetailsActivity.this, msg);
+
+
+                            } else {
+                                Utils.AlertDialog(BeauticianDetailsActivity.this, msg);
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(BeauticianDetailsActivity.this, error);
+                        AlertUtility.showAlert(BeauticianDetailsActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("vendor_id", user_details_task_ids);
+                    params.put("u_id", user_id);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(BeauticianDetailsActivity.this);
+        requestQueue.add(stringRequest);
+
+    }
+
 }

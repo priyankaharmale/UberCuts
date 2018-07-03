@@ -16,6 +16,25 @@ public class BeauticianDetailsModel implements Serializable{
     private String beautician_country;
     private String beautician_zipcode;
     private String beautician_about_us;
+    private String beautician_IsFav;
+
+    public String getBeautician_IsFav() {
+        return beautician_IsFav;
+    }
+
+    public void setBeautician_IsFav(String beautician_IsFav) {
+        this.beautician_IsFav = beautician_IsFav;
+    }
+
+    public String getBeautician_rating() {
+        return beautician_rating;
+    }
+
+    public void setBeautician_rating(String beautician_rating) {
+        this.beautician_rating = beautician_rating;
+    }
+
+    private String beautician_rating;
 
     public String getBeautician_id() {
         return beautician_id;

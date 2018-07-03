@@ -13,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.user.activity.BeauticianDetailsActivity;
 import com.hnweb.ubercuts.user.bo.Details;
@@ -60,6 +62,8 @@ public class BeauticianDetailsAdapter extends RecyclerView.Adapter<BeauticianDet
         String experince = detailsList.get(i).getExperience();
         String avail_time_from = detailsList.get(i).getAvailableFrom();
         String avail_time_to = detailsList.get(i).getAvailableTo();
+        String user_image = detailsList.get(i).getUImg();
+
 
         if (user_name.equals("")) {
             holder.textViewName.setText("No Name");
@@ -79,7 +83,11 @@ public class BeauticianDetailsAdapter extends RecyclerView.Adapter<BeauticianDet
             holder.textViewExperience.setText(detailsList.get(i).getExperience() + " " + "Years");
         }
 
-
+        if (user_image.equals("")) {
+            Glide.with(context).load(R.drawable.user_register).into(holder.iv_profile);
+        } else {
+            Glide.with(context).load(user_image).into(holder.iv_profile);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,11 +110,6 @@ public class BeauticianDetailsAdapter extends RecyclerView.Adapter<BeauticianDet
             }
         });
 
-        /*holder.textViewName.setText(detailsList.get(i).getUName());
-        holder.textViewOffer.setText(detailsList.get(i).getTodaysOffer()+"%"+" OFF");
-        holder.textViewService.setText(detailsList.get(i).getSubCategoryName());
-        holder.textViewExperience.setText(detailsList.get(i).getExperience()+" "+"Years");
-        holder.textViewTime.setText( detailsList.get(i).getAvailableFrom()+" to "+detailsList.get(i).getAvailableTo());*/
 
     }
 
@@ -119,15 +122,16 @@ public class BeauticianDetailsAdapter extends RecyclerView.Adapter<BeauticianDet
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewName, textViewOffer, textViewExperience;
+        ImageView iv_profile;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.tv_vendroName);
             textViewOffer = itemView.findViewById(R.id.tv_offer);
-
+            iv_profile = itemView.findViewById(R.id.iv_profile);
             textViewExperience = itemView.findViewById(R.id.tv_experience);
-           // textViewTime = itemView.findViewById(R.id.textView_ava_time);
+            // textViewTime = itemView.findViewById(R.id.textView_ava_time);
 
         }
     }

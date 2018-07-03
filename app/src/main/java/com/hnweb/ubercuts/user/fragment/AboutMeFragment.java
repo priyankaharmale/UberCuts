@@ -1,6 +1,7 @@
 package com.hnweb.ubercuts.user.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @SuppressLint("ValidFragment")
 public class AboutMeFragment extends Fragment {
 
@@ -46,6 +49,8 @@ public class AboutMeFragment extends Fragment {
     LoadingDialog loadingDialog;
     String beautician_id, about_us;
     TextView textViewAboutUs;
+    SharedPreferences prefs;
+    String user_id;
     private ArrayList<BeauticianDetailsModel> beauticianDeatilsModels;
 
     @Nullable
@@ -53,6 +58,9 @@ public class AboutMeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about_me, container, false);
         beautician_id = getArguments().getString("BeauticianIds");
+        prefs = getActivity().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
+
         initViewByIds(view);
         return view;
     }
@@ -116,6 +124,7 @@ public class AboutMeFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 try {
                     params.put("beautician_id", user_details_task_ids);
+                    params.put("u_id", user_id);
                 } catch (Exception e) {
                     System.out.println("error" + e.toString());
                 }
