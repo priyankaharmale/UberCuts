@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimens_10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView_images"
+                android:layout_width="@dimen/dimens_120dp"
+                android:layout_height="@dimen/dimens_120dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/user_register"
+                tools:ignore="ContentDescription,InefficientWeight" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textView_image_catgory_name"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_16sp"
+            android:textColor="@color/yellow"
+            android:text="TextView"
+            android:visibility="gone"
+
+            tools:ignore="HardcodedText,InefficientWeight" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="138dp"
+        android:layout_height="40dp"
+        android:gravity="right|center_vertical"
+        android:layout_marginTop="@dimen/dimens_3dp"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
+
+            <ImageView
+                android:id="@+id/imageView_delete_images"
+                android:layout_width="@dimen/dimens_40dp"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:tint="@color/yellow"
+
+                app:srcCompat="@drawable/cross_navigation"
+                tools:ignore="ContentDescription,InefficientWeight,ObsoleteLayoutParam" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

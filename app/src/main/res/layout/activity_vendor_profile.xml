@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:background="@drawable/splash">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:background="@drawable/bg_services_home"
+        android:layout_margin="@dimen/dimens_20dp"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            tools:ignore="UselessParent">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/relative_layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:visibility="visible">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:visibility="visible">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/profile_image"
+                                android:layout_width="100dp"
+                                android:layout_height="@dimen/dimens_100dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="@dimen/dimens_20dp"
+                                android:src="@drawable/user_register"/>
+
+                            <ImageView
+                                android:id="@+id/profile_image_photoupload"
+                                android:layout_width="40dp"
+                                android:layout_height="@dimen/dimens_30dp"
+                                android:layout_alignBottom="@+id/profile_image"
+                                android:layout_alignParentLeft="true"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/dimens_70dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="@dimen/dimens_20dp"
+                                android:src="@drawable/camera"/>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_alignParentRight="true"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/imageView_save"
+                                    android:layout_width="@dimen/dimens_40dp"
+                                    android:layout_height="@dimen/dimens_40dp"
+                                    android:layout_marginRight="@dimen/dimens_5dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="@dimen/dimens_5dp"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/edit_my_services_and_offers_vendor"/>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/textView_vendor_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_20dp"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dimens_5dp"
+                        android:text="judy ward"
+                        android:textAllCaps="true"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/dimens_20dp"
+                        android:textStyle="bold"
+                        android:visibility="visible"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dimens_10dp"
+                        android:gravity="center"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dimens_5dp"
+                            android:text="@string/str_experience"
+                            android:textColor="@color/yellow"
+                            android:textSize="@dimen/text_size_18sp"/>
+
+                        <TextView
+                            android:id="@+id/textView_vendor_experience"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dimens_5dp"
+                            android:text="0 - 1 Years"
+                            android:textAllCaps="true"
+                            android:textColor="@color/yellow"
+                            android:textSize="@dimen/text_size_18sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:orientation="vertical">
+
+                    <!-- <android.support.design.widget.TabLayout
+                         android:id="@+id/tabs_save"
+                         android:layout_width="match_parent"
+                         android:layout_height="@dimen/dimens_50dp"
+                         android:background="@color/colorBlue"
+                         android:textAlignment="center"
+                         app:tabGravity="fill"
+                         app:tabIndicatorColor="@color/colorYellow"
+                         app:tabMode="fixed"
+                         android:visibility="gone"
+                         app:tabTextAppearance="@style/MineCustomTabText"
+                         app:tabTextColor="@color/colorYellow" />-->
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:layout_marginLeft="@dimen/dimens_5dp"
+                        android:layout_marginRight="@dimen/dimens_5dp"
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/yellow"
+                        app:tabMode="fixed"
+
+                        app:tabSelectedTextColor="@color/yellow"
+                        app:tabTextColor="@color/colorWhite" />
+                    <!--<android.support.v4.view.ViewPager
+                        android:id="@+id/view_pager_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />-->
+
+                    <!-- <com.hnweb.livebusinessappointmentapp.Utility.EnhancedWrapContentViewPager
+                             android:id="@+id/view_pager_profile"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"/>-->
+
+                </LinearLayout>
+
+                <com.hnweb.ubercuts.utils.EnhancedWrapContentViewPager
+                    android:id="@+id/view_pager_profile"
+                    android:layout_below="@+id/lyViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

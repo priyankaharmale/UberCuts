@@ -1,5 +1,6 @@
 package com.hnweb.ubercuts.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -273,6 +274,39 @@ public class Utils {
     public static boolean checkNull(String s) {
         return s != null;
     }
+
+    public String dateFormats(String date, String input_format, String output_format){
+
+        @SuppressLint("SimpleDateFormat") DateFormat inputFormat = new SimpleDateFormat(input_format);
+        @SuppressLint("SimpleDateFormat") DateFormat outputFormat = new SimpleDateFormat(output_format);
+        Date date_format = null;
+        try {
+            date_format = inputFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String outputDateFormat = outputFormat.format(date_format);
+        Log.d("DateFormatClass", outputDateFormat);
+
+        return outputDateFormat;
+
+    }
+
+    public String timeFormats(String time, String input_time_format, String output_time_format) {
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inFormat = new SimpleDateFormat(input_time_format);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outFormat = new SimpleDateFormat(output_time_format);
+        String time_format = null;
+        try {
+            time_format = outFormat.format(inFormat.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d("TimeFormats", time_format);
+
+        return time_format;
+    }
+
 }
 
 

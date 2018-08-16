@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dimens_10dp"
+        android:background="@drawable/bg_services_home"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_50dp"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:gravity="center"
+                android:text="@string/text_total_amount1"
+                android:textColor="@color/yellow"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_45dp">
+
+            <TextView
+                android:id="@+id/textView_total_price"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:gravity="center"
+                android:text="$ 50"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="@dimen/dimens_10dp"
+            android:background="@color/colorWhite" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_45dp"
+            android:layout_marginLeft="@dimen/dimens_30dp"
+            android:layout_marginRight="@dimen/dimens_30dp"
+            android:gravity="center_vertical"
+            android:text="Select Payment Mode"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"
+
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton_CVV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_20dp"
+            android:text="@string/text_card_number"
+
+            android:textColor="@color/yellow" />
+
+        <RadioButton
+            android:id="@+id/radioButton_use_another_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:text="Use Another Card"
+            android:textColor="@color/yellow" />
+</LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_45dp"
+            android:layout_marginLeft="@dimen/dimens_30dp"
+            android:layout_marginRight="@dimen/dimens_30dp"
+            android:gravity="center_vertical"
+            android:text="Select Payment Mode"
+            android:textColor="@color/colorWhite"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:text="@string/str_credit"
+            android:textAllCaps="true"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_18sp" />
+
+        <EditText
+            android:id="@+id/et_cardNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:background="@drawable/bg_textbox"
+            android:hint="@string/str_card"
+            android:inputType="number"
+            android:maxLength="19"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/et_mm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dimens_10dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/bg_textbox"
+                android:drawablePadding="@dimen/dimens_20dp"
+                android:focusableInTouchMode="false"
+                android:hint="@string/str_mm"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dimens_20dp"
+                android:paddingRight="@dimen/dimens_10dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+            <EditText
+                android:id="@+id/et_yyyy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_10dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/bg_textbox"
+                android:drawablePadding="@dimen/dimens_20dp"
+                android:focusableInTouchMode="false"
+                android:hint="@string/str_yyy"
+                android:inputType="number"
+
+                android:paddingLeft="@dimen/dimens_20dp"
+                android:paddingRight="@dimen/dimens_10dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/et_cvv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:background="@drawable/bg_textbox"
+            android:hint="@string/str_cvv"
+            android:inputType="numberPassword"
+            android:maxLength="3"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btn_proceed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_forgotpwd"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:background="@drawable/bg_button_red"
+            android:text="@string/str_proceed"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+</ScrollView>

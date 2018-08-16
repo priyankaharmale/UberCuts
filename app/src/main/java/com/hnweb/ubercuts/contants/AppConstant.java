@@ -91,9 +91,22 @@ public class AppConstant {
     public static final String API_VENDOR_UPDATESERVICES = BASE_URL + "update_my_service.php";
     /*=================================================Get Vendor Services List=========================================================*/
     public static final String API_GET_SERVICELIST_VENDOR = BASE_URL + "vendor_get_sub_category.php";
+    /*=================================================Get Vendor My profile Details=========================================================*/
+    public static final String API_GET_MYPROFILE_VENDOR = BASE_URL + "vendor_get_profile.php";
+    /*=================================================Get Vendor My profile Details=========================================================*/
+    public static final String API_GET_BUSINESS_VENDOR = BASE_URL + "vendor_get_business_prof.php";
+    /*=================================================Get Vendor My profile Details=========================================================*/
+    public static final String API_GET_MYWORK_VENDOR = BASE_URL + "vendor_get_work.php";
+    /*=================================================Save Vendor AboutMe Data=========================================================*/
+    public static final String API_SAVE_ABOUTME_VENDOR = BASE_URL + "vendor_update_profile.php";
+    /*=================================================Save Vendor Business Data=========================================================*/
+    public static final String API_SAVE_BUSINESS_VENDOR = BASE_URL + "vendor_update_business_prof.php";
 
+    /*=================================================Save Vendor Work Images=========================================================*/
+    public static final String API_SAVE_VENDOR_IMAGES = BASE_URL + "add_my_work_images.php";
+    /*=================================================Save Vendor Work Video=========================================================*/
+    public static final String API_SAVE_VENDOR_VIDEO = BASE_URL + "add_my_work_video.php";
 
-    /**/
     public static String dateToString(Date date, String format) {
         SimpleDateFormat df = new SimpleDateFormat(format);
         return df.format(date);

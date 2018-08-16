@@ -152,7 +152,9 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
 
         LayoutInflater mInflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
         view = mInflater.inflate(R.layout.fragment_nails, null);
+
         myLocationListener = new MyLocationListener(getActivity());
         if (locationSet.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getActivity(), getActivity())) {
             fetchLocationData();

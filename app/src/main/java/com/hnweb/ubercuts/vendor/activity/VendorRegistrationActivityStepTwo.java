@@ -140,6 +140,34 @@ public class VendorRegistrationActivityStepTwo extends AppCompatActivity impleme
                 finish();
             }
         });
+
+        SharedPreferences settings = getSharedPreferences("AOP_PREFS", Context.MODE_PRIVATE);
+        profilepic = settings.getString(AppConstant.KEY_IMAGE, null);
+        if (!profilepic.equals("")) {
+            try {
+                Glide.with(VendorRegistrationActivityStepTwo.this)
+                        .load(profilepic)
+                        .error(drawable)
+                        .centerCrop()
+                        .crossFade()
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
+                        .into(iv_profilepic);
+            } catch (Exception e) {
+                Log.e("Exception", e.getMessage());
+            }
+        } else {
+            iv_profilepic.setImageResource(R.drawable.user_register);
+        }
         et_country.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,33 +197,7 @@ public class VendorRegistrationActivityStepTwo extends AppCompatActivity impleme
                 }
             }
         });
-        SharedPreferences settings = getSharedPreferences("AOP_PREFS", Context.MODE_PRIVATE);
-        profilepic = settings.getString(AppConstant.KEY_IMAGE, null);
-        if (!profilepic.equals("")) {
-            try {
-                Glide.with(VendorRegistrationActivityStepTwo.this)
-                        .load(profilepic)
-                        .error(drawable)
-                        .centerCrop()
-                        .crossFade()
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                return false;
-                            }
 
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                return false;
-                            }
-                        })
-                        .into(iv_profilepic);
-            } catch (Exception e) {
-                Log.e("Exception", e.getMessage());
-            }
-        } else {
-            iv_profilepic.setImageResource(R.drawable.user_register);
-        }
     }
 
     public void dialogContry() {

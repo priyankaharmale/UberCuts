@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:id="@+id/relative_ly_business_save"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimens_10dp"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dimens_10dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:layout_gravity="right">
+
+
+            <ImageView
+
+                    android:id="@+id/button_save_vendor_business_info"
+                    android:layout_width="@dimen/dimens_50dp"
+                    android:layout_height="@dimen/dimens_50dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/edit_my_services_and_offers_vendor"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_15dp"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_business_name"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal">
+
+            <EditText
+                    android:id="@+id/editText_business_name_vendor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:cursorVisible="false"
+                    android:textColor="@color/colorWhite"
+                    android:hint="Business Name" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_15dp"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_experience"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/button_select_experience_business_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:layout_weight="0.60"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:paddingRight="@dimen/dimens_5dp"
+                    android:text="Select Experience"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="normal" />
+
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_15dp"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_business_address"
+                    android:layout_gravity="center"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_country"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/textView_country_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text=":"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            <Button
+                    android:id="@+id/button_select_country_business_info"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:layout_weight="0.60"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:paddingRight="@dimen/dimens_5dp"
+                    android:text="Select Country"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_state"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/textView_email_id_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text=":"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            <Button
+                    android:id="@+id/button_select_state_business_info"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:layout_weight="0.60"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:paddingRight="@dimen/dimens_5dp"
+                    android:text="Select State"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="normal" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_city"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/textView_jlast_name_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text=":"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp"
+                    tools:ignore="RtlHardcoded" />
+
+            <Button
+                    android:id="@+id/button_select_city_business_info"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimens_45dp"
+                    android:layout_weight="0.60"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:paddingRight="@dimen/dimens_5dp"
+                    android:text="Select City"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_15dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_street"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/textView_first_name_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text=":"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            <EditText
+                    android:id="@+id/editText_street_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.60"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textColor="@color/colorWhite"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:hint="@string/text_street" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_marginTop="@dimen/dimens_5dp"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text="@string/text_zip_code"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/textView_phone_number_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:text=":"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_18sp" />
+
+            <EditText
+                    android:id="@+id/editText_zipcode_vendor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.60"
+                    android:ems="10"
+                    android:textColor="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:hint="@string/text_zip_code" />
+
+        </LinearLayout>
+
+
+        <Button
+                android:id="@+id/button_business_info_save"
+                android:layout_width="@dimen/dimens_150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_offer"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:layout_marginBottom="@dimen/dimens_20dp"
+                android:visibility="gone"
+                android:text="Save" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

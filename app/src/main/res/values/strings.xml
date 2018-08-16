@@ -7,6 +7,8 @@
     <string name="str_vendor">Vendor</string>
     <string name="str_sign">Sign In</string>
     <string name="str_email">Email ID</string>
+    <string name="str_password">Password</string>
+
     <string name="str_forgot">Forgot Password ?</string>
     <string name="str_dont">Do not Have an Account?</string>
     <string name="btn_create">Create an Account</string>
@@ -15,7 +17,6 @@
     <string name="str_account">Account Information</string>
     <string name="str_name">Full Name</string>
     <string name="str_phone">Mobile No.</string>
-    <string name="str_password">Password</string>
     <string name="str_recreatepwd">Confirm Password</string>
     <string name="str_proceed">Proceed</string>
     <string name="str_alreadyacc">Already Have An Account?</string>
@@ -122,5 +123,35 @@
     <string name="hint_cat">Category :</string>
     <string name="hint_sub_cat">Sub Category :</string>
     <string name="hint_post_task_btn">Post</string>
+    <!--My Work-->
+    <string name="text_images">Images</string>
+    <string name="text_videos">Videos</string>
+    <string name="text_total">Total :</string>
+    <!--Profile Info-->
+    <string name="text_first_name">Full Name</string>
+    <string name="text_last_name">Last Name</string>
+    <string name="text_email_id">Email Id</string>
+    <string name="text_phone_number">Phone Number</string>
+    <string name="text_date_of_birth">Date of Birth</string>
+    <string name="text_about_me">About Me</string>
 
+    <!--Business Info-->
+    <string name="text_business_name">Business Name : </string>
+    <string name="text_experience">Experience : </string>
+    <string name="text_business_address">Business Address : </string>
+    <string name="text_street">Street</string>
+    <string name="text_city">City</string>
+    <string name="text_state">State</string>
+    <string name="text_country">Country</string>
+    <string name="text_zip_code">Zip Code</string>
+
+    <!--Pay Now-->
+    <string name="text_total_amount1">Total Amount</string>
+
+    <!--Card Details-->
+    <string name="text_card_number">XXXX XXXXXXXX XXXX</string>
+
+    <!--Book Your Task-->
+    <string name="text_book_task">Book Your Task</string>
+    <string name="text_book">Book</string>
 </resources>

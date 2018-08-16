@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_popup"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_50dp"
+        android:gravity="center"
+        android:text="Book Appointment"
+        android:textAllCaps="true"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/yellow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Date:"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="@dimen/dimens_10dp"
+                    android:drawableRight="@drawable/date_post_your_task"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:id="@+id/tv_date"
+                    android:text="05 Aug 2018"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_15dp"
+                android:weightSum="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Time: "
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="@dimen/dimens_10dp"
+                    android:drawableRight="@drawable/time_post_your_task"
+                    android:text="05 Aug 2018"
+                    android:id="@+id/tv_time"
+
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:background="@color/yellow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:layout_weight="0.7"
+            android:drawablePadding="@dimen/dimens_20dp"
+            android:focusableInTouchMode="false"
+            android:hint="Job Location: "
+            android:inputType="number"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:paddingRight="@dimen/dimens_10dp"
+            android:textColorHint="@color/yellow" />
+
+        <EditText
+            android:id="@+id/et_mm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/bg_search_map"
+            android:drawablePadding="@dimen/dimens_20dp"
+            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+            android:focusableInTouchMode="false"
+            android:hint="Customer Place"
+            android:inputType="number"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:paddingRight="@dimen/dimens_10dp"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:drawablePadding="@dimen/dimens_20dp"
+            android:focusableInTouchMode="false"
+            android:hint="Description : "
+            android:inputType="number"
+            android:paddingLeft="@dimen/dimens_20dp"
+            android:paddingRight="@dimen/dimens_10dp"
+            android:textColorHint="@color/yellow" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_100dp"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_20dp"
+            android:layout_weight="0.3"
+            android:padding="@dimen/dimens_10dp"
+            android:background="@drawable/bg_search_map"
+            android:drawablePadding="@dimen/dimens_20dp"
+            android:inputType="number"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/cancel_apply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="Proceed"
+            android:textColor="@color/colorWhite" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/cancel_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="Cancel"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

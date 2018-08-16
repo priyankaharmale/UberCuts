@@ -203,5 +203,6 @@
         android:layout_marginRight="@dimen/dimens_10dp"
         android:background="@color/colorPrimary"
         android:text="Book Now"
+        android:id="@+id/btn_booknow"
         android:textColor="@color/colorWhite" />
 </RelativeLayout>

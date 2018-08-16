@@ -195,7 +195,12 @@ public class MainActivityVendor extends AppCompatActivity implements NavigationV
             fragment = new LeadsFragment();
         } else if (id == R.id.nav_my_service) {
             fragment = new MyServiceAndoffersFragment();
-        }else if (id == R.id.nav_logout) {
+        }else
+            if (id == R.id.nav_myprofile) {
+            Intent intent = new Intent(MainActivityVendor.this, ProfileEditSaveVendorFragment.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_logout) {
             showLogoutAlert();
         }
        /* } else if (id == R.id.nav_my_bids) {

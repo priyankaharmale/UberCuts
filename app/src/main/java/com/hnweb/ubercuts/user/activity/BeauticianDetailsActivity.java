@@ -1,5 +1,8 @@
 package com.hnweb.ubercuts.user.activity;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +20,18 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -47,14 +57,19 @@ import com.hnweb.ubercuts.utils.DataUtility;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.RequestInfo;
 import com.hnweb.ubercuts.utils.Utils;
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.hnweb.ubercuts.utils.MainApplication.TAG;
 
 public class BeauticianDetailsActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
     SharedPreferences prefs;
@@ -73,13 +88,20 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
     RatingBar ratingBarReviwes;
     String str_Fav;
     String isFavClick = "1";
+    Button btn_booknow;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+
+    TextView tv_date , tv_time;
     TextView textViewBeauticianName, textViewExperience;
     Button btnBookYourTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendor_details);
+        setContentView(R.layout.activity_vendor_detailsnew);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ratingBarReviwes = (RatingBar) findViewById(R.id.rtb_reviews_rating);
         ratingBarReviwes.setFocusable(false);
         prefs = getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
@@ -90,10 +112,18 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         imageViewBeautician = findViewById(R.id.iv_profile);
         textViewBeauticianName = findViewById(R.id.tv_vendroName);
         textViewExperience = findViewById(R.id.tv_experience);
+        btn_booknow = findViewById(R.id.btn_booknow);
+
+        btn_booknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bookNowDialog();
+            }
+        });
         initViewByIds();
         viewPager = findViewById(R.id.viewpager);
         //setupViewPager(viewPager);
-        iv_fav = (ImageView) findViewById(R.id.iv_fav);
+        iv_fav = (ImageView) findViewById(R.id.imageView_fav);
         adapter = new ViewPagerBeauticianAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout = findViewById(R.id.tabs);
@@ -283,7 +313,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
     }
 
     private class ViewPagerBeauticianAdapter extends FragmentPagerAdapter {
-        String[] title = new String[]{"ABOUT ME", "SERVICES", "REVIEWS"};
+        String[] title = new String[]{"ABOUT ME", "SERVICES", "REVIEWS","MY WORK"};
 
 
         public ViewPagerBeauticianAdapter(FragmentManager manager) {
@@ -314,7 +344,12 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                     bundleReviews.putString("BeauticianIds", user_details_task_ids);
                     fragment.setArguments(bundleReviews);
                     break;
-
+                case 3:
+                    fragment = new AboutMeFragment();
+                    Bundle bundl1e = new Bundle();
+                    bundl1e.putString("BeauticianIds", user_details_task_ids);
+                    fragment.setArguments(bundl1e);
+                    break;
             }
             return fragment;
         }
@@ -345,6 +380,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        onBackPressed();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -477,5 +513,12 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
         requestQueue.add(stringRequest);
 
     }
+
+
+    private void bookNowDialog() {
+        Intent intent= new Intent(BeauticianDetailsActivity.this,RegularBookNowYourTask.class);
+        startActivity(intent);
+    }
+
 
 }
