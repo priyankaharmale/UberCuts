@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.user.activity.BeauticianDetailsActivity;
+import com.hnweb.ubercuts.user.bo.City;
 import com.hnweb.ubercuts.user.bo.Details;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -135,7 +137,10 @@ public class BeauticianDetailsAdapter extends RecyclerView.Adapter<BeauticianDet
 
         }
     }
-
+    public void filterList(ArrayList<Details> filterdNames) {
+        this.detailsList = filterdNames;
+        notifyDataSetChanged();
+    }
 
 }
 

@@ -27,6 +27,7 @@ import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.helper.SharedPrefManager;
 import com.hnweb.ubercuts.user.activity.HomeActivity;
+import com.hnweb.ubercuts.user.activity.UserLoginActivity;
 import com.hnweb.ubercuts.user.activity.UserRegistrationActivityStepOne;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
@@ -225,10 +226,22 @@ public class VendorLoginActivity extends AppCompatActivity {
                                                         editorUser.putString(AppConstant.KEY_USERTYPE, user_type);
                                                         editorUser.putString(AppConstant.KEY_ISCREDIT, user_is_card);
                                                         editorUser.commit();
-                                                        Intent intent = new Intent(VendorLoginActivity.this, MainActivityVendor.class);
+
+                                                        if (user_type.equals("User")) {
+                                                            Intent intent = new Intent(VendorLoginActivity.this, HomeActivity.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            finish();
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Intent intent = new Intent(VendorLoginActivity.this, MainActivityVendor.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            finish();
+                                                            startActivity(intent);
+                                                        }
+                                                        /*Intent intent = new Intent(VendorLoginActivity.this, MainActivityVendor.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         finish();
-                                                        startActivity(intent);
+                                                        startActivity(intent);*/
 
                                                        // Toast.makeText(VendorLoginActivity.this, "In Progress......", Toast.LENGTH_SHORT).show();
                                                     }

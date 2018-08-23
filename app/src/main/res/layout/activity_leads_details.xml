@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dimens_20dp"
+        android:background="@drawable/bg_services_home">
+
+        <TextView
+            android:id="@+id/tv_serviceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:layout_marginTop="@dimen/dimens_5dp"
+            android:text="Manicure"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_18dp" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_1dp"
+            android:layout_below="@id/tv_serviceName"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:background="@color/colorWhite">
+
+        </view>
+
+        <ImageView
+            android:id="@+id/iv_vendorimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_offer"
+            android:layout_marginLeft="@dimen/dimens_10dp"
+            android:layout_marginTop="@dimen/text_20"
+            android:src="@drawable/judy_ward_beautician_details" />
+
+        <TextView
+            android:id="@+id/tv_vendroName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_vendorimage"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:text="Judy Ward"
+android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_18dp" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_vendroName"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:drawableLeft="@drawable/date_post_your_task"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="05 Jan 2018"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_vendroName"
+            android:layout_marginLeft="@dimen/dimens_40dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:layout_toRightOf="@+id/tv_date"
+            android:drawableLeft="@drawable/time_post_your_task"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="10.00 AM"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <TextView
+            android:id="@+id/joblocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/tv_date"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="Job Location : "
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_16dp" />
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/joblocation"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="Customer Place"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_16dp" />
+        <TextView
+            android:id="@+id/tvprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/tv_location"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="Customer Price : "
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_16dp" />
+        <TextView
+            android:id="@+id/tv_customerprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/tvprice"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="$50"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_16dp" />
+        <TextView
+            android:id="@+id/tvdescp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/tv_customerprice"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="Description: "
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/text_size_16dp" />
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/tvdescp"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="I want high quality nail work and service should br reliable"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:textSize="@dimen/text_size_16dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_20dp"
+            android:id="@+id/btn_sendyouroffer"
+            android:text="Send Your Offer"
+            android:textColor="@color/colorWhite"
+
+            android:background="@drawable/bg_button_blue_home"
+            android:layout_below="@+id/tv_description"/>
+        <TextView
+            android:id="@+id/tv_Or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_below="@+id/btn_sendyouroffer"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="@dimen/dimens_10dp"
+            android:text="OR"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="@dimen/dimens_10dp"
+            android:textSize="@dimen/text_size_16dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:id="@+id/btn_rejectoffer"
+            android:text="Reject this offer"
+            android:textColor="@color/colorWhite"
+            android:layout_marginBottom="@dimen/text_20"
+            android:background="@drawable/bg_button_blue_home"
+            android:layout_below="@+id/tv_Or"/>
+    </RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

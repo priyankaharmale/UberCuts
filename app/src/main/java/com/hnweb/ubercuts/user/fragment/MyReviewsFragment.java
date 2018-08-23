@@ -45,7 +45,7 @@ public class MyReviewsFragment extends Fragment {
     RecyclerView recyclerViewReviews;
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
-    TextView textViewEmptyReviews;
+    TextView textView_empty_reviews;
 
     String beautician_id;
     private ArrayList<ReviewsListModel> reviewsListModels = null;
@@ -66,7 +66,7 @@ public class MyReviewsFragment extends Fragment {
 
     private void initViewById(View view) {
 
-        //  textViewEmptyReviews= view.findViewById(R.id.textView_empty_service_hairs);
+        textView_empty_reviews= view.findViewById(R.id.textView_empty_reviews);
 
         recyclerViewReviews = view.findViewById(R.id.recylerview_my_reviews);
 
@@ -134,7 +134,7 @@ public class MyReviewsFragment extends Fragment {
 
                             } else {
                                 //Utils.AlertDialog(getActivity(), msg);
-                                //textViewEmptyNails.setVisibility(View.VISIBLE);
+                                textView_empty_reviews.setVisibility(View.VISIBLE);
                                 recyclerViewReviews.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {

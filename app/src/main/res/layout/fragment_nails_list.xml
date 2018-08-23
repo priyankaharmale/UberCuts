@@ -38,14 +38,14 @@
                     android:src="@drawable/search" />
 
                 <EditText
-                    android:id="@+id/address_place"
+                    android:id="@+id/et_addresssearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/image"
                     android:background="@color/colorWhite"
-                    android:hint="Search Place"
+                    android:hint="Search"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -65,7 +65,7 @@
                 android:background="@color/grey" />
 
             <ImageView
-                android:id="@+id/image_filter"
+                android:id="@+id/image_filterlist"
                 android:layout_width="30dp"
                 android:layout_height="@dimen/dimens_30dp"
                 android:layout_gravity="center"
@@ -113,7 +113,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/button_post_your_task_list"
+            android:layout_above="@+id/llbutton_regular_post_your_task"
             android:layout_below="@+id/linearLayout2"
             android:gravity="center"
             android:orientation="vertical">
@@ -148,6 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
+            android:id="@+id/llbutton_regular_post_your_task"
             android:weightSum="1">
 
             <Button
@@ -171,7 +172,7 @@
                 android:layout_height="@dimen/dimens_50dp"
                 android:layout_weight="0.5"
                 android:background="@drawable/bg_button_blue"
-                android:text="@string/hint_post_task"
+                android:text="Post Your Task"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_18sp" />
 

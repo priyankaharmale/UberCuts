@@ -21,6 +21,7 @@ public class NewServicesAdaptor extends BaseAdapter {
     private boolean isListView;
     Services services;
     OnCallBack onCallBack;
+    TextView tv_price;
     private int selectedPosition = -1;
 
     public NewServicesAdaptor(Context context, ArrayList<Services> arrayList, OnCallBack onCallBack) {
@@ -52,9 +53,10 @@ public class NewServicesAdaptor extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             //inflate the layout on basis of boolean
-            view = inflater.inflate(R.layout.adaptor_services, viewGroup, false);
+            view = inflater.inflate(R.layout.adaptor_serviceswithprice, viewGroup, false);
 
             viewHolder.radioButton = (RadioButton) view.findViewById(R.id.radio1);
+            viewHolder.tv_price=(TextView) view.findViewById(R.id.tv_price);
             //viewHolder.ll_main= (LinearLayout) view.findViewById(R.id.ll_main);
             viewHolder.label = (TextView) view.findViewById(R.id.textView1);
 
@@ -64,6 +66,7 @@ public class NewServicesAdaptor extends BaseAdapter {
         services = arrayList.get(i);
 
         viewHolder.label.setText(services.getServicesName());
+        viewHolder.tv_price.setText(services.getDefault_price());
 
         //check the radio button if both position and selectedPosition matches
         viewHolder.radioButton.setChecked(i == selectedPosition);
@@ -71,19 +74,20 @@ public class NewServicesAdaptor extends BaseAdapter {
         //Set the position tag to both radio button and label
         viewHolder.radioButton.setTag(i);
         viewHolder.label.setTag(i);
+        viewHolder.tv_price.setTag(i);
 
         viewHolder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_selected);
-                itemCheckChanged(v, viewHolder, arrayList.get(i).getId());
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getId(),arrayList.get(i).getDefault_price());
             }
         });
 
         viewHolder.label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemCheckChanged(v, viewHolder, arrayList.get(i).getId());
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getId(),arrayList.get(i).getDefault_price());
             }
 
 
@@ -92,16 +96,16 @@ public class NewServicesAdaptor extends BaseAdapter {
     }
 
     //On selecting any view set the current position to selectedPositon and notify adapter
-    private void itemCheckChanged(View v, ViewHolder viewHolder, String id) {
+    private void itemCheckChanged(View v, ViewHolder viewHolder, String id,String default_price) {
         selectedPosition = (Integer) v.getTag();
         //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_unselected);
-        fetchcount(id);
+        fetchcount(id,default_price);
 
         notifyDataSetChanged();
     }
 
     private class ViewHolder {
-        private TextView label;
+        private TextView label,tv_price;
         private RadioButton radioButton;
 
     }
@@ -115,7 +119,7 @@ public class NewServicesAdaptor extends BaseAdapter {
         }
     }
 
-    private void fetchcount(String count) {
-        onCallBack.callback(count);
+    private void fetchcount(String seviceId,String price) {
+        onCallBack.callcityList(seviceId,price);
     }
 }

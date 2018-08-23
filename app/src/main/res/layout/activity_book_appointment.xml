@@ -219,15 +219,36 @@
                         android:background="@drawable/bg_textbox_white">
 
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.6"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/dimens_5dp"
-                            android:text="Technician Place"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/text_size_18sp" />
+
+                            <Button
+                                android:id="@+id/button_select_jobs"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimens_40dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@null"
+                                android:drawableRight="@drawable/ic_expand_more_black_24dp"
+                                android:gravity="center_vertical"
+
+                                android:paddingLeft="@dimen/dimens_10dp"
+                                android:paddingRight="@dimen/dimens_5dp"
+                                android:hint="Select Job Location"
+                                android:singleLine="true"
+                                android:textAllCaps="false"
+                                android:foregroundTint="@color/wallet_holo_blue_light"
+                                android:textColorHint="@color/colorBlack"
+                                android:textColor="@color/colorBlack" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.6"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="@dimen/dimens_5dp"
+                                android:text="Technician Place"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_size_18sp" />
+
+
 
                     </LinearLayout>
 

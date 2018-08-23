@@ -10,15 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
-import com.hnweb.ubercuts.utils.RequestInfo;
 import com.hnweb.ubercuts.vendor.bo.MyWorkModel;
 
 import org.json.JSONException;
@@ -107,7 +115,7 @@ public class MyWorkListImagesAdapter extends RecyclerView.Adapter<MyWorkListImag
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
-                                //postImagesDeleteRequest(delete_image_id,dialog);
+                                removeImage(delete_image_id,dialog);
                                 //Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -205,4 +213,67 @@ public class MyWorkListImagesAdapter extends RecyclerView.Adapter<MyWorkListImag
             ivDelete = itemView.findViewById(R.id.imageView_delete_images);
         }
     }
+
+    private void removeImage(final String delete_image_id, final DialogInterface dialog) {
+        loadingDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REMOVE_VENDOR_IMAGE,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "ImagesDelted= " + response);
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                postCallBack();
+                                dialog.cancel();
+                            } else {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(context, error);
+                        AlertUtility.showAlert(context, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("my_work_images_id", delete_image_id);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+    }
+
 }

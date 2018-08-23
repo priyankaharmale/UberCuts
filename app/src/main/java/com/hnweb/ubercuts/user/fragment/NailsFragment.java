@@ -20,6 +20,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,6 +67,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.user.adaptor.BeauticianDetailsAdapter;
+import com.hnweb.ubercuts.user.bo.Country;
 import com.hnweb.ubercuts.user.bo.Details;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
@@ -108,12 +111,12 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
     Button btnPostTask, btnPostTaskList, btnRegularBooking;
     ConnectionDetector connectionDetector;
-    ImageView image_filter;
+    ImageView image_filter, image_filterlist;
     LoadingDialog loadingDialog;
     double latitude = 0.0d;
     double longitude = 0.0d;
     ConnectionDetector conDetector;
-
+    EditText et_addresssearch;
     boolean doubleBackToExitPressedOnce = false;
     private static final int PERMISSION_REQUEST_CODE_LOCATION = 1;
     MenuItem liveitemList, liveitemMap;
@@ -420,9 +423,11 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
         btnPostTask = view.findViewById(R.id.button_post_your_task);
         btnPostTask.setOnClickListener(this);
         image_filter = view.findViewById(R.id.image_filter);
+        image_filterlist = view.findViewById(R.id.image_filterlist);
         btnRegularBooking = view.findViewById(R.id.button_regular_post_your_task);
         btnRegularBooking.setOnClickListener(this);
         image_filter.setOnClickListener(this);
+        image_filterlist.setOnClickListener(this);
 /*
         btnPostTaskList = view.findViewById(R.id.button_post_your_task_list);
         btnPostTaskList.setOnClickListener(this);*/
@@ -436,6 +441,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
         textViewEmpty = view.findViewById(R.id.textViewEmpty);
 
         etSearchPlace = view.findViewById(R.id.address_place);
+        et_addresssearch = view.findViewById(R.id.et_addresssearch);
         etSearchPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -451,6 +457,21 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                 } catch (GooglePlayServicesNotAvailableException e) {
                     // ...
                 }
+            }
+        });
+        et_addresssearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterVendor(et_addresssearch.getText().toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -551,6 +572,9 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
             case R.id.image_filter:
                 filterDialog();
                 break;
+            case R.id.image_filterlist:
+                filterDialog();
+                break;
             default:
                 break;
         }
@@ -644,11 +668,19 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                 } else if (rd_button.equals("5 - 10 Years")) {
                     experience_value = "4";
                 }
-                if (experience_value.equals("") || experience_value == null ) {
+                if (experience_value.equals("") || experience_value == null) {
                     Toast.makeText(getActivity(), "Please Select the Experience", Toast.LENGTH_SHORT).show();
                 } else {
-                    getServices(String.valueOf(maxValues), "experience_value");
+                    if(maxValues==0)
+                    {
+                        getServices("20", experience_value);
 
+                    }else
+                    {
+                        getServices(String.valueOf(maxValues), experience_value);
+
+                    }
+                    dailofFilter.dismiss();
                 }
             }
         });
@@ -723,11 +755,14 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                                     Log.d("ArraySize", String.valueOf(detailsArrayList.size()));
 
                                 }
+                                rvBeauticianList.setVisibility(View.VISIBLE);
+
                                 beauticianDetailsAdapter = new BeauticianDetailsAdapter(getActivity(), detailsArrayList);
                                 rvBeauticianList.setAdapter(beauticianDetailsAdapter);
                                 String str_data = "1";
                                 googleMapView(str_data);
                                 textViewEmpty.setVisibility(View.GONE);
+                                rvBeauticianList.setVisibility(View.VISIBLE);
                             } else {
                                 Utils.AlertDialog(getActivity(), msg);
                                 textViewEmpty.setVisibility(View.VISIBLE);
@@ -778,4 +813,22 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
 
     }
 
+    private void filterVendor(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<Details> filterdNames = new ArrayList<>();
+
+        //looping through existing elements
+        for (Details s : detailsArrayList) {
+            //if the existing elements contains the search input
+            if (s.getUName().toLowerCase().contains(text.toLowerCase()) || s.getUCountry().toLowerCase().contains(text.toLowerCase()) ||
+                    s.getUCity().toLowerCase().contains(text.toLowerCase()) || s.getUState().toLowerCase().contains(text.toLowerCase()) ||
+                    s.getUZipcode().toLowerCase().contains(text.toLowerCase()) || s.getUStreet().toLowerCase().contains(text.toLowerCase()) || s.getUBusinessName().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filterdNames.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        beauticianDetailsAdapter.filterList(filterdNames);
+    }
 }

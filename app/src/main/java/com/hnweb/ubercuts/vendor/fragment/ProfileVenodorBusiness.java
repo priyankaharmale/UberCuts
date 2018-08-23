@@ -1,18 +1,15 @@
 package com.hnweb.ubercuts.vendor.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,13 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -41,7 +34,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
@@ -54,12 +46,9 @@ import com.hnweb.ubercuts.user.bo.State;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
-import com.hnweb.ubercuts.utils.DataUtility;
 import com.hnweb.ubercuts.utils.LoadingDialog;
-import com.hnweb.ubercuts.utils.RequestInfo;
 import com.hnweb.ubercuts.utils.Utils;
-import com.hnweb.ubercuts.vendor.activity.ProfileEditSaveVendorFragment;
-import com.hnweb.ubercuts.vendor.activity.VendorRegistrationActivityStepTwo;
+import com.hnweb.ubercuts.vendor.activity.ProfileEditSaveVendorActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +56,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -121,7 +109,7 @@ public class ProfileVenodorBusiness extends Fragment  implements OnCallBack{
 
         initViewById(view);
 
-        tvExperiences = ((ProfileEditSaveVendorFragment) getActivity()).textViewExperience;
+        tvExperiences = ((ProfileEditSaveVendorActivity) getActivity()).textViewExperience;
 
         return view;
     }
@@ -424,7 +412,7 @@ public class ProfileVenodorBusiness extends Fragment  implements OnCallBack{
 
     }
     public void dialogContry() {
-        Dialog dialog = new Dialog(getActivity());
+       final Dialog dialog = new Dialog(getActivity());
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.dialogbox_list);
@@ -459,11 +447,19 @@ public class ProfileVenodorBusiness extends Fragment  implements OnCallBack{
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
     public void dialogState() {
-        Dialog dialog = new Dialog(getActivity());
+      final   Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -492,11 +488,19 @@ public class ProfileVenodorBusiness extends Fragment  implements OnCallBack{
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
     public void dialogCity() {
-        Dialog dialog = new Dialog(getActivity());
+       final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -525,7 +529,14 @@ public class ProfileVenodorBusiness extends Fragment  implements OnCallBack{
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
 
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 

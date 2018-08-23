@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    android:layout_marginTop="@dimen/dimens_10dp"
     android:background="@drawable/slider_one1"
     android:orientation="vertical">
 
@@ -17,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:layout_margin="@dimen/dimens_10dp"
         android:src="@drawable/fav_selected" />
 

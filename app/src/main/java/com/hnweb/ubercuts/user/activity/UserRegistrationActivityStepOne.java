@@ -106,7 +106,15 @@ public class UserRegistrationActivityStepOne extends AppCompatActivity {
                     if (Utils.isNetworkAvailable(UserRegistrationActivityStepOne.this)) {
                         String email = et_email.getText().toString();
 
-                        emailexists(email);
+                        if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
+                            Toast.makeText(UserRegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else
+                        {
+                            emailexists(email);
+
+                        }
                     } else {
                         Utils.myToast1(UserRegistrationActivityStepOne.this);
                     }
@@ -349,10 +357,7 @@ public class UserRegistrationActivityStepOne extends AppCompatActivity {
                                                 String email = et_email.getText().toString();
                                                 String phoneNo = et_mobile.getText().toString();
                                                 String name = et_fullname.getText().toString();
-                                                if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
-                                                    Toast.makeText(UserRegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
-                                                    return;
-                                                }
+
                                                 if (!camImage.equals("")) {
                                                     SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, camImage, "");
 

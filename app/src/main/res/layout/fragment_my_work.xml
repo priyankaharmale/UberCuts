@@ -117,8 +117,8 @@
                         android:text="No Images Found"
                         android:visibility="gone"
                         android:textStyle="bold"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/text_size_18sp"/>
+                        android:textColor="@color/yellow"
+                    />
 
                 </LinearLayout>
 
@@ -247,9 +247,8 @@
                         android:paddingLeft="@dimen/dimens_10dp"
                         android:text="No Videos Found"
                         android:visibility="gone"
-                        android:textColor="@color/colorBlack"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_18sp"/>
+                        android:textColor="@color/yellow"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

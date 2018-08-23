@@ -41,7 +41,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dimens_75dp"
             android:layout_marginTop="@dimen/dimens_20dp"
-            android:src="@drawable/edit_navigation" />
+            android:src="@drawable/edit_navigation"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:visibility="gone"
+            android:textColor="@color/yellow"
             android:layout_margin="@dimen/dimens_10dp"
             android:text="No Reviews" />
 

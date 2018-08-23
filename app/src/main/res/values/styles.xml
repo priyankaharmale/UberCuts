@@ -32,4 +32,11 @@
     <style name="DatePickerDialogTheme" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/yellow</item>
+    </style>
+    <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

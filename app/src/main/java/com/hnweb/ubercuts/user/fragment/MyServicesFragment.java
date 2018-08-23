@@ -1,6 +1,7 @@
 package com.hnweb.ubercuts.user.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
+import com.hnweb.ubercuts.user.activity.BeauticianDetailsActivity;
+import com.hnweb.ubercuts.user.activity.RegularBookNowYourTask;
 import com.hnweb.ubercuts.user.adaptor.NewServicesAdaptor;
 import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.utils.AlertUtility;
@@ -53,8 +57,10 @@ public class MyServicesFragment extends Fragment implements OnCallBack {
     ArrayList<Services> serivcesList;
     OnCallBack onCallBack;
     String serviceId;
+    String seviceprice="";
     NewServicesAdaptor newServicesAdaptor;
 
+    Button btnBookNow;
 
     @Nullable
     @Override
@@ -64,9 +70,31 @@ public class MyServicesFragment extends Fragment implements OnCallBack {
 
         onCallBack = this;
         beautician_id = getArguments().getString("BeauticianIds");
+        btnBookNow = ((BeauticianDetailsActivity) getActivity()).btn_booknow;
 
         initViewById(view);
+        btnBookNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (seviceprice.equals("")) {
+                    Toast.makeText(getActivity(), "Please select at least one service", Toast.LENGTH_SHORT).show();
+                } else {
+                    //((BeauticianDetailsActivity)getActivity()).finish();
+                  /*  Fragment fragment = new PostYourTaskFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("BookingPayment",selected_price);
+                    fragment.setArguments(bundle);
+                    changeFragment(fragment);*/
+                    Intent intent = new Intent(getActivity(), RegularBookNowYourTask.class);
+                    intent.putExtra("SelectedPrice", seviceprice);
+                    intent.putExtra("VendorIds", beautician_id);
+                    intent.putExtra("SelectedSubCate",serviceId);
+                    startActivity(intent);
+                    //Toast.makeText(getActivity(), "Selected :: "+selected_price, Toast.LENGTH_SHORT).show();
+                }
 
+            }
+        });
         return view;
     }
 
@@ -83,6 +111,7 @@ public class MyServicesFragment extends Fragment implements OnCallBack {
 
             Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
@@ -190,9 +219,8 @@ public class MyServicesFragment extends Fragment implements OnCallBack {
 
     @Override
     public void callback(String count) {
-        serviceId = count;
-    }
 
+    }
 
 
     @Override
@@ -212,11 +240,15 @@ public class MyServicesFragment extends Fragment implements OnCallBack {
 
     @Override
     public void callcityList(String id, String name) {
-
+        serviceId = id;
+        seviceprice = name;
     }
 
     @Override
     public void callrefresh() {
 
     }
+
+
+
 }

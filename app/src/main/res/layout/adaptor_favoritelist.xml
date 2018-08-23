@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimens_5dp"
+    android:background="@drawable/bg_my_tasks"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:id="@+id/iv_userimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:visibility="visible">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/dimens_80dp"
+            android:layout_height="@dimen/dimens_80dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/judy_ward_beautician_details" />
+
+
+        <ImageView
+            android:id="@+id/imageView_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_20dp"
+            android:layout_alignBottom="@+id/profile_image"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dimens_80dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="@dimen/dimens_20dp"
+
+            android:src="@drawable/fav_unselected"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_vendroName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_50dp"
+        android:layout_toRightOf="@+id/iv_userimage"
+        android:text="Judy Ward"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_16dp" />
+
+
+    <LinearLayout
+        android:id="@+id/et_experience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_vendroName"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="@dimen/dimens_5dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experience: "
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/tv_experience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 Years"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/rtb_reviews_rating"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_userimage"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dimens_20dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:rating="3.5"
+        android:stepSize="0.01"
+        android:theme="@style/RatingBar" />
+
+</RelativeLayout>

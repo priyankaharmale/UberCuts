@@ -34,6 +34,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.multipartrequest.MultiPart_Key_Value_Model;
+import com.hnweb.ubercuts.multipartrequest.MultipartFileUploaderAsync;
+import com.hnweb.ubercuts.multipartrequest.OnEventListener;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
@@ -69,12 +72,12 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
     ArrayList<State> stateArrayList = new ArrayList<>();
     ;
     ArrayList<City> cityArrayList = new ArrayList<>();
-    ;
+    String profilepic, fullname, emailId, mobileNo, password;
+
     CountryListAdaptor countryListAdaptor;
     StateListAdaptor stateListAdaptor;
     CityListAdaptor cityListAdaptor;
     ImageView iv_profilepic;
-    String profilepic;
     Button btn_signIn;
     Drawable drawable;
 
@@ -82,6 +85,8 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registersteptwo);
+        getSavedData();
+
         btn_proceed = (Button) findViewById(R.id.btn_proceed);
         et_country = (EditText) findViewById(R.id.et_country);
         et_state = (EditText) findViewById(R.id.et_state);
@@ -105,10 +110,11 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
                         String city = et_city.getText().toString();
                         String street = et_steet.getText().toString();
                         String zipcode = et_zip.getText().toString();
-                        Intent intent = new Intent(UserRegistrationActivityStepTwo.this, UserRegistrationActivityStepThree.class);
+                        /*Intent intent = new Intent(UserRegistrationActivityStepTwo.this, UserRegistrationActivityStepThree.class);
                         startActivity(intent);
                         SharedPreference.addressSave(getApplicationContext(), country, state, city, street, zipcode);
-
+*/
+                        register(country, state, city, street, zipcode);
                     } else {
                         Utils.myToast1(UserRegistrationActivityStepTwo.this);
                     }
@@ -133,7 +139,7 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
 
             }
         });
-         et_state.setOnClickListener(new View.OnClickListener() {
+        et_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (countryArrayList.size() == 0) {
@@ -183,7 +189,7 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
     }
 
     public void dialogContry() {
-        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        final Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.dialogbox_list);
@@ -218,11 +224,19 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
     public void dialogState() {
-        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        final Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
         dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(UserRegistrationActivityStepTwo.this);
@@ -234,6 +248,7 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
             textView_header.setText("Select State");
         }
         dialog.setCancelable(true);
+
         stateListAdaptor = new StateListAdaptor(stateArrayList, UserRegistrationActivityStepTwo.this, onCallBack, dialog);
         recyclerView.setAdapter(stateListAdaptor);
         searchView.addTextChangedListener(new TextWatcher() {
@@ -251,11 +266,19 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
     public void dialogCity() {
-        Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
+        final Dialog dialog = new Dialog(UserRegistrationActivityStepTwo.this);
         dialog.setContentView(R.layout.dialogbox_list);
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.lv);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(UserRegistrationActivityStepTwo.this);
@@ -284,7 +307,14 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
             public void afterTextChanged(Editable s) {
             }
         });
+        Button button_cancel = (Button) dialog.findViewById(R.id.button_cancel);
 
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
@@ -649,5 +679,99 @@ public class UserRegistrationActivityStepTwo extends AppCompatActivity implement
 
         //calling a method of the adapter class and passing the filtered list
         cityListAdaptor.filterList(filterdNames);
+    }
+
+
+    public void register(String country, String state, String city, String street, String zipcode) {
+        loadingDialog.show();
+
+        MultiPart_Key_Value_Model OneObject = new MultiPart_Key_Value_Model();
+        Map<String, String> fileParams = new HashMap<>();
+        if (profilepic.equals("")) {
+            //  fileParams.put("profile_pic", "");
+        } else {
+            fileParams.put(AppConstant.KEY_IMAGE, profilepic);
+        }
+
+        Map<String, String> stringparam = new HashMap<>();
+
+        stringparam.put(AppConstant.KEY_NAME, fullname);
+        stringparam.put(AppConstant.KEY_EMAIL, emailId);
+        stringparam.put(AppConstant.KEY_PHONE, mobileNo);
+        stringparam.put(AppConstant.KEY_PASSWORD, password);
+        stringparam.put(AppConstant.KEY_COUNTRY, country);
+        stringparam.put(AppConstant.KEY_STATE, state);
+        stringparam.put(AppConstant.KEY_CITY, city);
+        stringparam.put(AppConstant.KEY_STREET, street);
+        stringparam.put(AppConstant.KEY_ZIPCODE, zipcode);
+
+
+        OneObject.setUrl(AppConstant.API_REGISTER_USER);
+        OneObject.setFileparams(fileParams);
+        System.out.println("file" + fileParams);
+        System.out.println("UTL" + OneObject.toString());
+        OneObject.setStringparams(stringparam);
+        System.out.println("string" + stringparam);
+
+        MultipartFileUploaderAsync someTask = new MultipartFileUploaderAsync(UserRegistrationActivityStepTwo.this, OneObject, new OnEventListener<String>() {
+            @Override
+            public void onSuccess(String object) {
+                loadingDialog.dismiss();
+                System.out.println("Result" + object);
+                try {
+                    JSONObject jsonObject1response = new JSONObject(object);
+                    int flag = jsonObject1response.getInt("message_code");
+                    if (flag == 1) {
+                        String message = jsonObject1response.getString("message");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepTwo.this);
+                        builder.setMessage(message);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                Intent intent = new Intent(UserRegistrationActivityStepTwo.this, UserLoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        android.support.v7.app.AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    } else {
+                        String message = jsonObject1response.getString("message");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegistrationActivityStepTwo.this);
+                        builder.setMessage(message);
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        android.support.v7.app.AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    System.out.println("JSONException" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                System.out.println("onFailure" + e);
+            }
+        });
+        someTask.execute();
+        return;
+    }
+
+    private void getSavedData() {
+        SharedPreferences settings = getSharedPreferences("AOP_PREFS", Context.MODE_PRIVATE);
+        profilepic = settings.getString(AppConstant.KEY_IMAGE, null);
+        fullname = settings.getString(AppConstant.KEY_NAME, null);
+        emailId = settings.getString(AppConstant.KEY_EMAIL, null);
+        mobileNo = settings.getString(AppConstant.KEY_PHONE, null);
+        password = settings.getString(AppConstant.KEY_PASSWORD, null);
     }
 }

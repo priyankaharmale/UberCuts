@@ -197,6 +197,7 @@
             android:layout_marginTop="@dimen/dimens_20dp"
             android:background="@drawable/bg_button_red"
             android:text="@string/str_proceed"
+            android:layout_marginBottom="@dimen/dimens_60dp"
             android:textColor="@color/colorWhite" />
 
     </LinearLayout>

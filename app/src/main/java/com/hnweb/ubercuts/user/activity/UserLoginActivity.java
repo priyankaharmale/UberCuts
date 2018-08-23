@@ -30,6 +30,7 @@ import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.Utils;
 import com.hnweb.ubercuts.utils.Validations;
+import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -223,17 +224,25 @@ public class UserLoginActivity extends AppCompatActivity {
                                                         editorUser.putString(AppConstant.KEY_ISCREDIT, user_is_card);
                                                         editorUser.commit();
 
-                                                        Intent intent = new Intent(UserLoginActivity.this, MainActivity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                        finish();
-                                                        startActivity(intent);
+                                                        if (user_type.equals("User")) {
+                                                            Intent intent = new Intent(UserLoginActivity.this, HomeActivity.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            finish();
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Intent intent = new Intent(UserLoginActivity.this, MainActivityVendor.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            finish();
+                                                            startActivity(intent);
+                                                        }
                                                     }
+
                                                 } catch (JSONException e) {
                                                     System.out.println("jsonexeption" + e.toString());
                                                 }
-                                                Intent intent = new Intent(UserLoginActivity.this, HomeActivity.class);
+                                               /* Intent intent = new Intent(UserLoginActivity.this, HomeActivity.class);
                                                 startActivity(intent);
-                                                finish();
+                                                finish();*/
                                                 dialog.dismiss();
                                             }
                                         });

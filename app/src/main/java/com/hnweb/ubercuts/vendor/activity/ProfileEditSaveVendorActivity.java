@@ -3,7 +3,6 @@ package com.hnweb.ubercuts.vendor.activity;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,18 +42,17 @@ import com.bumptech.glide.Glide;
 
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
-import com.hnweb.ubercuts.user.activity.BeauticianDetailsActivity;
-import com.hnweb.ubercuts.user.bo.BeauticianDetailsModel;
+import com.hnweb.ubercuts.helper.VolleyMultipartRequest;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.Utils;
+import com.hnweb.ubercuts.vendor.bo.ProfileUpdateModel;
 import com.hnweb.ubercuts.vendor.fragment.ProfileVendorAbout;
 import com.hnweb.ubercuts.vendor.fragment.ProfileVendorMyWork;
 import com.hnweb.ubercuts.vendor.fragment.ProfileVenodorBusiness;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +64,7 @@ import java.util.Map;
 
 ;
 
-public class ProfileEditSaveVendorFragment extends AppCompatActivity implements View.OnClickListener {
+public class ProfileEditSaveVendorActivity extends AppCompatActivity implements View.OnClickListener {
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -72,7 +72,6 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
     LoadingDialog loadingDialog;
     private SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    String vendor_id;
     public TextView textViewVendorName, textViewExperience;
     ImageView ivProfileImage, ivSaveProfileImage, ivTakePhoto;
     private String image_path_selected = "";
@@ -99,8 +98,8 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
 
         setupViewPager(viewPager);
 
-        connectionDetector = new ConnectionDetector(ProfileEditSaveVendorFragment.this);
-        loadingDialog = new LoadingDialog(ProfileEditSaveVendorFragment.this);
+        connectionDetector = new ConnectionDetector(ProfileEditSaveVendorActivity.this);
+        loadingDialog = new LoadingDialog(ProfileEditSaveVendorActivity.this);
 
 
         textViewVendorName = findViewById(R.id.textView_vendor_name);
@@ -116,7 +115,7 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
         if (connectionDetector.isConnectingToInternet()) {
             getVendorDetails();
         } else {
-            Toast.makeText(ProfileEditSaveVendorFragment.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileEditSaveVendorActivity.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -140,7 +139,12 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
                 break;
 
             case R.id.imageView_save:
+                if (connectionDetector.isConnectingToInternet()) {
+                    uploadImageToServer();
+                } else {
 
+                    Toast.makeText(this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 
@@ -150,7 +154,7 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
 
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileEditSaveVendorFragment.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileEditSaveVendorActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -307,13 +311,16 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
                                     Glide.with(getApplicationContext()).load(R.drawable.user_register).into(ivProfileImage);
                                     //Glide.with(getApplicationContext()).load(R.drawable.user_register).into(((MainActivityVendor) getApplicationContext()).imageViewProfile);
                                 } else {
+                                      editor.putString(AppConstant.KEY_IMAGE, user_image);
+                                    editor.apply();
+                                      editor.commit();
                                     Glide.with(getApplicationContext()).load(user_image).into(ivProfileImage);
                                     //Glide.with(getApplicationContext()).load(user_image).into(((MainActivityVendor) getApplicationContext()).imageViewProfile);
 
 
                                 }
                             } else {
-                                Utils.AlertDialog(ProfileEditSaveVendorFragment.this, msg);
+                                Utils.AlertDialog(ProfileEditSaveVendorActivity.this, msg);
                                 //displayAlertDialog(msg);
                             }
                         } catch (JSONException e) {
@@ -325,8 +332,8 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(ProfileEditSaveVendorFragment.this, error);
-                        AlertUtility.showAlert(ProfileEditSaveVendorFragment.this, reason);
+                        String reason = AppUtils.getVolleyError(ProfileEditSaveVendorActivity.this, error);
+                        AlertUtility.showAlert(ProfileEditSaveVendorActivity.this, reason);
                         System.out.println("jsonexeption" + error.toString());
                     }
                 }) {
@@ -346,10 +353,93 @@ public class ProfileEditSaveVendorFragment extends AppCompatActivity implements 
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(ProfileEditSaveVendorFragment.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(ProfileEditSaveVendorActivity.this);
         requestQueue.add(stringRequest);
 
     }
 
+    private void uploadImageToServer() {
+
+        loadingDialog.show();
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, AppConstant.API_SAVEPROFILE_VENDOR,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        if (loadingDialog.isShowing()){
+                            loadingDialog.dismiss();
+                        }
+
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            int message_code = obj.getInt("message_code");
+                            String message = obj.getString("message");
+                            if (message_code == 1) {
+                                //String image_profile = obj.getString("u_img");
+                             //   editor.putString("UserImage", image_profile);
+                              //  editor.apply();
+                             //   editor.commit();
+                                Log.e("ErrorMessage", message);
+                            //    Glide.with(ProfileEditSaveVendorActivity.this).load(image_profile).into(ivProfileImage);
+                                //ImageView imageView = ((MainActivityVendor)getApplicationContext()).imageViewProfile;
+                                //Glide.with(ProfileEditSaveVendorFragment.this).load(image_profile).into(imageView);
+                                ivSaveProfileImage.setVisibility(View.GONE);
+                                image_path_selected = "";
+                                ProfileUpdateModel.getInstance().changeState(true);
+                                getVendorDetails();
+
+                            } else {
+                                Utils.AlertDialog(ProfileEditSaveVendorActivity.this, message);
+                                Log.d("ErrorMessage", message);
+                                //Toast.makeText(RegisterVenDorActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (loadingDialog.isShowing()){
+                            loadingDialog.dismiss();
+                        }
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+      /*       * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("u_id",user_id);
+                Log.e("ParamsImage",params.toString());
+                return params;
+            }
+/*
+
+             * Here we are passing image by renaming it with a unique name
+             *
+*/
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("u_img", new DataPart(imagename + ".png", getFileDataFromDrawable(thumbnail)));
+                Log.d("ParamsImage",params.toString());
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
 
 }

@@ -64,27 +64,31 @@ public class AppConstant {
     public static final String API_GET_VENDORLISTNEARBY = BASE_URL + "get_service_provider_near_by_me.php";
     /*=================================================Get Vendor  Details=========================================================*/
     public static final String API_GET_VENDORDETAILS = BASE_URL + "get_beautician_details.php";
-
     /*=================================================Get Vendor  SErvices=========================================================*/
     public static final String API_GET_VENDORSERVICES = BASE_URL + "get_beautician_services.php";
-
     /*=================================================Get Vendor  SErvices=========================================================*/
     public static final String API_GET_VENDORREVIEWS = BASE_URL + "get_beautician_reviews.php";
-
     /*=================================================Add Vendor  Fav=========================================================*/
     public static final String API_ADD_VENDORFAV = BASE_URL + "add_favorite_vendor.php";
-
     /*=================================================Remove Vendor  Fav=========================================================*/
     public static final String API_REMOVE_VENDORFAV = BASE_URL + "remove_favorite_vendor.php";
+    /*=================================================Listing of Vendor  Fav=========================================================*/
+    public static final String API_GETALL_VENDORFAV = BASE_URL + "my_favorite_vendor_listing.php";
+    /*=================================================Get Vendor Work =========================================================*/
+    public static final String API_GET_VENDORWORK = BASE_URL + "get_vendor_work.php";
+    /*=================================================Get Today's  Offer =========================================================*/
+    public static final String API_GET_TODAYSOFFER = BASE_URL + "todays_offers.php";
+    /*=================================================Get Today's  Offer =========================================================*/
+    public static final String API_GET_CREDITCARDDETAILS = BASE_URL + "get_saved_card_details.php";
+    /*=================================================Reguslar booking =========================================================*/
+    public static final String API_REGULAR_BOOKING = BASE_URL + "regular_booking.php";
 
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/
     public static final String API_REGISTER_VENDOR = BASE_URL + "register_vendor.php";
-
     /*=================================================MY Services and Offers Vendor=========================================================*/
     public static final String API_VENDOR_OFFERS = BASE_URL + "my_service_list.php";
-
     /*=================================================ADD Services Vendor=========================================================*/
     public static final String API_VENDOR_ADDSERVICES = BASE_URL + "post_my_service.php";
     /*=================================================Update Services Vendor=========================================================*/
@@ -101,11 +105,19 @@ public class AppConstant {
     public static final String API_SAVE_ABOUTME_VENDOR = BASE_URL + "vendor_update_profile.php";
     /*=================================================Save Vendor Business Data=========================================================*/
     public static final String API_SAVE_BUSINESS_VENDOR = BASE_URL + "vendor_update_business_prof.php";
-
     /*=================================================Save Vendor Work Images=========================================================*/
     public static final String API_SAVE_VENDOR_IMAGES = BASE_URL + "add_my_work_images.php";
     /*=================================================Save Vendor Work Video=========================================================*/
     public static final String API_SAVE_VENDOR_VIDEO = BASE_URL + "add_my_work_video.php";
+    /*=================================================Remove Image Vendor Work =========================================================*/
+    public static final String API_REMOVE_VENDOR_IMAGE = BASE_URL + "delete_my_work_images.php";
+    /*=================================================Remove Video Vendor Work =========================================================*/
+    public static final String API_REMOVE_VENDOR_VIDEO = BASE_URL + "delete_my_work_video.php";
+    /*=================================================SAve Profile Image of  Vendor  =========================================================*/
+    public static final String API_SAVEPROFILE_VENDOR = BASE_URL + "change_profile_picture.php";
+    /*=================================================SAve Profile Image of  Vendor  =========================================================*/
+    public static final String API_DELETESERVICE_VENDOR = BASE_URL + "delete_my_service.php";
+
 
     public static String dateToString(Date date, String format) {
         SimpleDateFormat df = new SimpleDateFormat(format);

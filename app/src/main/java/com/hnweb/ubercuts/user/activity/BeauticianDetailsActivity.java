@@ -50,6 +50,7 @@ import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.user.fragment.AboutMeFragment;
 import com.hnweb.ubercuts.user.fragment.MyReviewsFragment;
 import com.hnweb.ubercuts.user.fragment.MyServicesFragment;
+import com.hnweb.ubercuts.user.fragment.VendorMyWorkFragment;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
@@ -88,7 +89,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
     RatingBar ratingBarReviwes;
     String str_Fav;
     String isFavClick = "1";
-    Button btn_booknow;
+  public   Button btn_booknow;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     TextView tv_date , tv_time;
@@ -221,13 +222,23 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                                     iv_fav.setImageResource(R.drawable.fav_unselected);
                                     isFavClick = "1";
                                 }
-                                ratingBarReviwes.setRating(Float.parseFloat(jsonObject.getString("rating")));
 
+                                if(jsonObject.getString("rating").equals("null"))
+                                {
+
+                                    ratingBarReviwes.setRating(0);
+                                }else
+                                {
+
+                                    ratingBarReviwes.setRating(Float.parseFloat(jsonObject.getString("rating")));
+
+                                }
                                 beauticianDeatilsModels.add(beauticianDetailsModel);
 
                                 String beautician_image = jsonObject.getString("u_img");
 
                                 if (beautician_image.equals("")) {
+
                                     Glide.with(BeauticianDetailsActivity.this).load(R.drawable.user_register).into(imageViewBeautician);
                                 } else {
                                     Glide.with(BeauticianDetailsActivity.this).load(beautician_image).into(imageViewBeautician);
@@ -345,7 +356,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
                     fragment.setArguments(bundleReviews);
                     break;
                 case 3:
-                    fragment = new AboutMeFragment();
+                    fragment = new VendorMyWorkFragment();
                     Bundle bundl1e = new Bundle();
                     bundl1e.putString("BeauticianIds", user_details_task_ids);
                     fragment.setArguments(bundl1e);

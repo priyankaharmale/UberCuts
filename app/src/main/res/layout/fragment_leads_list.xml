@@ -1,95 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LinearLayoutList"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splash"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/LinearLayoutList"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/splash"
+              android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/splash">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/splash"
+            android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/leads"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimens_45dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            android:weightSum="1">
+                android:id="@+id/leads"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-
-                android:layout_weight="0.8">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dimens_10dp"
-                    android:text="Total :"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_20" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text="Total :"
+                        android:textColor="@color/wallet_holo_blue_light"
+                        android:textSize="@dimen/text_20"/>
 
                 <TextView
-                    android:id="@+id/textView_list_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dimens_10dp"
-                    android:paddingRight="@dimen/dimens_10dp"
-                    android:text=""
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_20" />
+                        android:id="@+id/textView_list_count_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:paddingRight="@dimen/dimens_10dp"
+                        android:text=""
+                        android:textColor="@color/wallet_holo_blue_light"
+                        android:textSize="@dimen/text_20"/>
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView_filter"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dimens_10dp"
-                android:layout_weight="0.1"
-                android:paddingBottom="@dimen/dimens_10dp"
-                android:paddingTop="@dimen/dimens_10dp"
-                app:srcCompat="@drawable/filter" />
+                    android:id="@+id/imageView_filter_list"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dimens_10dp"
+                    android:layout_weight="0.1"
+                    android:paddingBottom="@dimen/dimens_10dp"
+                    android:paddingTop="@dimen/dimens_10dp"
+                    app:srcCompat="@drawable/filter"/>
 
             <ImageView
-                android:id="@+id/imageView_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dimens_10dp"
-                android:layout_weight="0.1"
-                android:paddingBottom="@dimen/dimens_10dp"
-                android:paddingTop="@dimen/dimens_10dp"
-                app:srcCompat="@drawable/search_blue" />
+                    android:id="@+id/imageView_search_list"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dimens_10dp"
+                    android:layout_weight="0.1"
+                    android:paddingBottom="@dimen/dimens_10dp"
+                    android:paddingTop="@dimen/dimens_10dp"
+                    app:srcCompat="@drawable/search_blue"/>
         </LinearLayout>
 
+        <android.support.v7.widget.SearchView
+                android:id="@+id/searchView_leads"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search"
+                app:iconifiedByDefault="false"
+                android:visibility="gone"
+                android:background="@color/colorWhite"
+                app:queryHint="Search"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/leads"
-            android:layout_marginTop="@dimen/dimens_10dp"
-            android:orientation="vertical"
-            android:gravity="center">
 
-            <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
                 android:id="@+id/recylerview_beatician_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dimens_5dp"
-                android:layout_marginLeft="@dimen/dimens_10dp"
-                android:layout_marginRight="@dimen/dimens_10dp"
+                android:layout_margin="@dimen/dimens_10dp"
                 android:visibility="visible"/>
 
-            <TextView
+        <TextView
                 android:id="@+id/textViewEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -100,10 +100,9 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_18sp"
                 android:visibility="gone"
-                android:text="No Data Found Near By Your Location" />
+                android:text="No Data Found Near By Your Location"/>
 
-        </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

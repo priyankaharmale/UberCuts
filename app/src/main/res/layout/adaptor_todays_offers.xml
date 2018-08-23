@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimens_5dp"
+    android:background="@drawable/bg_my_tasks"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_offer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_5dp"
+        android:background="@drawable/bg_offer"
+        android:paddingLeft="@dimen/dimens_10dp"
+        android:text="0 %"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/tv_serviceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_5dp"
+        android:text="Manicure"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_18dp" />
+
+    <ImageView
+        android:id="@+id/iv_vendorimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_offer"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:visibility="gone"
+        android:src="@drawable/judy_ward_beautician_details" />
+
+    <TextView
+        android:id="@+id/tv_vendroName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_50dp"
+        android:layout_toRightOf="@+id/iv_vendorimage"
+        android:text="Judy Ward"
+
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_18dp" />
+
+    <TextView
+        android:id="@+id/tv_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_vendroName"
+        android:layout_marginRight="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_5dp"
+        android:text="$ 50"
+        android:layout_marginBottom="@dimen/text_20"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_toRightOf="@+id/iv_vendorimage"
+
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/text_size_18dp" />
+
+
+</RelativeLayout>

@@ -27,7 +27,10 @@ import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.MainActivity;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.user.fragment.FavouritesFragment;
 import com.hnweb.ubercuts.user.fragment.HomeFragment;
+import com.hnweb.ubercuts.user.fragment.MyTaskFragment;
+import com.hnweb.ubercuts.user.fragment.TodaysOfferFragment;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -263,6 +266,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             fragment = new HomeFragment();
         } else if (id == R.id.nav_logout) {
             showLogoutAlert();
+        }else if (id == R.id.nav_favourites) {
+            fragment = new FavouritesFragment();
+            //toolbar.setTitle("FAVOURITES");
+        }else if (id == R.id.nav_my_tasks) {
+            fragment = new MyTaskFragment();
+        }else if (id == R.id.nav_todays_offer) {
+            fragment = new TodaysOfferFragment();
         }
         /*else if (id == R.id.nav_my_tasks) {
             fragment = new MyTaskFragment();

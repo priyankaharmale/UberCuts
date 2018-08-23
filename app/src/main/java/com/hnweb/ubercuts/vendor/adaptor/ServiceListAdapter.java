@@ -41,6 +41,7 @@ import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
+import com.hnweb.ubercuts.utils.Utils;
 import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
 import com.hnweb.ubercuts.vendor.bo.ServiceListModel;
 
@@ -74,7 +75,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_service_name, tv_default_price, tv_todays_offer;
-        ImageView iv_edit;
+        ImageView iv_edit,iv_delete;
 
         public MyViewHolder(View view) {
             super(view);
@@ -82,6 +83,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
             tv_default_price = view.findViewById(R.id.tv_default);
             tv_todays_offer = view.findViewById(R.id.tv_offer);
             iv_edit = view.findViewById(R.id.iv_edit);
+            iv_delete=view.findViewById(R.id.iv_delete);
 
 
         }
@@ -123,6 +125,14 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
                 updateAlertDailog(serviceListModel.getService_service_id(), serviceListModel.getService_default_price(), serviceListModel.getService_todays_offer(), serviceListModel.getService_sub_category_name(), serviceListModel.getService_sub_category_id());
             }
         });
+    holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String service_id = serviceListModel.getService_service_id();
+
+            deleteAlertDailog(service_id);
+        }
+    });
     }
 
     @Override
@@ -203,107 +213,7 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
         dialog.show();
     }
 
-/*
-    private void getServices() {
-        loadingDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_SERVICELIST_VENDOR,
-                new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("res_register" + response);
-                        try {
-                            final JSONObject j = new JSONObject(response);
-                            int message_code = j.getInt("message_code");
-                            String message = j.getString("message");
-
-                            if (loadingDialog.isShowing()) {
-                                loadingDialog.dismiss();
-                            }
-                            catgoryModels = new ArrayList<Services>();
-                            if (message_code == 1) {
-
-                                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
-                                builder.setMessage(message)
-                                        .setCancelable(false)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-
-                                                try {
-                                                    JSONArray jsonArray = j.getJSONArray("details");
-
-                                                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                                                        Services catgoryModel = new Services();
-                                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                                        String serviceId = jsonObject.getString("sub_category_id");
-                                                        String serviceName = jsonObject.getString("sub_category_name");
-                                                        catgoryModel.setId(serviceId);
-                                                        catgoryModel.setServicesName(serviceName);
-
-                                                        catgoryModels.add(catgoryModel);
-
-                                                    }
-
-                                                } catch (JSONException e) {
-                                                    System.out.println("jsonexeption" + e.toString());
-                                                }
-
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                android.support.v7.app.AlertDialog alert = builder.create();
-                                alert.show();
-                            } else {
-                                message = j.getString("message");
-                                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
-                                builder.setMessage(message)
-                                        .setCancelable(false)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                            }
-                                        });
-                                android.support.v7.app.AlertDialog alert = builder.create();
-                                alert.show();
-                            }
-                        } catch (JSONException e) {
-                            System.out.println("jsonexeption" + e.toString());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(context, error);
-                        AlertUtility.showAlert(context, reason);
-                        System.out.println("jsonexeption" + error.toString());
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                try {
-                    params.put(AppConstant.KEY_CATEGORY_ID, "1");
-                    params.put(AppConstant.KEY_VENDOR_ID, user_id);
-
-                } catch (Exception e) {
-                    System.out.println("error" + e.toString());
-                }
-                return params;
-            }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
-
-    }
-*/
 
     private void updateervices(final String selected_ids, final String default_price, final String todays_offer, final EditText price, final EditText todays_offers, final Dialog dialog, final String service_id, final String service_sub_category_id) {
         loadingDialog.show();
@@ -393,8 +303,90 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
     }
 
+
+
+    private void deleteAlertDailog(final String service_id) {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage("Are You Sure Delete Service?");
+        builder1.setTitle("Delete Service");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                postDeleteService(dialog, service_id);
+            }
+        });
+
+        builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    private void postDeleteService(final DialogInterface dialog , final  String service_id) {
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_DELETESERVICE_VENDOR,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "DeleteService: " + response);
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                                refreshList();
+                            } else {
+                                Utils.AlertDialog((FragmentActivity) context, msg);
+                                dialog.cancel();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(context, error);
+                        AlertUtility.showAlert(context, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("service_id", service_id);
+                    } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params; }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
     private void refreshList() {
         onCallBack.callrefresh();
-
-    }
+        }
 }

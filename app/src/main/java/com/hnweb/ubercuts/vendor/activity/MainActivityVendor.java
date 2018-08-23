@@ -1,6 +1,5 @@
 package com.hnweb.ubercuts.vendor.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,16 +29,10 @@ import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.MainActivity;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
-import com.hnweb.ubercuts.user.activity.HomeActivity;
-import com.hnweb.ubercuts.user.fragment.NailsFragment;
-import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.vendor.fragment.LeadsFragment;
 import com.hnweb.ubercuts.vendor.fragment.MyServiceAndoffersFragment;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Priyanka H on 21-June-2018
@@ -197,7 +190,7 @@ public class MainActivityVendor extends AppCompatActivity implements NavigationV
             fragment = new MyServiceAndoffersFragment();
         }else
             if (id == R.id.nav_myprofile) {
-            Intent intent = new Intent(MainActivityVendor.this, ProfileEditSaveVendorFragment.class);
+            Intent intent = new Intent(MainActivityVendor.this, ProfileEditSaveVendorActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_logout) {

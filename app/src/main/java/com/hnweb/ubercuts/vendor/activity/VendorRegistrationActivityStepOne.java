@@ -44,6 +44,7 @@ import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.user.activity.HomeActivity;
 import com.hnweb.ubercuts.user.activity.UserLoginActivity;
+import com.hnweb.ubercuts.user.activity.UserRegistrationActivityStepOne;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
@@ -118,7 +119,15 @@ public class VendorRegistrationActivityStepOne extends AppCompatActivity {
                 if (checkValidation()) {
                     if (Utils.isNetworkAvailable(VendorRegistrationActivityStepOne.this)) {
                         String email = et_email.getText().toString();
-                        emailexists(email);
+                        if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
+                            Toast.makeText(VendorRegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else
+                        {
+                            emailexists(email);
+                        }
+
                     } else {
                         Utils.myToast1(VendorRegistrationActivityStepOne.this);
                     }
@@ -411,10 +420,10 @@ public class VendorRegistrationActivityStepOne extends AppCompatActivity {
                                                 String phoneNo = et_mobile.getText().toString();
                                                 String name = et_fullname.getText().toString();
                                                 String experience = et_experience.getText().toString();
-                                                if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
+                                                /*if (!et_password.getText().toString().equals(et_confrimpassword.getText().toString())) {
                                                     Toast.makeText(VendorRegistrationActivityStepOne.this, "Password Not matching ", Toast.LENGTH_SHORT).show();
                                                     return;
-                                                }
+                                                }*/
                                                 if (!camImage.equals("")) {
                                                     SharedPreference.profileSave(getApplicationContext(), name, email, phoneNo, password, camImage, experience);
 

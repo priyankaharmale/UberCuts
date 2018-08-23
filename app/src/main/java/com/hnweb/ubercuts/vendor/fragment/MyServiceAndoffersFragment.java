@@ -280,7 +280,7 @@ public class MyServiceAndoffersFragment extends Fragment implements OnCallBack {
                                 alert.show();*/
                             } else {
                                 message = j.getString("message");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                               /* AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(message)
                                         .setCancelable(false)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -289,7 +289,7 @@ public class MyServiceAndoffersFragment extends Fragment implements OnCallBack {
                                             }
                                         });
                                 AlertDialog alert = builder.create();
-                                alert.show();
+                                alert.show();*/
                             }
                         } catch (JSONException e) {
                             System.out.println("jsonexeption" + e.toString());
@@ -512,7 +512,7 @@ public class MyServiceAndoffersFragment extends Fragment implements OnCallBack {
     @Override
     public void callrefresh() {
         getServiceList();
-
+        getServices();
     }
 
 

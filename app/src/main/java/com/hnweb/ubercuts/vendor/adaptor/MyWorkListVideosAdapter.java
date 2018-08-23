@@ -16,9 +16,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.vendor.activity.VideoViewActivity;
 import com.hnweb.ubercuts.vendor.bo.MyWorkModel;
@@ -128,7 +138,7 @@ public class MyWorkListVideosAdapter extends RecyclerView.Adapter<MyWorkListVide
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
-                                //postVideosDeleteRequest(delete_video_id,dialog);
+                                removeImage(delete_video_id,dialog);
                                 //Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -150,59 +160,7 @@ public class MyWorkListVideosAdapter extends RecyclerView.Adapter<MyWorkListVide
         });
     }
 
-/*
-    private void postVideosDeleteRequest(String delete_video_id, final DialogInterface dialog) {
 
-        //loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
-
-        params.put("my_work_videos_id", delete_video_id);
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("delete");
-        request_info.setUrl(WebsServiceURLVendor.VENDOR_MY_WORK_VIDEOS_DELETES);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, context, request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "ImagesDelted= " + data);
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                        postCallBack();
-                        dialog.cancel();
-                    } else {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
-
-            @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                AlertUtility.showAlert(context, false, "Network Error,Please Check Internet Connection");
-            }
-        });
-    }
-*/
 
     @Override
     public int getItemCount() {
@@ -228,6 +186,66 @@ public class MyWorkListVideosAdapter extends RecyclerView.Adapter<MyWorkListVide
 
     private void postCallBack() {
         mAdapterCallback.onMethodCallPosted();
+    }
+    private void removeImage(final String delete_video_id, final DialogInterface dialog) {
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REMOVE_VENDOR_VIDEO,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "ImagesDelted= " + response);
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                postCallBack();
+                                dialog.cancel();
+                            } else {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(context, error);
+                        AlertUtility.showAlert(context, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("my_work_videos_id", delete_video_id);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
     }
 
 }

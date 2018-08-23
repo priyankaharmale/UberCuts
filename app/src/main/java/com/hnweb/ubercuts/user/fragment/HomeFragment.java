@@ -36,6 +36,7 @@ import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
 import com.hnweb.ubercuts.user.activity.UserRegistrationActivityStepThree;
 import com.hnweb.ubercuts.user.adaptor.NewServicesAdaptor;
+import com.hnweb.ubercuts.user.adaptor.ServiceAdaptor;
 import com.hnweb.ubercuts.user.adaptor.SlidingPagerAdapter;
 import com.hnweb.ubercuts.user.bo.Services;
 import com.hnweb.ubercuts.utils.AlertUtility;
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
     LoadingDialog loadingDialog;
     ListView listView;
     Button btn_proceed;
-    NewServicesAdaptor adapter;
+    ServiceAdaptor adapter;
     Services services;
     String serviceId;
     OnCallBack onCallBack;
@@ -259,7 +260,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnCa
                                         services.setServicesName(serviceName);
 
                                         stockList.add(services);
-                                        adapter = new NewServicesAdaptor(getActivity(), stockList, onCallBack);
+                                        adapter = new ServiceAdaptor(getActivity(), stockList, onCallBack);
                                         listView.setAdapter(adapter);
                                     }
 

@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
@@ -82,7 +81,6 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
         Intent intent = getIntent();
         selected_price = intent.getStringExtra("SelectedPrice");
         vendor_ids = intent.getStringExtra("VendorIds");
-        selected_cate = intent.getStringExtra("SelectedCate");
         selected_sub_cate = intent.getStringExtra("SelectedSubCate");
         textViewPrice = findViewById(R.id.et_your_price);
 
@@ -127,7 +125,7 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
     private void initViewById() {
 
         btnPostTask = findViewById(R.id.btn_post_task);
-        //  btnSelectJobs = findViewById(R.id.button_select_jobs);
+        btnSelectJobs = findViewById(R.id.button_select_jobs);
         btnCate = findViewById(R.id.button_category);
         btnSubCate = findViewById(R.id.button_sub_category);
         btnCancel = findViewById(R.id.btn_cancel);
@@ -141,11 +139,12 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
         imageViewTime.setOnClickListener(this);
 
         btnPostTask.setOnClickListener(this);
-      //  btnSelectJobs.setOnClickListener(this);
+        btnSelectJobs.setOnClickListener(this);
         btnCate.setOnClickListener(this);
         btnSubCate.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         connectionDetector = new ConnectionDetector(RegularBookNowYourTask.this);
+
     }
 
     @Override
@@ -153,7 +152,7 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
 
         switch (v.getId()) {
 
-           /* case R.id.btn_post_task:
+            case R.id.btn_post_task:
                 inputFieldValidation();
                 break;
 
@@ -169,40 +168,7 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
                     // TODO: handle exception
                 }
                 onClickedSelectedJobs();
-                break;*/
-/*
-            case R.id.button_category:
-                try {
-                    InputMethodManager imm = (InputMethodManager) RegularBookNowYourTask.this.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(RegularBookNowYourTask.this.getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
-                if (categoriesList.size() == 0 || categoriesList == null) {
-                    Toast.makeText(RegularBookNowYourTask.this, "Please Wait....", Toast.LENGTH_SHORT).show();
-                } else {
-                    onClickedSelectedCategory();
-                }
-
                 break;
-
-            case R.id.button_sub_category:
-                try {
-                    InputMethodManager imm = (InputMethodManager) RegularBookNowYourTask.this.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(RegularBookNowYourTask.this.getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
-                if (selectedCategory != true) {
-                    Toast.makeText(RegularBookNowYourTask.this, "Please Select Category...!!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (subCategoriesList.size() == 0 || subCategoriesList == null) {
-                        Toast.makeText(RegularBookNowYourTask.this, "Please Wait....", Toast.LENGTH_SHORT).show();
-                    } else {
-                        onClickedSelectedSubCategory();
-                    }
-                }
-                break;*/
 
             case R.id.imageView_date:
                 getDatePicker();
@@ -217,6 +183,45 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
         }
     }
 
+    private void inputFieldValidation() {
+
+        String your_messsage = etTaskyourMessage.getText().toString().trim();
+        //String your_price = etYourPrice.getText().toString().trim();
+        String job_location = btnSelectJobs.getText().toString().trim();
+        String cate = btnCate.getText().toString().trim();
+        String sub_cate = btnSubCate.getText().toString().trim();
+
+        if (!your_messsage.matches("")) {
+            if (!selected_date.matches("")) {
+                if (!selectedJobs.matches("")) {
+                    if (!selected_time.matches("")) {
+                        Intent intent = new Intent(RegularBookNowYourTask.this, BookNowPayment.class);
+                        intent.putExtra("YourMessage", your_messsage);
+                        intent.putExtra("SelectedPrice", selected_price);
+                        intent.putExtra("SelectedJobs", selectedJobs);
+                        intent.putExtra("SelectedSubCate", selected_sub_cate);
+                        intent.putExtra("SelectedDate", selected_date);
+                        intent.putExtra("SelectedTime", selected_time);
+                        intent.putExtra("VendorIds", vendor_ids);
+                        startActivity(intent);
+                        etTaskyourMessage.setText("");
+                        selectedJobs = "";
+
+                    } else {
+                        Toast.makeText(RegularBookNowYourTask.this, "Please Select Time!!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(RegularBookNowYourTask.this, "Please Select Job Location!!", Toast.LENGTH_SHORT).show();
+
+                }
+            } else {
+                Toast.makeText(RegularBookNowYourTask.this, "Please Select Date!!", Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+            etTaskyourMessage.setError("Please Enter Your Message!!");
+        }
+    }
 
     private void getDatePicker() {
         final Calendar c = Calendar.getInstance();
@@ -284,9 +289,95 @@ public class RegularBookNowYourTask extends AppCompatActivity implements View.On
     }
 
 
+    private void onClickedSelectedCategory() {
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegularBookNowYourTask.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.common_list, null);
+        alertDialog.setView(dialogView);
+
+        TextView textView_header = (TextView) dialogView.findViewById(R.id.textView_custom_view);
+        String text = textView_header.getText().toString();
+        if (text.equals("TextView")) {
+            textView_header.setText("Select Category");
+        }
+        Button btnCancel = (Button) dialogView.findViewById(R.id.button_cancel);
+        listView = (ListView) dialogView.findViewById(R.id.listView_cate);
+        final AlertDialog ad = alertDialog.create();
+        ad.show();
+
+        ImageView imageView = dialogView.findViewById(R.id.imageViewBackArrow);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+
+    }
 
 
+    private void onClickedSelectedJobs() {
 
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegularBookNowYourTask.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.common_list, null);
+        alertDialog.setView(dialogView);
+
+        TextView textView_header = (TextView) dialogView.findViewById(R.id.textView_custom_view);
+        String text = textView_header.getText().toString();
+        if (text.equals("TextView")) {
+            textView_header.setText("Select Job Location");
+        }
+        Button btnCancel = (Button) dialogView.findViewById(R.id.button_cancel);
+        listView = (ListView) dialogView.findViewById(R.id.listView_cate);
+        final AlertDialog ad = alertDialog.create();
+        ad.show();
+
+        ImageView imageView = dialogView.findViewById(R.id.imageViewBackArrow);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.cancel();
+            }
+        });
+        jobsArrayAdapter = new ArrayAdapter<String>(RegularBookNowYourTask.this, R.layout.spinner_text, job_location);
+        listView.setAdapter(jobsArrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String stringText;
+                //in normal case
+                stringText = ((TextView) view).getText().toString();
+                btnSelectJobs.setText(stringText);
+                if (stringText.equals("Customer Place")) {
+                    selectedJobs = "0";
+                } else {
+                    selectedJobs = "1";
+                }
+                ad.dismiss();
+                if (stringText != null) {
+                    //selectedChildCate = true;
+                } else {
+                    Toast.makeText(RegularBookNowYourTask.this, "Please Select Parent Category...!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
 
     @Override

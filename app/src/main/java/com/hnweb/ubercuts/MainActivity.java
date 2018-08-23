@@ -3,6 +3,8 @@ package com.hnweb.ubercuts;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +19,13 @@ import com.hnweb.ubercuts.user.activity.HomeActivity;
 import com.hnweb.ubercuts.user.activity.UserLoginActivity;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.PermissionUtility;
+import com.hnweb.ubercuts.utils.PostDataTask;
 import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
 import com.hnweb.ubercuts.vendor.activity.VendorLoginActivity;
 
 import java.util.ArrayList;
+
+import okhttp3.MediaType;
 
 /**
  * Created by Priyanka H on 12/06/2018.
@@ -32,7 +37,13 @@ public class MainActivity extends AppCompatActivity {
     ConnectionDetector connectionDetector;
     private PermissionUtility putility;
     ArrayList<String> permission_list;
+    public static final MediaType FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
+    //URL derived from form URL
+    public static final String URL = "https://docs.google.com/forms/d/e/1FAIpQLSfmpBDW9FNcKQf4Pz9QRbCwcffB3zdEAU6bm8gInLf78Ho-jw/formResponse";
+
+    //input element ids found from the live form page
+    public static final String EMAIL_KEY = "entry.76980122";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +52,12 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
         connectionDetector = new ConnectionDetector(MainActivity.this);
 
+        PostDataTask postDataTask = new PostDataTask();
+
+        postDataTask.execute(URL, deviceInfo());
+
         runTimePermission();
+
         getdeviceToken();
         useridUser = pref.getString(AppConstant.KEY_ID, null);
         userType = pref.getString(AppConstant.KEY_TYPE, null);
@@ -126,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             String t = SharedPrefManager.getInstance(this).getDeviceToken();
 
-            if (t.equals("")) {
+            if (t.equals("") || t==null || t.equals("null")) {
                 Log.d("Tokan", "t-NULL");
             } else {
                 Log.d("Tokan", t);
@@ -136,5 +152,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public String deviceInfo() {
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+
+        String s = "Debug-infos:";
+        s += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
+        s += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
+        s += "\n Device: " + android.os.Build.DEVICE;
+        s += "\n Model (and Product): " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+
+        s += "\n RELEASE: " + android.os.Build.VERSION.RELEASE;
+        s += "\n BRAND: " + android.os.Build.BRAND;
+        s += "\n DISPLAY: " + android.os.Build.DISPLAY;
+        s += "\n CPU_ABI: " + android.os.Build.CPU_ABI;
+        s += "\n CPU_ABI2: " + android.os.Build.CPU_ABI2;
+        s += "\n UNKNOWN: " + android.os.Build.UNKNOWN;
+        s += "\n HARDWARE: " + android.os.Build.HARDWARE;
+        s += "\n Build ID: " + android.os.Build.ID;
+        s += "\n MANUFACTURER: " + android.os.Build.MANUFACTURER;
+        s += "\n SERIAL: " + android.os.Build.SERIAL;
+        s += "\n USER: " + android.os.Build.USER;
+        s += "\n HOST: " + android.os.Build.HOST;
+        s += "\n APK Version: " + version;
+
+        return s;
+    }
 
 }

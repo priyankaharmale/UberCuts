@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -53,6 +54,11 @@ dependencies {
 
     /*Rnage Bar*/
     compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+
+    /***********Spreadshit***/
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+/****************************Stripe Integartion***********************************/
+    implementation 'com.stripe:stripe-android:2.1.0'
 
 }
 
