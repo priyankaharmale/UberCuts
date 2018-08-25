@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,33 +29,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
-import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
-import com.hnweb.ubercuts.user.adaptor.BeauticianDetailsAdapter;
 import com.hnweb.ubercuts.user.adaptor.MyTaskAadapter;
-import com.hnweb.ubercuts.user.bo.Details;
 import com.hnweb.ubercuts.user.bo.MyTaskModel;
-import com.hnweb.ubercuts.utils.AlertUtility;
-import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
-import com.hnweb.ubercuts.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,7 +50,7 @@ import java.util.Map;
 import static android.content.Context.MODE_PRIVATE;
 
 @SuppressLint("ValidFragment")
-public class PostedFragment extends Fragment implements View.OnClickListener {
+public class CompletedFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerViewPostedList;
     SharedPreferences prefs;
@@ -75,8 +60,10 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
     private ArrayList<MyTaskModel> myTaskModels = new ArrayList<MyTaskModel>();
     MyTaskAadapter myTaskAadapter;
     TextView textViewList;
+
     TextView textViewListCount;
-    AdapterCallback adapterCallback;
+    Fragment fragmentSet = new Fragment();
+    AdapterCallback mAdapterCallback;
     int position;
     ImageView imageViewFilter, imageViewSearch;
     private int mYear, mMonth, mDay;
@@ -84,11 +71,10 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
     ArrayList<String> selectedArrayList = new ArrayList<>();
     String replaceArrayListCategory = "";
     String category_id = "";
-    String sub_category_id = "";
     LinearLayout linearLayout;
     SearchView searchView;
     ImageView mCloseButton;
-    View view;
+
 
     @Override
     public void setUserVisibleHint(boolean isUserVisible) {
@@ -96,32 +82,29 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         // when fragment visible to user and view is not null then enter here.
         if (isUserVisible) {
             // do your stuff here.
-            //getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            //getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
         }
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+    public void onResume() {
+        super.onResume();
+        // getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_posted, container, false);
 
-        view = inflater.inflate(R.layout.fragment_posted, container, false);
 
-
-        prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
-        user_id = prefs.getString(AppConstant.KEY_ID, null);
-        Log.e("PostedUserIds", user_id);
+        prefs = getActivity().getSharedPreferences("MyPrefUser", MODE_PRIVATE);
+        user_id = prefs.getString("user_id_user", null);
         initViewById(view);
-        getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
 
-        //setUserVisibleHint(true);
+        setUserVisibleHint(true);
+
 
         return view;
     }
@@ -133,9 +116,6 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
 
         textViewList = view.findViewById(R.id.textView_empty_list);
         textViewListCount = view.findViewById(R.id.textView_list_count);
-
-        connectionDetector = new ConnectionDetector(getActivity());
-        loadingDialog = new LoadingDialog(getActivity());
 
         imageViewFilter = view.findViewById(R.id.imageView_filter_booked);
         imageViewFilter.setOnClickListener(this);
@@ -149,14 +129,14 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         searchView.setMaxWidth(Integer.MAX_VALUE);
         // Add Text Change Listener to EditText
         mCloseButton = searchView.findViewById(R.id.search_close_btn);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.toString().trim().length() == 0) {
                     ///linearLayout.setVisibility(View.VISIBLE);
                     //searchView.setVisibility(View.GONE);
-                     mCloseButton.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
-                   // mCloseButton.setVisibility(View.VISIBLE);
+                    // mCloseButton.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
+                    mCloseButton.setVisibility(View.VISIBLE);
                     mCloseButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -175,7 +155,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                 if (newText.toString().trim().length() == 0) {
                     //linearLayout.setVisibility(View.VISIBLE);
                     //searchView.setVisibility(View.GONE);
-                    mCloseButton.setVisibility(newText.isEmpty() ? View.GONE : View.VISIBLE);
+                    mCloseButton.setVisibility(View.VISIBLE);
                     mCloseButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -200,133 +180,134 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
+        connectionDetector = new ConnectionDetector(getActivity());
+        loadingDialog = new LoadingDialog(getActivity());
         if (connectionDetector.isConnectingToInternet()) {
             category_id = "";
             replaceArrayListCategory = "";
             value_date_filter = "";
-            getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+            //     getPostedTaskList(category_id,replaceArrayListCategory,value_date_filter);
         } else {
-          /*  Snackbar snackbar = Snackbar
+           /* Snackbar snackbar = Snackbar
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
-            snackbar.show();*/
-            Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+            snackbar.show();
+*/            //Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
+/*
+    private void getPostedTaskList(String category_id, String replaceArrayListCategory, String value_date_filter) {
 
+        //loadingDialog.show();
 
-    private void getPostedTaskList(final  String category_id, final String sub_category_id, final String value_date_filter) {
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", user_id);
+        params.put("status", "2");
+        params.put("category_id", category_id);
+        params.put("sub_category_id", replaceArrayListCategory);
+        params.put("fdt", value_date_filter);
 
-        loadingDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_MYTASKLISTING,
-                new Response.Listener<String>() {
+        Log.e("Params", params.toString());
 
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("res_register" + response);
-                        if (loadingDialog.isShowing()) {
-                            loadingDialog.dismiss();
+        RequestInfo request_info = new RequestInfo();
+        request_info.setMethod(RequestInfo.METHOD_POST);
+        request_info.setRequestTag("mytask");
+        request_info.setUrl(WebsServiceURLUser.USER_MY_TASK_LIST);
+        request_info.setParams(params);
+
+        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
+            @Override
+            public void OnDataReceived(String data) {
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+                Log.i("Response", "PostList :" + data);
+
+                try {
+                    JSONObject jobj = new JSONObject(data);
+                    int message_code = jobj.getInt("message_code");
+
+                    String msg = jobj.getString("message");
+                    Log.e("FLag", message_code + " :: " + msg);
+
+                    if (message_code == 1) {
+                        recyclerViewPostedList.setVisibility(View.VISIBLE);
+                        JSONArray userdetails = jobj.getJSONArray("details");
+
+                        int total_size = userdetails.length();
+                        String list_of_count = String.format("%02d", total_size);
+                        textViewListCount.setText(String.valueOf(list_of_count));
+
+                        myTaskModels.clear();
+                        for (int j = 0; j < userdetails.length(); j++) {
+                            JSONObject jsonObject = userdetails.getJSONObject(j);
+
+                            MyTaskModel myTaskModel = new MyTaskModel();
+                            myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
+                            myTaskModel.setCategory_name(jsonObject.getString("category_name"));
+                            myTaskModel.setCategory_id(jsonObject.getString("category_id"));
+                            myTaskModel.setBeautician(jsonObject.getString("beautician"));
+                            myTaskModel.setDate(jsonObject.getString("date"));
+                            myTaskModel.setStatus(jsonObject.getString("status"));
+                            myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
+                            myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
+                            myTaskModels.add(myTaskModel);
+
                         }
-                        Log.i("Response", "PostList :" + response);
-                        try {
-                            JSONObject jobj = new JSONObject(response);
-                            int message_code = jobj.getInt("message_code");
-                            String msg = jobj.getString("message");
-                            Log.e("FLag", message_code + " :: " + msg);
-                            if (message_code == 1) {
+                        //getListOfdata(subCategoriesList);
+                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 
-                                JSONArray userdetails = jobj.getJSONArray("details");
-                                recyclerViewPostedList.setVisibility(View.VISIBLE);
-                                int total_size = userdetails.length();
-                                String list_of_count = String.format("%02d", total_size);
-                                textViewListCount.setText(String.valueOf(list_of_count));
-                                myTaskModels.clear();
-                                for (int j = 0; j < userdetails.length(); j++) {
-                                    JSONObject jsonObject = userdetails.getJSONObject(j);
-                                    MyTaskModel myTaskModel = new MyTaskModel();
-                                    myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
-                                    myTaskModel.setCategory_name(jsonObject.getString("category_name"));
-                                    myTaskModel.setCategory_id(jsonObject.getString("category_id"));
-                                    myTaskModel.setBeautician(jsonObject.getString("beautician"));
-                                    myTaskModel.setDate(jsonObject.getString("date"));
-                                    myTaskModel.setTime(jsonObject.getString("time"));
-                                    myTaskModel.setStatus(jsonObject.getString("status"));
-                                    myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
-                                    myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
-                                    myTaskModels.add(myTaskModel);
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        Fragment fragment = new Fragment();
 
-                                }
-                                //getListOfdata(subCategoriesList);
-                                //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-
-
-                                myTaskAadapter = new MyTaskAadapter(getActivity(), myTaskModels);
-                                recyclerViewPostedList.setAdapter(myTaskAadapter);
-                                textViewList.setVisibility(View.GONE);
-                            } else {
-                                //Utils.AlertDialog(getActivity(), msg);
-                                textViewList.setVisibility(View.VISIBLE);
-                                recyclerViewPostedList.setVisibility(View.GONE);
-                                recyclerViewPostedList.setAdapter(null);
-                                textViewList.setText(msg);
-                                textViewListCount.setText(String.valueOf("00"));
-                            }
-                        } catch (JSONException e) {
-                            System.out.println("jsonexeption" + e.toString());
-                        }
-                        }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(getActivity(), error);
-                        AlertUtility.showAlert(getActivity(), reason);
-                        System.out.println("jsonexeption" + error.toString());
+                        myTaskAadapter = new MyTaskAadapter(getActivity(), myTaskModels);
+                        recyclerViewPostedList.setAdapter(myTaskAadapter);
+                        textViewList.setVisibility(View.GONE);
+                    } else {
+                        //Utils.AlertDialog(getActivity(), msg);
+                        textViewList.setVisibility(View.VISIBLE);
+                        recyclerViewPostedList.setVisibility(View.GONE);
+                        recyclerViewPostedList.setAdapter(null);
+                        textViewList.setText(msg);
+                        textViewListCount.setText(String.valueOf("00"));
                     }
-                }) {
+                } catch (JSONException e) {
+                    System.out.println("jsonexeption" + e.toString());
+                }
+
+            }
 
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                try {
-                    params.put("client_id", user_id);
-                    params.put("status", "0");
-                } catch (Exception e) {
-                    System.out.println("error" + e.toString());
+            public void OnError(String message) {
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
                 }
-                return params;
+               // AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
             }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(stringRequest);
+        });
     }
-
+*/
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView_filter_booked:
-                showAlertDialog();
+                //   showAlertDialog();
                 break;
 
             case R.id.imageView_search:
                 linearLayout.setVisibility(View.GONE);
                 searchView.setVisibility(View.VISIBLE);
                 break;
-
-
             default:
                 break;
         }
     }
 
-    private void showAlertDialog() {
+  /*  private void showAlertDialog() {
 
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -348,11 +329,10 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         final RecyclerView recyclerViewCate = dialogView.findViewById(R.id.recylerview_list_filter);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerViewCate.setLayoutManager(layoutManager);
-        //Button btnReset = dialogView.findViewById(R.id.btn_reset_filter);
+        Button btnReset = dialogView.findViewById(R.id.btn_reset_filter);
         Button btnApply = dialogView.findViewById(R.id.btn_apply_filter);
         final TextView textView = dialogView.findViewById(R.id.textView_sub_service);
         final View view = dialogView.findViewById(R.id.view_filter);
-
         final CheckBox checkBox = dialogView.findViewById(R.id.checkBox_date);
 
         Date today = new Date();
@@ -386,14 +366,13 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
         final AlertDialog ad = alertDialog.create();
         ad.show();
-      /*  btnApply.setOnClickListener(new View.OnClickListener() {
+        btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.cancel();
-                if (!category_id.matches("")) {
+                if (!category_id.matches("")){
                     if (subCategoriesList.size() == 0 || subCategoriesList == null) {
                         Toast.makeText(getActivity(), "Please Wait....", Toast.LENGTH_SHORT).show();
                     } else {
@@ -421,7 +400,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                 }
 
                 if (connectionDetector.isConnectingToInternet()) {
-                    getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+                    getPostedTaskList(category_id, replaceArrayListCategory,value_date_filter);
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
@@ -430,8 +409,8 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
-    /*    btnReset.setOnClickListener(new View.OnClickListener() {
+        });
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.cancel();
@@ -439,7 +418,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     category_id = "";
                     replaceArrayListCategory = "";
                     value_date_filter = "";
-                    getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+                    getPostedTaskList(category_id, replaceArrayListCategory,value_date_filter);
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
@@ -464,7 +443,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(), "choice: Nail", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
 
     }
 
@@ -482,18 +461,13 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                         String list_of_count = String.format("%02d", (monthOfYear + 1));
 
                         String date = dayOfMonth + "-" + list_of_count + "-" + year;
-                        Log.e("DateFormatChange", date);
+                        Log.e("DateFormatChange",date);
 
-                        DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
-                        Date date_format = null;
-                        try {
-                            date_format = inputFormat.parse(date);
-                            date_format = inputFormat.parse(date);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String outputDateFormat = outputFormat.format(date_format);
+                        String input_date_format = "dd-MM-yyyy";
+                        String output_date_format = "dd MMM yyyy";
+                        Utils utils = new Utils();
+                        String outputDateFormat = utils.dateFormats(date, input_date_format, output_date_format);
+
                         Log.d("DateFormatClass", outputDateFormat);
 
 
@@ -503,77 +477,6 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
-
-/*
-    private void getSubCategoryList(String category_id, final RecyclerView recyclerViewCate, final TextView textView, final View view) {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("category_id", category_id);
-
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("login");
-        request_info.setUrl(WebsServiceURLUser.USER_GET_ALL_SUB_CATE);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "Category= " + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-
-                        textView.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
-                        JSONArray userdetails = jobj.getJSONArray("details");
-                        //subCategoriesList = new ArrayList<Category.SubCategory>();
-
-                        subCategoriesList.clear();
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
-
-                            Category.SubCategory subCategory = new Category.SubCategory();
-                            subCategory.setSub_category_id(jsonObject.getString("sub_category_id"));
-                            subCategory.setSub_category_name(jsonObject.getString("sub_category_name"));
-                            subCategory.setRef_id_category(jsonObject.getString("ref_id_category"));
-                            subCategoriesList.add(subCategory);
-                        }
-                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                        SubCategoryAadapter subCategoryAadapter = new SubCategoryAadapter(getActivity(), subCategoriesList);
-                        recyclerViewCate.setAdapter(subCategoryAadapter);
-                    } else {
-                        textView.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
-                        Utils.AlertDialog(getActivity(), msg);
-                    }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
-
-            @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
-            }
-        });
-    }
 */
-
 
 }

@@ -31,8 +31,8 @@
     <string name="str_credit">Credit Card Details</string>
     <string name="str_card">Card No</string>
     <string name="str_mm">MM</string>
-    <string name="str_yyy">YYY</string>
-    <string name="str_cvv">CVV</string>
+    <string name="str_yyy">Select</string>
+    <string name="str_cvv">Enter CVV</string>
     <string name="str_register">Register</string>
     <string name="str_experience">Experience</string>
 
@@ -154,4 +154,24 @@
     <!--Book Your Task-->
     <string name="text_book_task">Book Your Task</string>
     <string name="text_book">Book</string>
+
+    <!-- Posted Fragment-->
+    <string name="hint_posted_services">Services :</string>
+    <string name="text_posted">Posted</string>
+    <string name="text_sub_service">Sub Services :</string>
+    <string name="text_date">Date :</string>
+    <string name="text_time">Time :</string>
+    <string name="text_job_location">Job Location :</string>
+    <string name="text_description">Description :</string>
+    <string name="text_beautician">Beautician :</string>
+    <string name="text_or">OR</string>
+    <string name="text_view_offers">View Received Offers</string>
+    <string name="text_cancel_task">Cancel This Task</string>
+
+    <!--Booking Confirmation-->
+    <string name="text_beautician_charge">Beautician Charge</string>
+    <string name="text_other_charge">Other Charge</string>
+    <string name="text_promo_code">Promo Code</string>
+    <string name="text_total_amount">Total</string>
+    <string name="text_pay_now">Pay Now</string>
 </resources>

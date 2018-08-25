@@ -18,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -166,8 +167,6 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
         }
 
         prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
-
-
         user_id = prefs.getString(AppConstant.KEY_ID, null);
         serviceId = prefs.getString("SubcategoryId", null);
 
@@ -428,9 +427,9 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
         btnRegularBooking.setOnClickListener(this);
         image_filter.setOnClickListener(this);
         image_filterlist.setOnClickListener(this);
-/*
+
         btnPostTaskList = view.findViewById(R.id.button_post_your_task_list);
-        btnPostTaskList.setOnClickListener(this);*/
+        btnPostTaskList.setOnClickListener(this);
 
         linearLayoutMap = view.findViewById(R.id.LinearLayoutMap);
         linearLayoutList = view.findViewById(R.id.LinearLayoutList);
@@ -539,7 +538,6 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
     public void onClick(View v) {
         Fragment fragment = null;
         switch (v.getId()) {
-/*
             case R.id.button_post_your_task:
                 fragment = new PostYourTaskFragment();
                 FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -548,9 +546,9 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.commit();
 
-                break;*/
+                break;
 
-            /*case R.id.button_post_your_task_list:
+            case R.id.button_post_your_task_list:
 
                 fragment = new PostYourTaskFragment();
                 FragmentManager manager1 = getActivity().getSupportFragmentManager();
@@ -559,7 +557,7 @@ public class NailsFragment extends android.support.v4.app.Fragment implements Vi
                 transaction1.replace(R.id.frame_layout, fragment);
                 transaction1.commit();
 
-                break;*/
+                break;
             case R.id.button_regular_post_your_task:
 
                 liveitemList.setVisible(false);

@@ -66,7 +66,7 @@ public class NewServicesAdaptor extends BaseAdapter {
         services = arrayList.get(i);
 
         viewHolder.label.setText(services.getServicesName());
-        viewHolder.tv_price.setText(services.getDefault_price());
+        viewHolder.tv_price.setText("$" + services.getDefault_price());
 
         //check the radio button if both position and selectedPosition matches
         viewHolder.radioButton.setChecked(i == selectedPosition);
@@ -79,15 +79,17 @@ public class NewServicesAdaptor extends BaseAdapter {
         viewHolder.radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_selected);
-                itemCheckChanged(v, viewHolder, arrayList.get(i).getId(),arrayList.get(i).getDefault_price());
+              //      viewHolder.radioButton.setBackgroundResource(R.drawable.radio_button_selected);
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getRef_id_sub_category(),arrayList.get(i).getDefault_price());
             }
         });
 
         viewHolder.label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemCheckChanged(v, viewHolder, arrayList.get(i).getId(),arrayList.get(i).getDefault_price());
+          //      viewHolder.radioButton.setBackgroundResource(R.drawable.radio_button_selected);
+
+                itemCheckChanged(v, viewHolder, arrayList.get(i).getRef_id_sub_category(),arrayList.get(i).getDefault_price());
             }
 
 
@@ -98,7 +100,7 @@ public class NewServicesAdaptor extends BaseAdapter {
     //On selecting any view set the current position to selectedPositon and notify adapter
     private void itemCheckChanged(View v, ViewHolder viewHolder, String id,String default_price) {
         selectedPosition = (Integer) v.getTag();
-        //  viewHolder.radioButton.setButtonDrawable(R.drawable.radio_button_unselected);
+     //    viewHolder.radioButton.setBackgroundResource(R.drawable.radio_button_selected);
         fetchcount(id,default_price);
 
         notifyDataSetChanged();

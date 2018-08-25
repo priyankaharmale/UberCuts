@@ -119,6 +119,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".user.activity.PostYourTaskPayNowActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".user.activity.PaymentDetailsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -146,6 +151,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

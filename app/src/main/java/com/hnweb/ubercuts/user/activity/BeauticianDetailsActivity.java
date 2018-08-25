@@ -324,7 +324,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
     }
 
     private class ViewPagerBeauticianAdapter extends FragmentPagerAdapter {
-        String[] title = new String[]{"ABOUT ME", "SERVICES", "REVIEWS","MY WORK"};
+        String[] title = new String[]{"SERVICES","ABOUT ME", "REVIEWS","MY WORK"};
 
 
         public ViewPagerBeauticianAdapter(FragmentManager manager) {
@@ -337,18 +337,19 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements TabL
 
             switch (position) {
                 case 0:
-                    fragment = new AboutMeFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("BeauticianIds", user_details_task_ids);
-                    fragment.setArguments(bundle);
-                    break;
-                case 1:
                     fragment = new MyServicesFragment();
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("BeauticianIds", user_details_task_ids);
 
                     fragment.setArguments(bundle1);
                     break;
+                case 1:
+                    fragment = new AboutMeFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("BeauticianIds", user_details_task_ids);
+                    fragment.setArguments(bundle);
+                    break;
+
                 case 2:
                     fragment = new MyReviewsFragment();
                     Bundle bundleReviews = new Bundle();

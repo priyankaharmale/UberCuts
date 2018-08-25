@@ -62,9 +62,9 @@ public class MyTaskFragment extends Fragment implements TabLayout.OnTabSelectedL
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new PostedFragment(), "POSTED");
-        adapter.addFragment(new PostedFragment(), "BOOKED");
-        adapter.addFragment(new PostedFragment(), "COMPLETED");
-        adapter.addFragment(new PostedFragment(), "CANCELLED");
+        adapter.addFragment(new BookedFragment(), "BOOKED");
+        adapter.addFragment(new CompletedFragment(), "COMPLETED");
+        adapter.addFragment(new CancelledFragment(), "CANCELLED");
         viewPager.setAdapter(adapter);
 
     }
@@ -117,6 +117,7 @@ public class MyTaskFragment extends Fragment implements TabLayout.OnTabSelectedL
         }
 
     }
+
 
 
 }

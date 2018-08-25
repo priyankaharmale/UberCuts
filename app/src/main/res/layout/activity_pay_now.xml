@@ -50,43 +50,45 @@
             android:layout_height="2dp"
             android:layout_margin="@dimen/dimens_10dp"
             android:background="@color/colorWhite" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:visibility="gone"
-    android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimens_45dp"
-            android:layout_marginLeft="@dimen/dimens_30dp"
-            android:layout_marginRight="@dimen/dimens_30dp"
-            android:gravity="center_vertical"
-            android:text="Select Payment Mode"
-            android:textColor="@color/colorWhite"
-            android:textSize="22sp"
 
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/radioButton_CVV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens_20dp"
-            android:layout_marginRight="@dimen/dimens_20dp"
-            android:text="@string/text_card_number"
-
-            android:textColor="@color/yellow" />
-
-        <RadioButton
-            android:id="@+id/radioButton_use_another_card"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens_20dp"
-            android:layout_marginRight="@dimen/dimens_20dp"
-            android:layout_marginTop="@dimen/dimens_10dp"
-            android:text="Use Another Card"
-            android:textColor="@color/yellow" />
-</LinearLayout>
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_45dp"
+                android:layout_marginLeft="@dimen/dimens_30dp"
+                android:layout_marginRight="@dimen/dimens_30dp"
+                android:gravity="center_vertical"
+                android:text="Select Payment Mode"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp"
+
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/radioButton_CVV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_20dp"
+                android:layout_marginRight="@dimen/dimens_20dp"
+                android:text="@string/text_card_number"
+
+                android:textColor="@color/yellow" />
+
+            <RadioButton
+                android:id="@+id/radioButton_use_another_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_20dp"
+                android:layout_marginRight="@dimen/dimens_20dp"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:text="Use Another Card"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -100,18 +102,56 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_you"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="61dp"
+                android:text="@string/str_credit"
+                android:textAllCaps="true"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_18sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dimens_20dp"
-            android:text="@string/str_credit"
-            android:textAllCaps="true"
-            android:textColor="@color/yellow"
-            android:textSize="@dimen/text_size_18sp" />
+            android:layout_marginTop="@dimen/dimens_10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:text="Card Number"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_16sp" />
+
+
+            <Button
+                android:id="@+id/btn_clr"
+                android:layout_width="@dimen/dimens_60dp"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginLeft="@dimen/dimens_10dp"
+                android:layout_marginRight="@dimen/dimens_10dp"
+                android:background="@drawable/bg_button_blue_home"
+                android:text="Clear"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_12sp" />
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/et_cardNo"
@@ -119,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_20"
             android:layout_marginRight="@dimen/text_20"
-            android:layout_marginTop="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_card"
             android:inputType="number"
@@ -134,57 +174,117 @@
             android:layout_marginLeft="@dimen/text_20"
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_10dp"
-            android:weightSum="1">
+            android:weightSum="2">
 
-            <EditText
-                android:id="@+id/et_mm"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dimens_10dp"
-                android:layout_weight="0.5"
-                android:background="@drawable/bg_textbox"
-                android:drawablePadding="@dimen/dimens_20dp"
-                android:focusableInTouchMode="false"
-                android:hint="@string/str_mm"
-                android:inputType="number"
-                android:paddingLeft="@dimen/dimens_20dp"
-                android:paddingRight="@dimen/dimens_10dp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="2">
 
-            <EditText
-                android:id="@+id/et_yyyy"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/text_20"
+                    android:text="Expiry Month"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <EditText
+                    android:id="@+id/et_mm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimens_10dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_textbox"
+                    android:drawablePadding="@dimen/dimens_20dp"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawableTint="@color/colorWhite"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/str_yyy"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dimens_20dp"
+                    android:paddingRight="@dimen/dimens_10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimens_10dp"
-                android:layout_weight="0.5"
-                android:background="@drawable/bg_textbox"
-                android:drawablePadding="@dimen/dimens_20dp"
-                android:focusableInTouchMode="false"
-                android:hint="@string/str_yyy"
-                android:inputType="number"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="2">
 
-                android:paddingLeft="@dimen/dimens_20dp"
-                android:paddingRight="@dimen/dimens_10dp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimens_20dp"
+                    android:layout_marginRight="@dimen/text_20"
+                    android:text="Expiry Year"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <EditText
+                    android:id="@+id/et_yyyy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimens_10dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_textbox"
+                    android:drawablePadding="@dimen/dimens_20dp"
+                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:drawableTint="@color/colorWhite"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/str_yyy"
+
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dimens_20dp"
+                    android:paddingRight="@dimen/dimens_10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
+            </LinearLayout>
+
         </LinearLayout>
 
-
-        <EditText
-            android:id="@+id/et_cvv"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_20"
-            android:layout_marginRight="@dimen/text_20"
-            android:layout_marginTop="@dimen/dimens_10dp"
-            android:background="@drawable/bg_textbox"
-            android:hint="@string/str_cvv"
-            android:inputType="numberPassword"
-            android:maxLength="3"
-            android:paddingLeft="@dimen/dimens_20dp"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:text="CVV"
+
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <EditText
+                android:id="@+id/et_cvv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:layout_marginTop="@dimen/dimens_10dp"
+                android:background="@drawable/bg_textbox"
+                android:hint="@string/str_cvv"
+                android:inputType="numberPassword"
+                android:maxLength="3"
+                android:paddingLeft="@dimen/dimens_20dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_proceed"
@@ -192,12 +292,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_forgotpwd"
             android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dimens_60dp"
             android:layout_marginLeft="@dimen/text_20"
             android:layout_marginRight="@dimen/text_20"
             android:layout_marginTop="@dimen/dimens_20dp"
-            android:background="@drawable/bg_button_red"
+            android:background="@drawable/bg_button_blue_home"
             android:text="@string/str_proceed"
-            android:layout_marginBottom="@dimen/dimens_60dp"
             android:textColor="@color/colorWhite" />
 
     </LinearLayout>

@@ -82,7 +82,10 @@ public class AppConstant {
     public static final String API_GET_CREDITCARDDETAILS = BASE_URL + "get_saved_card_details.php";
     /*=================================================Reguslar booking =========================================================*/
     public static final String API_REGULAR_BOOKING = BASE_URL + "regular_booking.php";
-
+    /*=================================================Reguslar booking =========================================================*/
+    public static final String API_POSTYOURTASK_BOOKING = BASE_URL + "post_task_booking.php";
+    /*=================================================Reguslar booking =========================================================*/
+    public static final String API_MYTASKLISTING = BASE_URL + "my_task_list.php";
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/

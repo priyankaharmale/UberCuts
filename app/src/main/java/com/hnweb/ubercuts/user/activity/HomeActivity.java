@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public MenuItem liveitemList, liveitemMap;
     String profile_image, user_name, user_street, user_city, user_id;
 
+   public Toolbar toolbar;
     ImageView imageViewProfile, imageViewClose, imageViewUpload;
     TextView textViewUserName, textViewAdrress;
     SharedPreferences prefs;
@@ -48,8 +49,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //getdeviceToken();

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimens_20dp"
+        android:background="@drawable/bg_services_home">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimens_10dp"
+                android:text="@string/hint_post_task"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens_10dp"
+                android:layout_marginRight="@dimen/dimens_10dp"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_40dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_5dp"
+                    android:text="@string/hint_post_msg"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp" />
+
+                <EditText
+                    android:id="@+id/et_task_your_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_70dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:background="@drawable/bg_textbox_white"
+                    android:ems="10"
+                    android:gravity="start"
+                    android:hint="Message"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/dimens_10dp"
+                    android:paddingTop="@dimen/dimens_10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_30dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dimens_5dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_5dp"
+                        android:text="@string/hint_your_price"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_5dp"
+                        android:text="@string/hint_job_location"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_18sp" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_50dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/et_your_price"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dimens_50dp"
+                        android:layout_marginRight="@dimen/dimens_5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/bg_textbox_white"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:hint="Price"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="@dimen/dimens_10dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dimens_5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/bg_textbox_white"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/button_select_jobs"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimens_40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@null"
+                            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                            android:drawableTint="@color/colorBlack"
+                            android:gravity="center_vertical"
+                            android:hint="Select Job Location"
+                            android:paddingLeft="@dimen/dimens_10dp"
+                            android:paddingRight="@dimen/dimens_5dp"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorBlack"
+                             />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/bg_textbox_white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimens_5dp"
+
+                            android:text="Technician Place"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_size_18sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dimens_10dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens_5dp"
+                    android:text="Service"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_18sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimens_5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_textbox_white">
+
+                    <Button
+                        android:id="@+id/button_sub_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimens_40dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                        android:drawableTint="@color/colorBlack"
+                        android:gravity="center_vertical"
+                        android:hint="Select Service"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:paddingRight="@dimen/dimens_5dp"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_post_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:layout_marginTop="@dimen/dimens_20dp"
+                android:background="@drawable/bg_button_blue"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="@string/hint_post_task_btn"
+                android:textSize="@dimen/text_size_16sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

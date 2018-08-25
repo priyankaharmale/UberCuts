@@ -54,7 +54,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BookNowPayment extends AppCompatActivity implements OnCallBack {
+public class PostYourTaskPayNowActivity extends AppCompatActivity implements OnCallBack {
 
     public static final String PUBLISHABLE_KEY = "pk_test_dC5cjS6xNiCLr68WRFjrV0HN";
     SharedPreferences prefs;
@@ -66,43 +66,51 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
     TextView textViewAmount;
     Button btnProcced, btn_clr;
     OnCallBack onCallBack;
-    CheckBox checkBoxCardNumber;
     String cvv_value = "", cardNumber = "", expiryMonth = "", expiryYear = "", expiryYearfourDigit = "";
-    String radiobuttonFlag = "";
     private EditText etCardNumber, etMonth, etExpiryDate, etCVV;
-    String yourMeassage, selectedJobs, selectedCate, selectedSubCate, bookingDate, bookingTime, vendorIds;
-   // boolean get_cvv;
+    String bookingDate, bookingTime, myTaskId, vendorId, vendorPrice;
+    String my_task_message, my_task_price, my_task_job_location, ref_id_category, ref_id_sub_category, status, disCountAmt, disCountTotalAmt, promoCodeUsed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_now);
+        //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         Intent intent = getIntent();
-        userPaymentAmount = intent.getStringExtra("SelectedPrice").toString();
-        yourMeassage = intent.getStringExtra("YourMessage");
-        selectedJobs = intent.getStringExtra("SelectedJobs");
-        selectedCate = intent.getStringExtra("SelectedCate");
-        selectedSubCate = intent.getStringExtra("SelectedSubCate");
-        bookingDate = intent.getStringExtra("SelectedDate");
-        bookingTime = intent.getStringExtra("SelectedTime");
-        vendorIds = intent.getStringExtra("VendorIds");
-        Log.d("UserDetailsIds", userPaymentAmount + " : " + yourMeassage + " : " + selectedJobs + " : " + selectedCate + " : " + selectedSubCate + " : " + bookingDate + " :: " + bookingTime);
+        userPaymentAmount = intent.getStringExtra("PaymentAmount").toString();
+        bookingDate = intent.getStringExtra("BookingDate");
+        bookingTime = intent.getStringExtra("BookingTime");
+        myTaskId = intent.getStringExtra("MyTaskId");
+        vendorId = intent.getStringExtra("VendorId");
+        vendorPrice = intent.getStringExtra("VendorPrice");
         onCallBack = this;
+        my_task_message = intent.getStringExtra("my_task_message");
+        my_task_price = intent.getStringExtra("my_task_price");
+        my_task_job_location = intent.getStringExtra("my_task_job_location");
+        ref_id_category = intent.getStringExtra("ref_id_category");
+        ref_id_sub_category = intent.getStringExtra("ref_id_sub_category");
+        status = intent.getStringExtra("status");
+        disCountAmt = intent.getStringExtra("discountAmount");
+        disCountTotalAmt = intent.getStringExtra("discountTotalAmount");
+        promoCodeUsed = intent.getStringExtra("promoCodeUsed");
+
+        Log.d("UserDetailsIds", disCountAmt + " : " + bookingDate + " : " + bookingTime + " : " + disCountTotalAmt + " : " + promoCodeUsed + " : " + vendorPrice);
+
         prefs = getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
         user_id = prefs.getString(AppConstant.KEY_ID, null);
-
-        user_email_id = prefs.getString("Email", null);
+        user_email_id = prefs.getString(AppConstant.KEY_EMAIL, null);
         Log.e("PayNowUserIds", user_id + " : " + user_email_id);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initViewById();
     }
 
     @SuppressLint("SetTextI18n")
     private void initViewById() {
+        textViewAmount = findViewById(R.id.textView_total_price);
+        //etCvvNumber = findViewById(R.id.editText_cvv_number);
 
         textViewAmount = findViewById(R.id.textView_total_price);
 
@@ -110,7 +118,18 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
         etMonth = (EditText) findViewById(R.id.et_mm);
         etExpiryDate = (EditText) findViewById(R.id.et_yyyy);
         etCVV = (EditText) findViewById(R.id.et_cvv);
-
+        etMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogMonth();
+            }
+        });
+        etExpiryDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogYear();
+            }
+        });
         etCardNumber.addTextChangedListener(new TextWatcher() {
             private static final char space = ' ';
             boolean isDelete = true;
@@ -119,7 +138,6 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (before == 0)
@@ -149,70 +167,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
                 }
             }
         });
-
-        etMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogMonth();
-            }
-        });
-        etExpiryDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogYear();
-            }
-        });
-        btnProcced = findViewById(R.id.btn_proceed);
         btn_clr = findViewById(R.id.btn_clr);
-        btnProcced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String cvv_number = etCVV.getText().toString().trim();
-              //  Log.d("CvvData", String.valueOf(get_cvv));
-              /* *//* if (get_cvv == true) {
-                    Log.d("CvvData", String.valueOf(cvv_value));
-                    if (!cvv_number.matches("")) {
-                        if (cvv_value.equals(cvv_number)) {
-*//*
-                            Log.e("cardDeatils", cardNumber + " : " + cvv_value + " :: " + expiryMonth + " :: " + expiryYearfourDigit);
-                            getStripePaymentToken(cardNumber, expiryMonth, expiryYear, cvv_value, expiryYearfourDigit);
-                        } else {
-                            Toast.makeText(BookNowPayment.this, "Please Correct Card Details", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        etCVV.setError("Please Enter CVV Number!!");
-                    }
-
-                } else {*/
-                    //Toast.makeText(BookNowPayment.this, "Else False", Toast.LENGTH_SHORT).show();
-                    String strCardNumber = etCardNumber.getText().toString().trim();
-                    String strMonth = etMonth.getText().toString().trim();
-                    String strExpiryDate = etExpiryDate.getText().toString().trim();
-                    String strCVV = etCVV.getText().toString().trim();
-
-                    String ste_year = strExpiryDate.substring(strExpiryDate.length() - 2);
-                    Log.e("YearFormat", ste_year);
-
-                    if (!strCardNumber.matches("")) {
-                        if (!strMonth.matches("")) {
-                            if (!strExpiryDate.matches("")) {
-                                if (!strCVV.matches("")) {
-                                    getStripePaymentToken(strCardNumber, strMonth, ste_year, strCVV, strExpiryDate);
-                                } else {
-                                    etCVV.setError("Please Enter CVV!!");
-                                }
-                            } else {
-                                etExpiryDate.setError("Please Enter Expiry Date (MM/DD)!!");
-                            }
-                        } else {
-                            etMonth.setError("Please Enter Month!!");
-                        }
-                    } else {
-                        etCardNumber.setError("Please Enter Card Number!!");
-                    }
-
-            }
-        });
 
         btn_clr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,10 +178,62 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
                 etCardNumber.setText("");
             }
         });
-        textViewAmount.setText("$ " + userPaymentAmount);
+        btnProcced = findViewById(R.id.btn_proceed);
+        btnProcced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cvv_number = etCVV.getText().toString().trim();
+             /*   if (get_cvv == true) {
+                    Log.d("CvvData", String.valueOf(cvv_number));
+                    if (!cvv_number.equals("")) {
+                        if (cvv_value.equals(cvv_number)) {
 
-        connectionDetector = new ConnectionDetector(BookNowPayment.this);
-        loadingDialog = new LoadingDialog(BookNowPayment.this);
+                            Log.e("cardDeatils", cardNumber + " : " + cvv_value + " :: " + expiryMonth + " :: " + expiryYearfourDigit);
+                            getStripePaymentToken(cardNumber, expiryMonth, expiryYear, cvv_value, expiryYearfourDigit);
+                        } else {
+                            Toast.makeText(PostYourTaskPayNowActivity.this, "Please Correct Card Details", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        etCVV.setError("Please Enter CVV Number!!");
+                    }
+
+                } else {*/
+                //Toast.makeText(BookNowPayment.this, "Else False", Toast.LENGTH_SHORT).show();
+                String strCardNumber = etCardNumber.getText().toString().trim();
+                String strMonth = etMonth.getText().toString().trim();
+                String strExpiryDate = etExpiryDate.getText().toString().trim();
+                String strCVV = etCVV.getText().toString().trim();
+
+                String ste_year = strExpiryDate.substring(strExpiryDate.length() - 2);
+                Log.e("YearFormat", ste_year);
+
+                if (!strCardNumber.matches("")) {
+                    if (!strMonth.matches("")) {
+                        if (!strExpiryDate.matches("")) {
+                            if (!strCVV.matches("")) {
+                                expiryYearfourDigit = strExpiryDate;
+                                getStripePaymentToken(strCardNumber, strMonth, ste_year, strCVV, expiryYearfourDigit);
+                            } else {
+                                etCVV.setError("Please Enter CVV!!");
+                            }
+                        } else {
+                            etExpiryDate.setError("Please Enter Expiry Date (MM/DD)!!");
+                        }
+                    } else {
+                        etMonth.setError("Please Enter Month!!");
+                    }
+                } else {
+                    etCardNumber.setError("Please Enter Card Number!!");
+                }
+
+
+            }
+        });
+
+        textViewAmount.setText("$ " + disCountTotalAmt);
+
+        connectionDetector = new ConnectionDetector(PostYourTaskPayNowActivity.this);
+        loadingDialog = new LoadingDialog(PostYourTaskPayNowActivity.this);
 
         if (connectionDetector.isConnectingToInternet()) {
             getCardDetailsInfo();
@@ -235,9 +242,154 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
             snackbar.show();*/
-            Toast.makeText(BookNowPayment.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostYourTaskPayNowActivity.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
 
+
+    }
+
+    private void getStripePaymentToken(final String cardNumber, final String expiryMonth, String expiryYear, final String cvv_value, final String expiryYearfourDigit) {
+        loadingDialog.show();
+        //final String month_year = etExpiryDate.getText().toString().trim();
+        //String str_year = strExpiryDate.substring(strExpiryDate.length() - 2); // str_year=="23";
+        Log.e("PaymetDatas", cardNumber + " : " + expiryMonth + " :: " + expiryYear + " : " + cvv_value);
+
+        final String strExpiryDate = expiryMonth + expiryYear;
+
+        Card card = new Card(cardNumber,
+                Integer.valueOf(expiryMonth),
+                Integer.valueOf(expiryYear),
+                cvv_value);
+
+        Stripe stripe = new Stripe();
+
+        stripe.createToken(card, PUBLISHABLE_KEY, new TokenCallback() {
+            public void onSuccess(Token token) {
+                // TODO: Send Token information to your backend to initiate a charge
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+                //Toast.makeText(getActivity(), "Token created: " + token.getId(), Toast.LENGTH_LONG).show();
+                Log.d("StripeSuccessPayNow", token.getId());
+                String token_id = token.getId();
+
+                //Toast.makeText(UserStripePaymentActivity.this, "Under Development", Toast.LENGTH_SHORT).show();
+                if (connectionDetector.isConnectingToInternet()) {
+                    newStripePaymentAPIRequest(token_id, cardNumber, strExpiryDate, cvv_value, expiryMonth, expiryYearfourDigit);
+                } else {
+                    Toast.makeText(PostYourTaskPayNowActivity.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            public void onError(Exception error) {
+
+                Log.d("StripeFail", error.getLocalizedMessage());
+                Toast.makeText(PostYourTaskPayNowActivity.this, "Please Enter Correct Card Details!!", Toast.LENGTH_SHORT).show();
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+            }
+        });
+    }
+
+
+    private void newStripePaymentAPIRequest(final String token_id, final String cardNumber, final String strExpiryDate, final String cvv_value, final String expiryMonth, final String expiryYearfourDigit) {
+
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_POSTYOURTASK_BOOKING,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "PostYourTask= " + response);
+
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+
+                                JSONObject jsonObject = jobj.getJSONObject("details");
+                                String payment_mode = jsonObject.getString("payment_mode");
+                                String payment_status = jsonObject.getString("payment_status");
+                                String payment_reference_number = jsonObject.getString("transaction_id");
+                                String payment_date = jsonObject.getString("date");
+                                String payment_time = jsonObject.getString("time");
+                                String payment_amount = jsonObject.getString("amount");
+
+                                Intent intent = new Intent(PostYourTaskPayNowActivity.this, PaymentDetailsActivity.class);
+                                intent.putExtra("PaymentDetails", my_task_price);
+
+                                intent.putExtra("PaymentMode", payment_mode);
+                                intent.putExtra("PaymentStatus", payment_status);
+                                intent.putExtra("PaymentRefNo", payment_reference_number);
+                                intent.putExtra("PaymentDate", payment_date);
+                                intent.putExtra("PaymentTime", payment_time);
+                                intent.putExtra("PaymentAmount", payment_amount);
+
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                Toast.makeText(PostYourTaskPayNowActivity.this, "Payment Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Utils.AlertDialog(PostYourTaskPayNowActivity.this, "User not registered.");
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(PostYourTaskPayNowActivity.this, error);
+                        AlertUtility.showAlert(PostYourTaskPayNowActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("user_id", user_id);
+                    params.put("card_no", cardNumber);
+                    params.put("exp_mon", expiryMonth);
+                    params.put("exp_year", expiryYearfourDigit);
+                    params.put("cvv", cvv_value);
+                    params.put("stripeToken", token_id);
+
+                    params.put("my_task_message", my_task_message);
+                    params.put("my_task_price", my_task_price);
+                    params.put("my_task_job_location", my_task_job_location);
+                    params.put("ref_id_category", ref_id_category);
+                    params.put("ref_id_sub_category", ref_id_sub_category);
+
+                    params.put("booking_date", bookingDate);
+                    params.put("booking_time", bookingTime);
+                    params.put("total_price", disCountTotalAmt);
+                    params.put("promocode_used", promoCodeUsed);
+                    params.put("discount_amt", disCountAmt);
+                    Log.d("Params", params.toString());
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(PostYourTaskPayNowActivity.this);
+        requestQueue.add(stringRequest);
     }
 
     private void getCardDetailsInfo() {
@@ -289,7 +441,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
 
                             } else {
                                 //Utils.AlertDialog(BookNowPayment.this, msg);
-                               // get_cvv = false;
+                                // get_cvv = false;
                                 etCardNumber.setText("");
                                 etExpiryDate.setText("");
                                 etMonth.setText("");
@@ -304,8 +456,8 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(BookNowPayment.this, error);
-                        AlertUtility.showAlert(BookNowPayment.this, reason);
+                        String reason = AppUtils.getVolleyError(PostYourTaskPayNowActivity.this, error);
+                        AlertUtility.showAlert(PostYourTaskPayNowActivity.this, reason);
                         System.out.println("jsonexeption" + error.toString());
                     }
                 }) {
@@ -325,159 +477,16 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(BookNowPayment.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(PostYourTaskPayNowActivity.this);
         requestQueue.add(stringRequest);
 
     }
 
-    private void getStripePaymentToken(final String cardNumber, final String expiryMonth, String expiryYear, final String cvv_value, final String expiryYearfourDigit) {
-        loadingDialog.show();
-        //final String month_year = etExpiryDate.getText().toString().trim();
-        //String str_year = strExpiryDate.substring(strExpiryDate.length() - 2); // str_year=="23";
-        Log.e("PaymetDatas", cardNumber + " : " + expiryMonth + " :: " + expiryYear + " : " + cvv_value + " " + expiryYearfourDigit);
-
-        Log.d("PaymetDatas", cardNumber + " " + cvv_value + " " + expiryYearfourDigit);
-
-        final String strExpiryDate = expiryMonth + expiryYear;
-
-        Card card = new Card(cardNumber,
-                Integer.valueOf(expiryMonth),
-                Integer.valueOf(expiryYear),
-                cvv_value);
-
-        Stripe stripe = new Stripe();
-
-        stripe.createToken(card, PUBLISHABLE_KEY, new TokenCallback() {
-            public void onSuccess(Token token) {
-                // TODO: Send Token information to your backend to initiate a charge
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                //Toast.makeText(getActivity(), "Token created: " + token.getId(), Toast.LENGTH_LONG).show();
-                Log.d("StripeSuccessPayNow", token.getId());
-                String token_id = token.getId();
-
-                //Toast.makeText(UserStripePaymentActivity.this, "Under Development", Toast.LENGTH_SHORT).show();
-                if (connectionDetector.isConnectingToInternet()) {
-                    newStripePaymentAPIRequest(token_id, cardNumber, strExpiryDate, cvv_value, expiryMonth, expiryYearfourDigit);
-                } else {
-                    Toast.makeText(BookNowPayment.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            public void onError(Exception error) {
-
-                Log.d("StripeFail", error.getLocalizedMessage());
-                Toast.makeText(BookNowPayment.this, "Please Enter Correct Card Details!!", Toast.LENGTH_SHORT).show();
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
-
-
-    private void newStripePaymentAPIRequest(final String token_id, final String cardNumber, final String strExpiryDate, final String cvv_value, final String expiryMonth, final String expiryYearfourDigit) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REGULAR_BOOKING,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (loadingDialog.isShowing()) {
-                            loadingDialog.dismiss();
-                        }
-                        Log.i("Response", "Login= " + response);
-
-                        try {
-                            JSONObject jobj = new JSONObject(response);
-                            int message_code = jobj.getInt("message_code");
-
-                            String msg = jobj.getString("message");
-                            Log.e("FLag", message_code + " :: " + msg);
-
-                            if (message_code == 1) {
-
-                                JSONObject jsonObject = jobj.getJSONObject("details");
-                                String payment_mode = jsonObject.getString("payment_mode");
-                                String payment_status = jsonObject.getString("payment_status");
-                                String payment_reference_number = jsonObject.getString("transaction_id");
-                                String payment_date = jsonObject.getString("date");
-                                String payment_time = jsonObject.getString("time");
-                                String payment_amount = jsonObject.getString("amount");
-
-                                Intent intent = new Intent(BookNowPayment.this, PaymentDetailsActivity.class);
-                                intent.putExtra("PaymentDetails", userPaymentAmount);
-
-                                intent.putExtra("PaymentMode", payment_mode);
-                                intent.putExtra("PaymentStatus", payment_status);
-                                intent.putExtra("PaymentRefNo", payment_reference_number);
-                                intent.putExtra("PaymentDate", payment_date);
-                                intent.putExtra("PaymentTime", payment_time);
-                                intent.putExtra("PaymentAmount", payment_amount);
-
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                                etCVV.setText("");
-                                etCardNumber.setText("");
-                                etMonth.setText("");
-                                etExpiryDate.setText("");
-                                //etCvvNumber.setText("");
-                                Toast.makeText(BookNowPayment.this, "Payment Successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Utils.AlertDialog(BookNowPayment.this, "User not registered.");
-                            }
-                        } catch (JSONException e) {
-                            System.out.println("jsonexeption" + e.toString());
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String reason = AppUtils.getVolleyError(BookNowPayment.this, error);
-                        AlertUtility.showAlert(BookNowPayment.this, reason);
-                        System.out.println("jsonexeption" + error.toString());
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                try {
-                    params.put("my_task_message", yourMeassage);
-                    params.put("my_task_job_location", "1");
-                    params.put("user_id", user_id);
-                    params.put("ref_id_category", "1");
-                    params.put("ref_id_sub_category", selectedSubCate);
-                    params.put("booking_date", bookingDate);
-                    params.put("booking_time", bookingTime);
-                    params.put("card_no", cardNumber);
-                    params.put("exp_mon", expiryMonth);
-                    params.put("exp_year", expiryYearfourDigit);
-                    params.put("cvv", cvv_value);
-                    params.put("stripeToken", token_id);
-                    params.put("vendor_id", vendorIds);
-                    params.put("total_price", userPaymentAmount);
-
-                } catch (Exception e) {
-                    System.out.println("error" + e.toString());
-                }
-                return params;
-            }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setShouldCache(false);
-        RequestQueue requestQueue = Volley.newRequestQueue(BookNowPayment.this);
-        requestQueue.add(stringRequest);
-
-
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -490,7 +499,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
     }
 
     public void dialogYear() {
-        Dialog dialog = new Dialog(BookNowPayment.this);
+        Dialog dialog = new Dialog(PostYourTaskPayNowActivity.this);
         dialog.setContentView(R.layout.dialog_month);
         ListView lv = (ListView) dialog.findViewById(R.id.lv);
         dialog.setCancelable(true);
@@ -500,14 +509,14 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
         for (int i = thisYear; i <= 2060; i++) {
             years.add(Integer.toString(i));
         }
-        YearAdaptor adapter = new YearAdaptor(BookNowPayment.this, years, onCallBack, dialog);
+        YearAdaptor adapter = new YearAdaptor(PostYourTaskPayNowActivity.this, years, onCallBack, dialog);
         lv.setAdapter(adapter);
 
         dialog.show();
     }
 
     public void dialogMonth() {
-        Dialog dialog = new Dialog(BookNowPayment.this);
+        Dialog dialog = new Dialog(PostYourTaskPayNowActivity.this);
         dialog.setContentView(R.layout.dialog_month);
         ListView lv = (ListView) dialog.findViewById(R.id.lv);
         dialog.setCancelable(true);
@@ -525,7 +534,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
         years.add("10");
         years.add("11");
         years.add("12");
-        MonthAdaptor adapter = new MonthAdaptor(BookNowPayment.this, years, onCallBack, dialog);
+        MonthAdaptor adapter = new MonthAdaptor(PostYourTaskPayNowActivity.this, years, onCallBack, dialog);
         lv.setAdapter(adapter);
         dialog.show();
     }
@@ -560,5 +569,5 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
     public void callrefresh() {
 
     }
-
 }
+

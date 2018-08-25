@@ -3,27 +3,29 @@
     android:id="@+id/ll_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dimens_5dp"
+    android:layout_margin="@dimen/dimens_10dp"
     android:orientation="horizontal">
 
     <RadioButton
         android:id="@+id/radio1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clickable="false"
-        android:focusableInTouchMode="false"
-
-        android:focusable="false" />
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
+        android:buttonTint="#05FFFFFF"
+        android:background="@drawable/radio_buttonbackground"
+       android:checked="false" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_10dp"
-        android:focusable="false"
-        android:text="text"
         android:clickable="false"
+        android:layout_marginTop="@dimen/dimens_10dp"
+
+        android:focusable="false"
         android:focusableInTouchMode="false"
+        android:text="text"
 
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
@@ -33,11 +35,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_10dp"
-        android:focusable="false"
-        android:text="text"
         android:clickable="false"
+        android:focusable="false"
+        android:layout_marginTop="@dimen/dimens_10dp"
+
         android:focusableInTouchMode="false"
         android:gravity="right"
+        android:text="text"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
 
