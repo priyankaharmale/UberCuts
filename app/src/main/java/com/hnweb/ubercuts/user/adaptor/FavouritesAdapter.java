@@ -16,17 +16,34 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
+import com.hnweb.ubercuts.user.activity.CompletedDetailsActivity;
 import com.hnweb.ubercuts.user.bo.FavouritesModel;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.LoadingDialog;
+import com.hnweb.ubercuts.utils.Utils;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +58,8 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     AdapterCallback mAdapterCallback;
     LoadingDialog loadingDialog;
     public MyFilter mFilter;
+    SharedPreferences prefs;
+    String user_id;
     private List<FavouritesModel> mFilteredList;
 
     public FavouritesAdapter(FragmentActivity activity, ArrayList<FavouritesModel> favouritesModels, LoadingDialog loadingDialog, AdapterCallback mAdapterCallback) {
@@ -58,6 +77,8 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     public FavouritesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View rowView = inflater.inflate(R.layout.adaptor_favoritelist, parent, false);
+        prefs = context.getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
         FavouritesAdapter.ViewHolder vh = new FavouritesAdapter.ViewHolder(rowView);
         return vh;
     }
@@ -78,7 +99,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         } else {
             holder.tvUserName.setText(favouritesModel.getU_name());
         }
-
 
 
         if (experience.equals("")) {
@@ -105,7 +125,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             @Override
             public void onClick(View v) {
                 String vendor_id = favouritesModel.getU_id();
-                //addFavouritesList(vendor_id);
+                removeFavouritesList(vendor_id);
             }
         });
 
@@ -118,64 +138,71 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     }
 
-/*
-    private void addFavouritesList(String vendor_id) {
 
-        SharedPreferences prefs = context.getSharedPreferences("MyPrefUser", MODE_PRIVATE);
-        String user_id = prefs.getString("user_id_user", null);
-        Log.e("PostedUserIds", user_id);
+    private void removeFavouritesList(final String vendor_id) {
 
-        //loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
-        params.put("u_id", user_id);
-        params.put("vendor_id", vendor_id);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REMOVE_VENDORFAV,
+                new Response.Listener<String>() {
 
-        Log.e("ParamsFav", params.toString());
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.d("AddFavourites", response);
 
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("favourites");
-        request_info.setUrl(WebsServiceURLUser.USER_REMOVE_FAVOURITES);
-        request_info.setParams(params);
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
 
-        DataUtility.submitRequest(loadingDialog, context, request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.d("AddFavourites", data);
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
 
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
+                            if (message_code == 1) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                callAddFavourites();
+                            } else {
+                                Utils.AlertDialog((FragmentActivity) context, msg);
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
 
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
 
-                    if (message_code == 1) {
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                        callAddFavourites();
-                    } else {
-                        Utils.AlertDialog((FragmentActivity) context, msg);
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(context, error);
+                        AlertUtility.showAlert(context, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("vendor_id", vendor_id);
+                    params.put("u_id", user_id);
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-
-                AlertUtility.showAlert(context, false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+
+
+
     }
-*/
+
 
     private void callAddFavourites() {
         mAdapterCallback.onMethodCallPosted();
@@ -189,10 +216,10 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     @Override
     public Filter getFilter() {
 
-        if (mFilter == null){
+        if (mFilter == null) {
             mFilteredList.clear();
             mFilteredList.addAll(this.favouritesModels);
-            mFilter = new MyFilter(this,mFilteredList);
+            mFilter = new MyFilter(this, mFilteredList);
         }
         return mFilter;
 
@@ -215,15 +242,15 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
             filteredList.clear();
             final FilterResults results = new FilterResults();
-            if (charSequence.length() == 0){
+            if (charSequence.length() == 0) {
                 filteredList.addAll(originalList);
-            }else {
+            } else {
                 final String filterPattern = charSequence.toString().toLowerCase().trim();
-                for ( FavouritesModel favouritesModel : originalList){
+                for (FavouritesModel favouritesModel : originalList) {
                     if (favouritesModel.getU_name().toLowerCase().contains(filterPattern)
-                            || favouritesModel.getExperience().contains(filterPattern) ){
+                            || favouritesModel.getExperience().contains(filterPattern)) {
                         filteredList.add(favouritesModel);
-                        Log.d("FilterData",filteredList.toString());
+                        Log.d("FilterData", filteredList.toString());
                     }
                 }
             }
@@ -238,7 +265,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
 
             myAdapter.favouritesModels.clear();
-            myAdapter.favouritesModels.addAll((ArrayList<FavouritesModel>)filterResults.values);
+            myAdapter.favouritesModels.addAll((ArrayList<FavouritesModel>) filterResults.values);
             myAdapter.notifyDataSetChanged();
 
         }

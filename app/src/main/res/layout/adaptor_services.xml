@@ -8,12 +8,12 @@
 
     <RadioButton
         android:id="@+id/radio1"
-        android:layout_width="@dimen/dimens_20dp"
+        android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="@dimen/dimens_10dp"
-
+        android:buttonTint="#05FFFFFF"
         android:background="@drawable/radio_buttonbackground"
-        android:buttonTint="#05FFFFFF" />
+        android:checked="false" />
 
     <TextView
         android:id="@+id/textView1"
@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_10dp"
         android:clickable="false"
+        android:layout_marginTop="@dimen/dimens_10dp"
+
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="text"

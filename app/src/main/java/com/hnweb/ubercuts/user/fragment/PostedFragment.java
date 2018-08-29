@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,15 +40,12 @@ import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
-import com.hnweb.ubercuts.user.adaptor.BeauticianDetailsAdapter;
 import com.hnweb.ubercuts.user.adaptor.MyTaskAadapter;
-import com.hnweb.ubercuts.user.bo.Details;
 import com.hnweb.ubercuts.user.bo.MyTaskModel;
 import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
-import com.hnweb.ubercuts.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,6 +94,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         // when fragment visible to user and view is not null then enter here.
         if (isUserVisible) {
             // do your stuff here.
+           // getPostedTaskList();
             //getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
     }
@@ -119,7 +118,6 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         user_id = prefs.getString(AppConstant.KEY_ID, null);
         Log.e("PostedUserIds", user_id);
         initViewById(view);
-        getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
 
         //setUserVisibleHint(true);
 
@@ -202,22 +200,20 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
 
 
         if (connectionDetector.isConnectingToInternet()) {
-            category_id = "";
-            replaceArrayListCategory = "";
-            value_date_filter = "";
-            getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+
+            getPostedTaskList();
         } else {
-          /*  Snackbar snackbar = Snackbar
+            /*Snackbar snackbar = Snackbar
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
-            snackbar.show();*/
-            Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+            snackbar.show();
+*/
+             Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-
-    private void getPostedTaskList(final  String category_id, final String sub_category_id, final String value_date_filter) {
+    private void getPostedTaskList() {
 
         loadingDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_MYTASKLISTING,
@@ -225,16 +221,19 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("res_register" + response);
                         if (loadingDialog.isShowing()) {
                             loadingDialog.dismiss();
                         }
                         Log.i("Response", "PostList :" + response);
+
+
                         try {
                             JSONObject jobj = new JSONObject(response);
                             int message_code = jobj.getInt("message_code");
+
                             String msg = jobj.getString("message");
                             Log.e("FLag", message_code + " :: " + msg);
+
                             if (message_code == 1) {
 
                                 JSONArray userdetails = jobj.getJSONArray("details");
@@ -245,6 +244,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                                 myTaskModels.clear();
                                 for (int j = 0; j < userdetails.length(); j++) {
                                     JSONObject jsonObject = userdetails.getJSONObject(j);
+
                                     MyTaskModel myTaskModel = new MyTaskModel();
                                     myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
                                     myTaskModel.setCategory_name(jsonObject.getString("category_name"));
@@ -252,6 +252,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                                     myTaskModel.setBeautician(jsonObject.getString("beautician"));
                                     myTaskModel.setDate(jsonObject.getString("date"));
                                     myTaskModel.setTime(jsonObject.getString("time"));
+
                                     myTaskModel.setStatus(jsonObject.getString("status"));
                                     myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
                                     myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
@@ -276,7 +277,8 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                         } catch (JSONException e) {
                             System.out.println("jsonexeption" + e.toString());
                         }
-                        }
+
+                    }
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -305,14 +307,15 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         stringRequest.setShouldCache(false);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
-    }
 
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView_filter_booked:
-                showAlertDialog();
+        //        showAlertDialog();
                 break;
 
             case R.id.imageView_search:
@@ -326,7 +329,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void showAlertDialog() {
+  /*  private void showAlertDialog() {
 
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -348,7 +351,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
         final RecyclerView recyclerViewCate = dialogView.findViewById(R.id.recylerview_list_filter);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerViewCate.setLayoutManager(layoutManager);
-        //Button btnReset = dialogView.findViewById(R.id.btn_reset_filter);
+        Button btnReset = dialogView.findViewById(R.id.btn_reset_filter);
         Button btnApply = dialogView.findViewById(R.id.btn_apply_filter);
         final TextView textView = dialogView.findViewById(R.id.textView_sub_service);
         final View view = dialogView.findViewById(R.id.view_filter);
@@ -389,7 +392,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
 
         final AlertDialog ad = alertDialog.create();
         ad.show();
-      /*  btnApply.setOnClickListener(new View.OnClickListener() {
+        btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.cancel();
@@ -430,8 +433,8 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
-    /*    btnReset.setOnClickListener(new View.OnClickListener() {
+        });
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ad.cancel();
@@ -464,7 +467,7 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(), "choice: Nail", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
 
     }
 
@@ -502,76 +505,6 @@ public class PostedFragment extends Fragment implements View.OnClickListener {
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
-    }
-
-/*
-    private void getSubCategoryList(String category_id, final RecyclerView recyclerViewCate, final TextView textView, final View view) {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("category_id", category_id);
-
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("login");
-        request_info.setUrl(WebsServiceURLUser.USER_GET_ALL_SUB_CATE);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "Category= " + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-
-                        textView.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
-                        JSONArray userdetails = jobj.getJSONArray("details");
-                        //subCategoriesList = new ArrayList<Category.SubCategory>();
-
-                        subCategoriesList.clear();
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
-
-                            Category.SubCategory subCategory = new Category.SubCategory();
-                            subCategory.setSub_category_id(jsonObject.getString("sub_category_id"));
-                            subCategory.setSub_category_name(jsonObject.getString("sub_category_name"));
-                            subCategory.setRef_id_category(jsonObject.getString("ref_id_category"));
-                            subCategoriesList.add(subCategory);
-                        }
-                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                        SubCategoryAadapter subCategoryAadapter = new SubCategoryAadapter(getActivity(), subCategoriesList);
-                        recyclerViewCate.setAdapter(subCategoryAadapter);
-                    } else {
-                        textView.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
-                        Utils.AlertDialog(getActivity(), msg);
-                    }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
-
-            @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
-            }
-        });
     }
 */
 

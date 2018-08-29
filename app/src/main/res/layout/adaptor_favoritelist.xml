@@ -25,16 +25,16 @@
 
         <ImageView
             android:id="@+id/imageView_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimens_20dp"
+            android:layout_width="@dimen/text_20"
+            android:layout_height="@dimen/dimens_30dp"
             android:layout_alignBottom="@+id/profile_image"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/dimens_80dp"
+            android:layout_marginLeft="@dimen/dimens_70dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="@dimen/dimens_20dp"
 
-            android:src="@drawable/fav_unselected"
-            android:visibility="gone" />
+            android:src="@drawable/fav_selected"
+             />
 
 
     </RelativeLayout>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@drawable/splash"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+
+            android:background="@drawable/bg_services_home"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_serviceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/dimens_10dp"
+                android:text="Manicure"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rel_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimens_10dp">
+
+
+                <RelativeLayout
+                    android:id="@+id/layoutTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_20dp"></RelativeLayout>
+
+                <View
+                    android:id="@+id/layoutBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/layoutTop"
+                    android:background="@color/colorWhite"></View>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/overlapImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp"
+                    android:layout_above="@id/layoutBottom"
+                    android:layout_marginBottom="-80dp"
+                    android:layout_marginLeft="@dimen/dimens_10dp"
+                    android:src="@drawable/img_beautician_details" />
+
+                <LinearLayout
+                    android:id="@+id/ll_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/layoutBottom"
+                    android:layout_margin="@dimen/dimens_10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/chat_enable" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimens_8dp"
+                        android:text="Chat"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layoutBottom"
+                    android:layout_margin="@dimen/dimens_10dp"
+                    android:layout_toLeftOf="@+id/ll_chat"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens_10dp"
+                        android:src="@drawable/track_enable" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimens_10dp"
+                        android:layout_marginTop="@dimen/dimens_8dp"
+                        android:text="Track"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_beautician_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_chat"
+                    android:layout_marginLeft="@dimen/dimens_10dp"
+                    android:text="Beautian Not Booked"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_beautician_details"
+                    android:layout_marginLeft="@dimen/dimens_10dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_toRightOf="@+id/iv_vendorimage"
+                    android:drawableLeft="@drawable/date_post_your_task"
+                    android:drawablePadding="@dimen/dimens_10dp"
+                    android:text="05 Jan 2018"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16dp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_beautician_details"
+                    android:layout_marginLeft="@dimen/dimens_40dp"
+                    android:layout_marginTop="@dimen/dimens_10dp"
+                    android:layout_toRightOf="@+id/tv_date"
+                    android:drawableLeft="@drawable/time_post_your_task"
+                    android:drawablePadding="@dimen/dimens_10dp"
+                    android:text="10.00 AM"
+
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_size_16dp" />
+
+                <LinearLayout
+                    android:id="@+id/tv_joblocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_date"
+                    android:layout_marginTop="@dimen/dimens_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text="@string/hint_job_location"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_job_location_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/yourprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_joblocation"
+                    android:layout_marginTop="@dimen/dimens_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text="Amount Paid"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_yourprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/beatutianaddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/yourprice"
+                    android:layout_marginTop="@dimen/dimens_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text="Beautician Address: "
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_beautician_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/beatutianaddress"
+                    android:layout_marginTop="@dimen/dimens_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text="Description: "
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dimens_10dp"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_size_18sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_cancel_task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_description"
+                    android:layout_margin="@dimen/dimens_10dp"
+                    android:layout_marginBottom="@dimen/dimens_50dp"
+                    android:background="@drawable/bg_button_blue_home"
+                    android:text="Cancle this Task"
+                    android:textColor="@color/colorWhite" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

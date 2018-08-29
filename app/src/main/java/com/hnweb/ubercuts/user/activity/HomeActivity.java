@@ -30,6 +30,7 @@ import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.user.fragment.FavouritesFragment;
 import com.hnweb.ubercuts.user.fragment.HomeFragment;
 import com.hnweb.ubercuts.user.fragment.MyTaskFragment;
+import com.hnweb.ubercuts.user.fragment.ProfileEditFragment;
 import com.hnweb.ubercuts.user.fragment.TodaysOfferFragment;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public MenuItem liveitemList, liveitemMap;
     String profile_image, user_name, user_street, user_city, user_id;
 
-   public Toolbar toolbar;
+    public Toolbar toolbar;
     ImageView imageViewProfile, imageViewClose, imageViewUpload;
     TextView textViewUserName, textViewAdrress;
     SharedPreferences prefs;
@@ -49,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //getdeviceToken();
@@ -79,6 +80,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         imageViewClose = navHeader.findViewById(R.id.imageView_close);
         imageViewUpload = navHeader.findViewById(R.id.profile_image_photoupload);
 
+        imageViewUpload.setVisibility(View.VISIBLE);
 
         textViewUserName.setText(user_name);
         textViewAdrress.setText(user_street + ", " + user_city);
@@ -89,7 +91,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-/*
+
        imageViewUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,9 +104,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.commit();
             }
-        });*/
+        });
 
-        if (  profile_image ==null || profile_image.equals("")) {
+        if (profile_image == null || profile_image.equals("")) {
             Glide.with(this).load(R.drawable.user_register).into(imageViewProfile);
         } else {
             Glide.with(this).load(profile_image).into(imageViewProfile);
@@ -266,29 +268,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             fragment = new HomeFragment();
         } else if (id == R.id.nav_logout) {
             showLogoutAlert();
-        }else if (id == R.id.nav_favourites) {
+        } else if (id == R.id.nav_favourites) {
             fragment = new FavouritesFragment();
             //toolbar.setTitle("FAVOURITES");
-        }else if (id == R.id.nav_my_tasks) {
-            fragment = new MyTaskFragment();
-        }else if (id == R.id.nav_todays_offer) {
-            fragment = new TodaysOfferFragment();
-        }
-        /*else if (id == R.id.nav_my_tasks) {
+        } else if (id == R.id.nav_my_tasks) {
             fragment = new MyTaskFragment();
         } else if (id == R.id.nav_todays_offer) {
             fragment = new TodaysOfferFragment();
-        } else if (id == R.id.nav_payment_history) {
+        }
+        /* else if (id == R.id.nav_payment_history) {
             fragment = new PaymentFragment();
-        } else if (id == R.id.nav_favourites) {
-
         } else if (id == R.id.nav_message) {
 
         } else if (id == R.id.nav_change_password) {
             fragment = new ChangePasswordUser();
-        } else if (id == R.id.nav_logout) {
-            showLogoutAlert();
-        }*/
+        } */
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();

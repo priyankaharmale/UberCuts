@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.user.activity.BookedDetailsActivity;
+import com.hnweb.ubercuts.user.activity.CancelledDetailsActivity;
+import com.hnweb.ubercuts.user.activity.CompletedDetailsActivity;
+import com.hnweb.ubercuts.user.activity.PostedDetailsActivity;
 import com.hnweb.ubercuts.user.bo.MyTaskModel;
 
 import java.util.ArrayList;
@@ -66,8 +70,8 @@ public class MyTaskAadapter extends RecyclerView.Adapter<MyTaskAadapter.ViewHold
                 String mytask_id = myTaskModel.getMy_task_id();
                 String my_status = myTaskModel.getStatus();
 
-               /* if (my_status.equals("0")) {
-                    Intent intent = new Intent(context, PostDetailsActivity.class);
+                if (my_status.equals("0")) {
+                    Intent intent = new Intent(context, PostedDetailsActivity.class);
                     intent.putExtra("my_task_id", mytask_id);
                     context.startActivity(intent);
                 } else if (my_status.equals("1")) {
@@ -86,7 +90,7 @@ public class MyTaskAadapter extends RecyclerView.Adapter<MyTaskAadapter.ViewHold
                     intent.putExtra("my_task_id", mytask_id);
                     context.startActivity(intent);
                     //Toast.makeText(context, "Under Development", Toast.LENGTH_SHORT).show();
-                }*/
+                }
                 //Toast.makeText(v.getContext(), "You clicked " + myTaskModel.getMy_task_id(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -69,7 +69,8 @@
             android:focusableInTouchMode="false"
             android:hint="@string/str_country"
             android:inputType="text"
-
+            android:drawableRight="@drawable/drop_down"
+android:padding="@dimen/dimens_10dp"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
@@ -84,6 +85,8 @@
             android:background="@drawable/bg_textbox"
             android:editable="false"
             android:hint="@string/str_state"
+            android:drawableRight="@drawable/drop_down"
+            android:padding="@dimen/dimens_10dp"
             android:inputType="text"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
@@ -99,6 +102,8 @@
             android:background="@drawable/bg_textbox"
             android:editable="false"
             android:hint="@string/str_city"
+            android:drawableRight="@drawable/drop_down"
+            android:padding="@dimen/dimens_10dp"
             android:inputType="text"
             android:paddingLeft="@dimen/dimens_20dp"
             android:textColor="@color/colorWhite"
@@ -115,7 +120,7 @@
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_steet"
             android:inputType="text"
-            android:paddingLeft="@dimen/dimens_20dp"
+            android:paddingLeft="@dimen/dimens_10dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
 
@@ -129,7 +134,7 @@
             android:background="@drawable/bg_textbox"
             android:hint="@string/str_zip"
             android:inputType="text"
-            android:paddingLeft="@dimen/dimens_20dp"
+            android:paddingLeft="@dimen/dimens_10dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
 

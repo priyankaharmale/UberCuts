@@ -29,10 +29,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
+import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.interfaces.AdapterCallback;
 import com.hnweb.ubercuts.user.adaptor.MyTaskAadapter;
 import com.hnweb.ubercuts.user.bo.MyTaskModel;
+import com.hnweb.ubercuts.utils.AlertUtility;
+import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 
@@ -80,14 +91,14 @@ public class CancelledFragment extends Fragment implements View.OnClickListener 
         // when fragment visible to user and view is not null then enter here.
         if (isUserVisible) {
             // do your stuff here.
-         //   getPostedTaskList(category_id,replaceArrayListCategory,value_date_filter);
+            getPostedTaskList();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //getPostedTaskList(category_id,replaceArrayListCategory,value_date_filter);
+        getPostedTaskList();
     }
 
     @Nullable
@@ -97,8 +108,8 @@ public class CancelledFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_posted, container, false);
 
 
-        prefs = getActivity().getSharedPreferences("MyPrefUser", MODE_PRIVATE);
-        user_id = prefs.getString("user_id_user", null);
+        prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
         initViewById(view);
         setUserVisibleHint(true);
 
@@ -181,118 +192,122 @@ public class CancelledFragment extends Fragment implements View.OnClickListener 
         connectionDetector = new ConnectionDetector(getActivity());
         loadingDialog = new LoadingDialog(getActivity());
         if (connectionDetector.isConnectingToInternet()) {
-            category_id = "";
-            replaceArrayListCategory = "";
-            value_date_filter = "";
-            //getPostedTaskList(category_id,replaceArrayListCategory,value_date_filter);
+
+            getPostedTaskList();
         } else {
-            /*Snackbar snackbar = Snackbar
+           /* Snackbar snackbar = Snackbar
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
             snackbar.show();*/
-            //Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
 
 
     }
 
-/*
-    private void getPostedTaskList(String category_id, String replaceArrayListCategory, String value_date_filter) {
+    private void getPostedTaskList() {
 
-        //loadingDialog.show();
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_MYTASKLISTING,
+                new Response.Listener<String>() {
 
-        Map<String, String> params = new HashMap<>();
-        params.put("user_id", user_id);
-        params.put("status", "3");
-        params.put("category_id", category_id);
-        params.put("sub_category_id", replaceArrayListCategory);
-        params.put("fdt", value_date_filter);
-
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("mytask");
-        request_info.setUrl(WebsServiceURLUser.USER_MY_TASK_LIST);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, getActivity(), request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "PostList :" + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-
-                        JSONArray userdetails = jobj.getJSONArray("details");
-                        myTaskModels = new ArrayList<MyTaskModel>();
-                        int total_size = userdetails.length();
-                        String list_of_count = String.format("%02d", total_size);
-                        textViewListCount.setText(String.valueOf(list_of_count));
-
-                        for (int j = 0; j < userdetails.length(); j++) {
-                            JSONObject jsonObject = userdetails.getJSONObject(j);
-
-                            MyTaskModel myTaskModel = new MyTaskModel();
-                            myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
-                            myTaskModel.setCategory_name(jsonObject.getString("category_name"));
-                            myTaskModel.setCategory_id(jsonObject.getString("category_id"));
-                            myTaskModel.setBeautician(jsonObject.getString("beautician"));
-                            myTaskModel.setDate(jsonObject.getString("date"));
-                            myTaskModel.setStatus(jsonObject.getString("status"));
-                            myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
-                            myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
-                            myTaskModels.add(myTaskModel);
-
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
                         }
-                        //getListOfdata(subCategoriesList);
-                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                        Log.i("Response", "PostList :" + response);
 
-                        FragmentManager fragmentManager = getChildFragmentManager();
-                        Fragment fragment = new Fragment();
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
 
-                        myTaskAadapter = new MyTaskAadapter(getActivity(), myTaskModels);
-                        recyclerViewPostedList.setAdapter(myTaskAadapter);
-                        textViewList.setVisibility(View.GONE);
-                    } else {
-                        //Utils.AlertDialog(getActivity(), msg);
-                        textViewList.setVisibility(View.VISIBLE);
-                        recyclerViewPostedList.setVisibility(View.GONE);
-                        recyclerViewPostedList.setAdapter(null);
-                        textViewList.setText(msg);
-                        textViewListCount.setText(String.valueOf("00"));
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                JSONArray userdetails = jobj.getJSONArray("details");
+                                myTaskModels = new ArrayList<MyTaskModel>();
+                                int total_size = userdetails.length();
+                                String list_of_count = String.format("%02d", total_size);
+                                textViewListCount.setText(String.valueOf(list_of_count));
+
+                                for (int j = 0; j < userdetails.length(); j++) {
+                                    JSONObject jsonObject = userdetails.getJSONObject(j);
+
+                                    MyTaskModel myTaskModel = new MyTaskModel();
+                                    myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
+                                    myTaskModel.setCategory_name(jsonObject.getString("category_name"));
+                                    myTaskModel.setCategory_id(jsonObject.getString("category_id"));
+                                    myTaskModel.setBeautician(jsonObject.getString("beautician"));
+                                    myTaskModel.setDate(jsonObject.getString("date"));
+                                    myTaskModel.setTime(jsonObject.getString("time"));
+
+                                    myTaskModel.setStatus(jsonObject.getString("status"));
+                                    myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
+                                    myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
+                                    myTaskModels.add(myTaskModel);
+
+                                }
+                                //getListOfdata(subCategoriesList);
+                                //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                                FragmentManager fragmentManager = getChildFragmentManager();
+                                Fragment fragment = new Fragment();
+
+                                myTaskAadapter = new MyTaskAadapter(getActivity(), myTaskModels);
+                                recyclerViewPostedList.setAdapter(myTaskAadapter);
+                                textViewList.setVisibility(View.GONE);
+                            } else {
+                                //Utils.AlertDialog(getActivity(), msg);
+                                textViewList.setVisibility(View.VISIBLE);
+                                recyclerViewPostedList.setVisibility(View.GONE);
+                                recyclerViewPostedList.setAdapter(null);
+                                textViewList.setText(msg);
+                                textViewListCount.setText(String.valueOf("00"));
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+
+
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(getActivity(), error);
+                        AlertUtility.showAlert(getActivity(), reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("client_id", user_id);
+                    params.put("status", "3");
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-               // AlertUtility.showAlert(getActivity(), false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+
     }
-*/
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView_filter_booked:
-                //showAlertDialog();
+              //  showAlertDialog();
                 break;
 
             case R.id.imageView_search:
@@ -304,7 +319,7 @@ public class CancelledFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-   /* private void showAlertDialog() {
+  /*  private void showAlertDialog() {
 
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());

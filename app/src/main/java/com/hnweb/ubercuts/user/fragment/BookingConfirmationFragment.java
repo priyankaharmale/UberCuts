@@ -122,6 +122,7 @@ public class BookingConfirmationFragment extends Fragment implements View.OnClic
 
         tvServices.setText(ref_category_name);
         tvSubServices.setText(ref_sub_category_name);
+        //tvJobLocation.setText(my_task_job_location);
 
         tvBeauticianCharge = view.findViewById(R.id.textView_beautician_charge);
         tvOtherCharge = view.findViewById(R.id.textView_other_charge);

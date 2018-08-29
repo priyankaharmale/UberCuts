@@ -86,6 +86,12 @@ public class AppConstant {
     public static final String API_POSTYOURTASK_BOOKING = BASE_URL + "post_task_booking.php";
     /*=================================================Reguslar booking =========================================================*/
     public static final String API_MYTASKLISTING = BASE_URL + "my_task_list.php";
+    /*=================================================Reguslar booking =========================================================*/
+    public static final String API_MYTASKDETAILS = BASE_URL + "my_task_details.php";
+    /*=================================================GET PROFILE USER  =========================================================*/
+    public static final String API_GETUSERPROFILEDETAILS = BASE_URL + "get_user.php";
+    /*================================================= PROFILE USER  UPDATE=========================================================*/
+    public static final String API_UPDATEUSERPROFILE = BASE_URL + "update_user.php";
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/

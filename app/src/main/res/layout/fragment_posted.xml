@@ -16,6 +16,7 @@
             android:layout_height="@dimen/dimens_45dp"
             android:background="@color/colorWhite"
             android:orientation="horizontal"
+
             android:weightSum="1">
 
 
@@ -65,7 +66,6 @@
                 android:id="@+id/imageView_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
                 android:layout_weight="0.1"
                 android:paddingBottom="@dimen/dimens_10dp"
                 android:paddingTop="@dimen/dimens_10dp"
@@ -89,7 +89,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recylerview_posted_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
             android:layout_margin="@dimen/dimens_10dp"
             android:visibility="visible" />
 
@@ -105,21 +106,6 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:id="@+id/loading_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateTint="@color/wallet_holo_blue_light"
-                android:indeterminateTintMode="src_atop"
-                android:visibility="gone" />
-        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

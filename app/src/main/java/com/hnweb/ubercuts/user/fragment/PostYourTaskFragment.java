@@ -396,7 +396,6 @@ public class PostYourTaskFragment extends android.support.v4.app.Fragment implem
 
     private void getServices() {
         loadingDialog.show();
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_SERVICELIST,
                 new Response.Listener<String>() {
 
