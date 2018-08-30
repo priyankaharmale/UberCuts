@@ -92,6 +92,12 @@ public class AppConstant {
     public static final String API_GETUSERPROFILEDETAILS = BASE_URL + "get_user.php";
     /*================================================= PROFILE USER  UPDATE=========================================================*/
     public static final String API_UPDATEUSERPROFILE = BASE_URL + "update_user.php";
+    /*================================================= RESHEDULE TASK=========================================================*/
+    public static final String API_RESHEDULETASK = BASE_URL + "reshedule_task.php";
+    /*================================================= CANCLED TASK=========================================================*/
+    public static final String API_CANCLEDTASK = BASE_URL + "cancel_my_task.php";
+
+
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/

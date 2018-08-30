@@ -148,6 +148,8 @@ public class BookedDetailsActivity extends AppCompatActivity implements View.OnC
                                     String add_zipcode = jsonObject.getString("u_zipcode");
                                     beautician_name_value = beautician_name;
 
+                                    tvDate.setText(date);
+                                    tvTime.setText(time);
                                     tvServices.setText(sub_category_name);
                                     tvBeautician.setText(beautician_name);
                                     tvJobLocation.setText(job_location);
@@ -236,7 +238,7 @@ public class BookedDetailsActivity extends AppCompatActivity implements View.OnC
         // Setting Positive "Yes" Button
         alertDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                //  getPostTaskCancel(my_task_ids);
+                 getPostTaskCancel(my_task_ids);
                 // Write your code here to invoke YES event
                 //Toast.makeText(getApplicationContext(), "You clicked on YES", Toast.LENGTH_SHORT).show();
             }
@@ -256,57 +258,66 @@ public class BookedDetailsActivity extends AppCompatActivity implements View.OnC
 
     }
 
-/*
-    private void getPostTaskCancel(String my_task_ids) {
+
+    private void getPostTaskCancel(final String my_task_ids) {
+
         loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
-        params.put("my_task_id", my_task_ids);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_CANCLEDTASK,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("Response", "BookCancelTaskDetails :" + response);
 
-        Log.e("Params", params.toString());
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
 
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("mytask");
-        request_info.setUrl(WebsServiceURLUser.USER_CANCEL_MY_TASK);
-        request_info.setParams(params);
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
 
-        DataUtility.submitRequest(loadingDialog, this, request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "BookCancelTaskDetails :" + data);
+                            if (message_code == 1) {
+                                finish();
+                                getPostRefresh();
+                            } else {
 
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-                        finish();
-                        getPostRefresh();
-                    } else {
-
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(BookedDetailsActivity.this, error);
+                        AlertUtility.showAlert(BookedDetailsActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("my_task_id", my_task_ids);
+
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-                AlertUtility.showAlert(PostedDetailsActivity.this, false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
-*/
+
 
     private void getPostRefresh() {
     }

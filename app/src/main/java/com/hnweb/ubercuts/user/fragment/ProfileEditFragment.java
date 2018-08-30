@@ -519,10 +519,7 @@ public class ProfileEditFragment extends android.support.v4.app.Fragment impleme
                                 //image_path_selected = "";
                                     JSONObject jsonObject = jobj.getJSONObject("details");
                                     String userProfile = jsonObject.getString("u_img");
-
-                                       // editorUser.putString("UserImage", userProfile);
-
-
+                                       // editorUser.putString("UserImage", userProfile)
                                         String user_id = jsonObject.getString("u_id");
                                         String user_name = jsonObject.getString("u_name");
                                         String user_email = jsonObject.getString("u_email");

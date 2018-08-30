@@ -36,6 +36,7 @@ import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
+import com.hnweb.ubercuts.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class CancelledDetailsActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
     String user_id;
-    TextView tvServices, tvJobLocation, tvDate, tv_yourprice,tvTime, tvDescription, tvBeautician, tvAmountPaid, tvUserNames;
+    TextView tvServices, tvJobLocation, tvDate, tv_yourprice, tvTime, tvDescription, tvBeautician, tvAmountPaid, tvUserNames;
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
     String my_task_ids;
@@ -92,12 +93,12 @@ public class CancelledDetailsActivity extends AppCompatActivity {
         tvServices = findViewById(R.id.tv_serviceName);
         tvDate = findViewById(R.id.tv_date);
         tvTime = findViewById(R.id.tv_time);
-        tv_yourprice=findViewById(R.id.tv_yourprice);
+        tv_yourprice = findViewById(R.id.tv_yourprice);
         tvJobLocation = findViewById(R.id.textView_job_location_book);
         tvDescription = findViewById(R.id.tv_description);
         tvUserNames = findViewById(R.id.textView_beautician_details);
-        tvBeautician=findViewById(R.id.textView_beautician_address);
-        imageViewBeautician=findViewById(R.id.overlapImage);
+        tvBeautician = findViewById(R.id.textView_beautician_address);
+        imageViewBeautician = findViewById(R.id.overlapImage);
 
 
         connectionDetector = new ConnectionDetector(CancelledDetailsActivity.this);
@@ -117,16 +118,17 @@ public class CancelledDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //getPostTaskCancel(my_task_ids);
-           //     showAlertDialog();
+                showAlertDialog();
             }
         });
     }
+
     private void getCancelDetailsData() {
         loadingDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_MYTASKDETAILS,
                 new Response.Listener<String>() {
 
-            @Override
+                    @Override
                     public void onResponse(String response) {
                         if (loadingDialog.isShowing()) {
                             loadingDialog.dismiss();
@@ -169,7 +171,9 @@ public class CancelledDetailsActivity extends AppCompatActivity {
                                     tvUserNames.setText(beautician_name);
                                     tvJobLocation.setText(job_location);
                                     tvDescription.setText(task_msg);
-                                    tv_yourprice.setText("$"+amount_paid);
+                                    tvDate.setText(date);
+                                    tvTime.setText(time);
+                                    tv_yourprice.setText("$" + amount_paid);
 
                                     tvBeautician.setText(add_street + ", " + add_city + ", " + add_state + ", " + add_country + ", " + add_zipcode);
 
@@ -243,7 +247,7 @@ public class CancelledDetailsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
- /*   private void showAlertDialog() {
+    private void showAlertDialog() {
 
         final Dialog dialog = new Dialog(CancelledDetailsActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -297,7 +301,7 @@ public class CancelledDetailsActivity extends AppCompatActivity {
                         // String output_time_format = "HH:mm aa";
                         //String outputTimeFormat = utils.timeFormats(time_selected, input_time_format, output_time_format);
 
-                        showAlertDialogConfirm(outputDateFormat, time_selected,dialog);
+                        showAlertDialogConfirm(outputDateFormat, time_selected, dialog);
                     } else {
                         Toast.makeText(CancelledDetailsActivity.this, "Please select Time", Toast.LENGTH_SHORT).show();
                     }
@@ -333,7 +337,7 @@ public class CancelledDetailsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // Write your code here to invoke YES event
                 dialog.cancel();
-                postResceduleTaskRequest(date_selected, time_selected,dialog);
+                postResceduleTaskRequest(date_selected, time_selected, dialog);
 
             }
         });
@@ -351,60 +355,69 @@ public class CancelledDetailsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void postResceduleTaskRequest(String date_selected, String time_selected, final DialogInterface dialog) {
 
+    private void postResceduleTaskRequest(final String date_selected, final String time_selected, final DialogInterface dialog) {
         loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
-        params.put("my_task_id", my_task_ids);
-        params.put("booking_date", date_selected);
-        params.put("booking_time", time_selected);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_RESHEDULETASK,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                        Log.i("RescheduleTask", "RescheduleTask :" + response);
 
-        Log.e("ParamsRescheduleTask", params.toString());
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
 
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("mytask");
-        request_info.setUrl(WebsServiceURLUser.USER_RESCHEDULE_MY_TASK);
-        request_info.setParams(params);
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
 
-        DataUtility.submitRequest(loadingDialog, this, request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("RescheduleTask", "RescheduleTask :" + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-                        dialog.cancel();
-                        finish();
-                        Toast.makeText(CancelledDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    } else {
-                        dialog.cancel();
-                        Toast.makeText(CancelledDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            if (message_code == 1) {
+                                dialog.cancel();
+                                finish();
+                                Toast.makeText(CancelledDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            } else {
+                                dialog.cancel();
+                                Toast.makeText(CancelledDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
                     }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String reason = AppUtils.getVolleyError(CancelledDetailsActivity.this, error);
+                        AlertUtility.showAlert(CancelledDetailsActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
+                    }
+                }) {
 
             @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("my_task_id", my_task_ids);
+                    params.put("booking_date", date_selected);
+                    params.put("booking_time", time_selected);
+
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
                 }
-                AlertUtility.showAlert(CancelledDetailsActivity.this, false, "Network Error,Please Check Internet Connection");
+                return params;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
+
 
     private void getDatePicker(final TextView tvPostedDate) {
         final Calendar c = Calendar.getInstance();
@@ -455,7 +468,7 @@ public class CancelledDetailsActivity extends AppCompatActivity {
                 }, mHour, mMinute, false);
         timePickerDialog.show();
     }
-*/
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
