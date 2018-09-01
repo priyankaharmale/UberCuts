@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@drawable/splash"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/dimens_20dp"
+            android:layout_marginBottom="@dimen/dimens_50dp"
+            android:layout_marginLeft="@dimen/dimens_20dp"
+            android:layout_marginRight="@dimen/dimens_20dp"
+            android:layout_marginTop="@dimen/dimens_10dp"
+
             android:background="@drawable/bg_services_home"
             android:orientation="vertical">
 
@@ -45,8 +51,8 @@
                     android:layout_below="@id/layoutTop"
                     android:background="@color/colorWhite"></View>
 
-                <ImageView
-                    android:id="@+id/overlapImage"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_cutsomer"
                     android:layout_width="wrap_content"
                     android:layout_height="120dp"
                     android:layout_above="@id/layoutBottom"
@@ -67,14 +73,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:src="@drawable/chat_disable" />
+                        android:src="@drawable/chat_enable" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimens_8dp"
                         android:text="Chat"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/yellow"
                         android:textSize="@dimen/text_size_14sp" />
                 </LinearLayout>
 
@@ -90,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimens_10dp"
-                        android:src="@drawable/track_disable" />
+                        android:src="@drawable/track_enable" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,7 +104,7 @@
                         android:layout_marginRight="@dimen/dimens_10dp"
                         android:layout_marginTop="@dimen/dimens_8dp"
                         android:text="Track"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/yellow"
                         android:textSize="@dimen/text_size_14sp" />
                 </LinearLayout>
 
@@ -160,7 +166,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView_job_location_book"
+                        android:id="@+id/textView_job_location_booked"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -184,13 +190,13 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dimens_10dp"
-                        android:text="@string/hint_your_price"
+                        android:text="Amount Received"
                         android:textColor="@color/yellow"
                         android:textSize="@dimen/text_size_16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_yourprice"
+                        android:id="@+id/textView_amount_received_book"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -214,13 +220,13 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dimens_10dp"
-                        android:text="Beautician Address: "
+                        android:text="Customer Address: "
                         android:textColor="@color/yellow"
                         android:textSize="@dimen/text_size_16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView_beautician_address"
+                        android:id="@+id/textView_customer_address_book"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -250,7 +256,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_description"
+                        android:id="@+id/textView_description_booked"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -262,39 +268,14 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button_recived_offers"
+                    android:id="@+id/button_mark_as_complete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_description"
                     android:layout_margin="@dimen/dimens_10dp"
+                    android:layout_marginBottom="@dimen/dimens_50dp"
                     android:background="@drawable/bg_button_blue_home"
-                    android:text="View Received Offers"
-                    android:textColor="@color/colorWhite"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_or"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/button_recived_offers"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dimens_10dp"
-                    android:text="OR"
-
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/button_cancel_task"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_or"
-                    android:layout_margin="@dimen/dimens_10dp"
-                    android:background="@drawable/bg_button_blue_home"
-                    android:text="Cancle this Task"
+                    android:text="Mark as Complete"
                     android:textColor="@color/colorWhite" />
             </RelativeLayout>
 

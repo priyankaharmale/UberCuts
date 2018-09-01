@@ -62,11 +62,13 @@
                 <LinearLayout
                     android:id="@+id/ll_chat"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/layoutBottom"
                     android:layout_margin="@dimen/dimens_10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -89,7 +91,8 @@
                     android:layout_below="@+id/layoutBottom"
                     android:layout_margin="@dimen/dimens_10dp"
                     android:layout_toLeftOf="@+id/ll_chat"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -111,8 +114,9 @@
                     android:id="@+id/textView_beautician_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_chat"
+                    android:layout_below="@+id/overlapImage"
                     android:layout_marginLeft="@dimen/dimens_10dp"
+                    android:layout_marginTop="@dimen/dimens_60dp"
                     android:text="Beautian Not Booked"
                     android:textColor="@color/yellow"
                     android:textSize="@dimen/text_size_16sp" />
@@ -267,7 +271,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button_cancel_task"
+                    android:id="@+id/button_give_feedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_description"

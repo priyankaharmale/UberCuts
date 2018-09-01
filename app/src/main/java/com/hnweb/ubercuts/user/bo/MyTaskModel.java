@@ -17,6 +17,15 @@ public class MyTaskModel implements Serializable{
     private String vendor_name;
     private String date;
     private String time;
+    private String u_image;
+
+    public String getU_image() {
+        return u_image;
+    }
+
+    public void setU_image(String u_image) {
+        this.u_image = u_image;
+    }
 
     public String getTime() {
         return time;

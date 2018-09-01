@@ -28,6 +28,10 @@
         <item name="colorControlNormal">@color/grey</item>
         <item name="colorControlActivated">@color/yellow</item>
     </style>
+    <style name="RatingBarlagre" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/yellow</item>
+    </style>
 
     <style name="DatePickerDialogTheme" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
@@ -38,7 +42,9 @@
     </style>
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">12sp</item>
-
-
     </style>
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

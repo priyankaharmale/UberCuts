@@ -148,6 +148,7 @@
                 android:layout_marginRight="@dimen/dimens_10dp"
                 android:background="@drawable/bg_button_blue_home"
                 android:text="Clear"
+                android:visibility="gone"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_size_12sp" />
 

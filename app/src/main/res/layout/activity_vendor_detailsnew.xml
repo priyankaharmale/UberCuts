@@ -42,9 +42,10 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dimens_80dp"
+                    android:layout_height="@dimen/dimens_80dp"
                     android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/user_register" />
 
@@ -194,6 +195,7 @@
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/yellow"
                 app:tabMode="fixed"
+                app:tabTextAppearance="@style/MineCustomTabText"
 
                 app:tabSelectedTextColor="@color/yellow"
                 app:tabTextColor="@color/colorWhite" />

@@ -30,6 +30,7 @@ import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.user.fragment.FavouritesFragment;
 import com.hnweb.ubercuts.user.fragment.HomeFragment;
 import com.hnweb.ubercuts.user.fragment.MyTaskFragment;
+import com.hnweb.ubercuts.user.fragment.PaymentFragment;
 import com.hnweb.ubercuts.user.fragment.ProfileEditFragment;
 import com.hnweb.ubercuts.user.fragment.TodaysOfferFragment;
 import com.hnweb.ubercuts.utils.LoadingDialog;
@@ -276,13 +277,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_todays_offer) {
             fragment = new TodaysOfferFragment();
         }
-        /* else if (id == R.id.nav_payment_history) {
+         else if (id == R.id.nav_payment_history) {
             fragment = new PaymentFragment();
-        } else if (id == R.id.nav_message) {
+        }/*else if (id == R.id.nav_message) {
+
 
         } else if (id == R.id.nav_change_password) {
             fragment = new ChangePasswordUser();
         } */
+
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();

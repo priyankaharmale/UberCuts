@@ -28,7 +28,7 @@
                     android:layout_weight="1"
                     android:layout_gravity="right"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/edit_my_services_and_offers_vendor"/>
+                    app:srcCompat="@drawable/save_my_profile_new"/>
         </LinearLayout>
 
         <LinearLayout

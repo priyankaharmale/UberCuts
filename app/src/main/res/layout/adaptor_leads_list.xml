@@ -18,10 +18,10 @@
         android:textColor="@color/yellow"
         android:textSize="@dimen/text_size_18dp" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_vendorimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dimens_60dp"
+        android:layout_height="@dimen/dimens_60dp"
         android:layout_below="@+id/tv_offer"
         android:layout_marginLeft="@dimen/dimens_10dp"
         android:layout_marginTop="@dimen/text_20"
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_serviceName"
+        android:layout_marginRight="@dimen/text_20"
         android:layout_marginTop="@dimen/text_20"
         android:text="$ 50"
-        android:layout_marginRight="@dimen/text_20"
         android:textColor="@color/yellow"
         android:textSize="@dimen/text_size_18dp" />
 
@@ -56,23 +56,24 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_10dp"
         android:layout_below="@+id/tv_default"
+        android:layout_marginLeft="@dimen/dimens_10dp"
+        android:layout_marginTop="@dimen/dimens_10dp"
         android:layout_toRightOf="@+id/iv_vendorimage"
         android:drawablePadding="@dimen/dimens_10dp"
         android:text="Job Location : "
-        android:layout_marginTop="@dimen/dimens_10dp"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
+
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_default"
+        android:layout_marginTop="@dimen/dimens_10dp"
         android:layout_toRightOf="@+id/tv_date"
         android:drawablePadding="@dimen/dimens_10dp"
         android:text="Customer Place"
-        android:layout_marginTop="@dimen/dimens_10dp"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
 </RelativeLayout>

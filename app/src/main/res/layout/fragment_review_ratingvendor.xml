@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash"
+        android:scrollbars="none">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dimens_10dp"
+            android:background="@drawable/bg_services_home">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1">
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.25"
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5">
+
+                            <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="@dimen/dimens_10dp"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/profile_image_beautician_review"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/dimens_100dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginTop="@dimen/dimens_20dp"
+                                        android:src="@drawable/user_register"/>
+
+
+                                <ImageView
+                                        android:id="@+id/imageView_fav"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/dimens_30dp"
+                                        android:layout_alignBottom="@+id/profile_image"
+                                        android:layout_alignParentLeft="true"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="@dimen/dimens_80dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginTop="@dimen/dimens_20dp"
+                                        android:src="@drawable/fav_unselected"
+                                        android:visibility="gone"/>
+
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/textView_beautician_name_review"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dimens_5dp"
+                            android:text="No Name"
+                            android:textAllCaps="true"
+                            android:textColor="@color/yellow"
+                            android:textSize="@dimen/text_20"
+                            android:textStyle="bold"/>
+
+                    <RatingBar
+                            android:id="@+id/rtbProductRating_review"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/dimens_10dp"
+                            android:layout_marginTop="@dimen/dimens_10dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:rating="0.0"
+                            android:stepSize="0.01"
+                            android:theme="@style/RatingBar"/>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimens_5dp"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dimens_20dp">
+
+
+                        <TextView
+                                android:id="@+id/textView_review"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center_vertical|center"
+                                android:paddingLeft="@dimen/dimens_10dp"
+                                android:text="@string/text_based_on"
+                                android:textAllCaps="true"
+                                android:textColor="@color/yellow"
+                                android:textSize="@dimen/text_size_16sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dimens_10dp"
+                            android:gravity="center">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/dimens_5dp"
+                                android:text="@string/hint_experience_colon"
+                                android:textColor="@color/yellow"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/text_20"/>
+
+                        <TextView
+                                android:id="@+id/textView_beautician_experience_review"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/dimens_5dp"
+                                android:text="0 Years"
+                                android:textAllCaps="true"
+                                android:textColor="@color/yellow"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/text_20"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="0dp"
+                        android:layout_marginTop="@dimen/dimens_10dp"
+                        android:layout_below="@+id/linearLayout"
+                        android:orientation="vertical">
+
+                    <android.support.design.widget.TabLayout
+                            android:id="@+id/tabs_review"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"
+                            app:tabGravity="fill"
+                            app:tabIndicatorColor="@color/yellow"
+                            app:tabIndicatorHeight="@dimen/dimens_2dp"
+                            android:layout_marginRight="@dimen/dimens_2dp"
+                            android:layout_marginLeft="@dimen/dimens_2dp"
+                            app:tabMode="fixed"
+                            android:elevation="0dp"
+                            app:tabSelectedTextColor="@color/yellow"
+                            app:tabTextColor="@color/colorWhite"/>
+
+                    <android.support.v4.view.ViewPager
+                            android:id="@+id/viewpager_review"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_below="@+id/tabs"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            tools:ignore="ObsoleteLayoutParam"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

@@ -2,7 +2,7 @@ package com.hnweb.ubercuts.vendor.bo;
 
 import java.io.Serializable;
 
-public class LeadsModel implements Serializable{
+public class LeadsModel implements Serializable {
 
     private String my_task_id;
     private String my_task_message;
@@ -11,8 +11,19 @@ public class LeadsModel implements Serializable{
     private String u_name;
     private String category_id;
     private String category_name;
+    private String sub_category_id;
+    private String sub_category_name;
     private String latitude;
     private String longitude;
+    private String u_img;
+
+    public String getU_img() {
+        return u_img;
+    }
+
+    public void setU_img(String u_img) {
+        this.u_img = u_img;
+    }
 
     public String getMy_task_id() {
         return my_task_id;
@@ -84,5 +95,21 @@ public class LeadsModel implements Serializable{
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getSub_category_id() {
+        return sub_category_id;
+    }
+
+    public void setSub_category_id(String sub_category_id) {
+        this.sub_category_id = sub_category_id;
+    }
+
+    public String getSub_category_name() {
+        return sub_category_name;
+    }
+
+    public void setSub_category_name(String sub_category_name) {
+        this.sub_category_name = sub_category_name;
     }
 }

@@ -2,14 +2,17 @@ package com.hnweb.ubercuts.user.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import com.hnweb.ubercuts.utils.AlertUtility;
 import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
+import com.hnweb.ubercuts.vendor.activity.MainActivityVendor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,15 +55,13 @@ public class CompletedDetailsActivity extends AppCompatActivity {
     SharedPreferences prefs;
     String user_id;
     TextView tvServices, tvSubServices, tvJobLocation, tvDate, tvTime, tvDescription,
-            tvBeautician, tvAmountPaid, tvUserNames,tvReceivedFeedback,tv_yourprice;
+            tvBeautician, tvAmountPaid, tvUserNames, tvReceivedFeedback, tv_yourprice;
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
     String my_task_ids;
-    Button btnPostFeedback;
+    Button button_give_feedback;
     ImageView imageViewBeautician;
-    RatingBar ratingBarStar;
     Float ratingbar;
-    EditText etFeedback;
     String receiver_id = "";
     float format_rating_bar;
     LinearLayout linearLayout;
@@ -69,8 +71,9 @@ public class CompletedDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completedtask_details);
 
-        prefs = getSharedPreferences("MyPrefUser", MODE_PRIVATE);
-        user_id = prefs.getString("user_id_user", null);
+        prefs = getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
+        user_id = prefs.getString(AppConstant.KEY_ID, null);
+
 
         Intent intent = getIntent();
         my_task_ids = intent.getStringExtra("my_task_id").toString();
@@ -100,37 +103,29 @@ public class CompletedDetailsActivity extends AppCompatActivity {
         tvServices = findViewById(R.id.tv_serviceName);
         tvDate = findViewById(R.id.tv_date);
         tvTime = findViewById(R.id.tv_time);
-        tv_yourprice=findViewById(R.id.tv_yourprice);
+        tv_yourprice = findViewById(R.id.tv_yourprice);
         tvJobLocation = findViewById(R.id.textView_job_location_book);
         tvDescription = findViewById(R.id.tv_description);
         tvUserNames = findViewById(R.id.textView_beautician_details);
-        tvBeautician=findViewById(R.id.textView_beautician_address);
-        imageViewBeautician=findViewById(R.id.overlapImage);
+        tvBeautician = findViewById(R.id.textView_beautician_address);
+        imageViewBeautician = findViewById(R.id.overlapImage);
 
 
-      //  tvReceivedFeedback = findViewById(R.id.tv_received_feedback);
-       /* linearLayout = findViewById(R.id.linear_received_feedback);
-        ratingBarStar = findViewById(R.id.rtb_feedback_star);
-        ratingBarStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        button_give_feedback = findViewById(R.id.button_give_feedback);
 
-                //txtRatingValue.setText(String.valueOf(rating));
-                ratingbar = rating;
-                format_rating_bar = Math.round(ratingbar);
-                // Toast.makeText(CompletedDetailsActivity.this, "rating" + rating + " :: " + format_rating_bar, Toast.LENGTH_SHORT).show();
-
+        button_give_feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateAlertDailog();
             }
         });
-
-        etFeedback = findViewById(R.id.editText_feedback_comment);
-*/
 
         connectionDetector = new ConnectionDetector(CompletedDetailsActivity.this);
         loadingDialog = new LoadingDialog(CompletedDetailsActivity.this);
 
         if (connectionDetector.isConnectingToInternet()) {
             getCompletedDetailsData();
-         //   getReceivedFeedBack();
+            //   getReceivedFeedBack();
         } else {
             /*Snackbar snackbar = Snackbar.make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
 
@@ -138,156 +133,75 @@ public class CompletedDetailsActivity extends AppCompatActivity {
             Toast.makeText(CompletedDetailsActivity.this, "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
 
-     /*   btnPostFeedback = findViewById(R.id.button_comment_post);
-        btnPostFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String get_feedback = etFeedback.getText().toString().trim();
-
-                if (!get_feedback.matches("")) {
-                    if (ratingBarStar.getRating() == 0.0) {
-                        //set what you want\
-                        Toast.makeText(CompletedDetailsActivity.this, "Please Rating Star", Toast.LENGTH_SHORT).show();
-                    } else {
-                        //give error if ratingbar not changed
-                        postFeedbackRequest(get_feedback, ratingbar);
-                    }
-                } else {
-                    Toast.makeText(CompletedDetailsActivity.this, "Please Enter Review Comment!", Toast.LENGTH_SHORT).show();
-                }
-
-
-                //Toast.makeText(CompletedDetailsActivity.this, "Rating Bar"+ratingbar, Toast.LENGTH_SHORT).show();
-
-                //getPostTaskCancel(my_task_ids);
-            }
-        });*/
     }
 
-  /*  private void getReceivedFeedBack() {
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, WebsServiceURLUser.USER_RECEIVED_FEEDBACK,
+    private void postFeedbackRequest(final String get_feedback, final Float ratingbar,final  Dialog dialog) {
+
+        loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GIVEFEEDBACK,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.d("RecivedFeedback", response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            int code = jsonObject.getInt("message_code");
-                            Log.d("message_code:- ", String.valueOf(code));
-
-                            if (code == 1) {
-                                linearLayout.setVisibility(View.VISIBLE);
-                                String msg = jsonObject.getString("message");
-                                Log.d("message ", msg);
-                                JSONObject jsonObject1 = jsonObject.getJSONObject("details");
-                                String review_content = jsonObject1.getString("review_content");
-                                if (review_content.equals("")) {
-                                    tvReceivedFeedback.setText(" - ");
-                                } else {
-                                    tvReceivedFeedback.setText(review_content);
-                                }
-
-                               // Toast.makeText(CompletedDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                linearLayout.setVisibility(View.GONE);
-                                String msg = jsonObject.getString("message");
-                                Log.d("message:- ", msg);
-
-                                //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
                         }
+                        Log.i("Response", "Feedback Post :" + response);
+
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            int message_code = jobj.getInt("message_code");
+
+                            String msg = jobj.getString("message");
+                            Log.e("FLag", message_code + " :: " + msg);
+
+                            if (message_code == 1) {
+                                dialog.dismiss();
+                                Toast.makeText(CompletedDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(CompletedDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("jsonexeption" + e.toString());
+                        }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d("Error: ", error.getMessage());
-                        error.printStackTrace();
+                        String reason = AppUtils.getVolleyError(CompletedDetailsActivity.this, error);
+                        AlertUtility.showAlert(CompletedDetailsActivity.this, reason);
+                        System.out.println("jsonexeption" + error.toString());
                     }
-                }
-        ) {
+                }) {
+
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                // the POST parameters:
-                params.put("u_id", user_id);
-                params.put("my_task_id", my_task_ids);
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("review_content", get_feedback);
+                    params.put("rating", String.valueOf(ratingbar));
+                    params.put("sender_id", user_id);
+                    params.put("receiver_id", receiver_id);
+                    params.put("my_task_id", my_task_ids);
 
-                Log.e("RecevedFeedBack ", params.toString());
+                } catch (Exception e) {
+                    System.out.println("error" + e.toString());
+                }
                 return params;
             }
         };
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        postRequest.setShouldCache(false);
-        requestQueue.add(postRequest);
+        requestQueue.add(stringRequest);
 
     }
 
-    private void postFeedbackRequest(String get_feedback, Float ratingbar) {
-        prefs = getSharedPreferences("MyPrefUser", MODE_PRIVATE);
-        String user_id = prefs.getString("user_id_user", null);
-        //loadingDialog.show();
-        Map<String, String> params = new HashMap<>();
-        params.put("review_content", get_feedback);
-        params.put("rating", String.valueOf(ratingbar));
-        params.put("sender_id", user_id);
-        params.put("receiver_id", receiver_id);
-        params.put("my_task_id", my_task_ids);
-
-        Log.e("Params", params.toString());
-
-        RequestInfo request_info = new RequestInfo();
-        request_info.setMethod(RequestInfo.METHOD_POST);
-        request_info.setRequestTag("mytask");
-        request_info.setUrl(WebsServiceURLUser.USER_POST_YOUR_FEEDBACK);
-        request_info.setParams(params);
-
-        DataUtility.submitRequest(loadingDialog, this, request_info, false, new DataUtility.OnDataCallbackListner() {
-            @Override
-            public void OnDataReceived(String data) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                Log.i("Response", "Feedback Post :" + data);
-
-                try {
-                    JSONObject jobj = new JSONObject(data);
-                    int message_code = jobj.getInt("message_code");
-
-                    String msg = jobj.getString("message");
-                    Log.e("FLag", message_code + " :: " + msg);
-
-                    if (message_code == 1) {
-                        etFeedback.setText("");
-                        finish();
-                        Toast.makeText(CompletedDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(CompletedDetailsActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    System.out.println("jsonexeption" + e.toString());
-                }
-
-            }
-
-            @Override
-            public void OnError(String message) {
-                if (loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
-                }
-                AlertUtility.showAlert(CompletedDetailsActivity.this, false, "Network Error,Please Check Internet Connection");
-            }
-        });
-    }
-*/
     private void getCompletedDetailsData() {
 
         loadingDialog.show();
@@ -335,7 +249,7 @@ public class CompletedDetailsActivity extends AppCompatActivity {
                                     String add_zipcode = jsonObject.getString("u_zipcode");
 
                                     receiver_id = beautician_id;
-                                    tv_yourprice.setText("$"+amount_paid);
+                                    tv_yourprice.setText("$" + amount_paid);
                                     tvServices.setText(sub_category_name);
                                     tvUserNames.setText(beautician_name);
                                     tvJobLocation.setText(job_location);
@@ -410,12 +324,6 @@ public class CompletedDetailsActivity extends AppCompatActivity {
         stringRequest.setShouldCache(false);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
-
-
-
-
-
     }
 
     @Override
@@ -426,4 +334,65 @@ public class CompletedDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void updateAlertDailog() {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_rating_reviw);
+
+        Button btnPostFeedback = (Button) dialog.findViewById(R.id.btn_post_add_service);
+        Button btnCancel = dialog.findViewById(R.id.btn_cancle);
+        final EditText editText_feedback_comment = (EditText) dialog.findViewById(R.id.editText_feedback_comment);
+       final   RatingBar ratingBarStar = dialog.findViewById(R.id.rtb_reviews_rating);
+
+
+        ratingBarStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                //txtRatingValue.setText(String.valueOf(rating));
+                ratingbar = rating;
+                format_rating_bar = Math.round(ratingbar);
+                // Toast.makeText(CompletedDetailsActivity.this, "rating" + rating + " :: " + format_rating_bar, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        btnPostFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String get_feedback = editText_feedback_comment.getText().toString().trim();
+
+                if (!get_feedback.matches("")) {
+                    if (ratingBarStar.getRating() == 0.0) {
+                        //set what you want\
+                        Toast.makeText(CompletedDetailsActivity.this, "Please Rating Star", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //give error if ratingbar not changed
+                        postFeedbackRequest(get_feedback, ratingbar,dialog);
+                    }
+                } else {
+                    Toast.makeText(CompletedDetailsActivity.this, "Please Enter Review Comment!", Toast.LENGTH_SHORT).show();
+                }
+
+
+                //Toast.makeText(CompletedDetailsActivity.this, "Rating Bar"+ratingbar, Toast.LENGTH_SHORT).show();
+
+                //getPostTaskCancel(my_task_ids);
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 }

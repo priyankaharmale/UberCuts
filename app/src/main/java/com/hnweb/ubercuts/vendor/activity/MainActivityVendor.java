@@ -32,7 +32,9 @@ import com.hnweb.ubercuts.contants.AppConstant;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.vendor.fragment.LeadsFragment;
+import com.hnweb.ubercuts.vendor.fragment.MyJobsFragment;
 import com.hnweb.ubercuts.vendor.fragment.MyServiceAndoffersFragment;
+import com.hnweb.ubercuts.vendor.fragment.PaymentVendorFragment;
 
 /**
  * Created by Priyanka H on 21-June-2018
@@ -188,21 +190,23 @@ public class MainActivityVendor extends AppCompatActivity implements NavigationV
             fragment = new LeadsFragment();
         } else if (id == R.id.nav_my_service) {
             fragment = new MyServiceAndoffersFragment();
-        }else
-            if (id == R.id.nav_myprofile) {
+        } else if (id == R.id.nav_myprofile) {
             Intent intent = new Intent(MainActivityVendor.this, ProfileEditSaveVendorActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
             showLogoutAlert();
-        }
-       /* } else if (id == R.id.nav_my_bids) {
-            fragment = new MyBidsFragment();
         } else if (id == R.id.nav_my_jobs) {
             fragment = new MyJobsFragment();
         } else if (id == R.id.nav_vendor_message) {
 
         } else if (id == R.id.nav_payment_history) {
+            fragment = new PaymentVendorFragment();
+
+        }
+
+       /* } else if (id == R.id.nav_my_bids) {
+            fragment = new MyBidsFragment();
 
         } else if (id == R.id.nav_my_service) {
             fragment = new MyServiceAndOfferFragment();

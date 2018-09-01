@@ -13,17 +13,10 @@
             android:title="@string/nav_lead" />
 
     </group>
-    <group
-        android:id="@+id/tasks"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_my_bids"
-            android:icon="@drawable/my_bids_vendor"
-            android:title="@string/nav_my_bids" />
 
-    </group>
-    <group android:checkableBehavior="single"
-        android:id="@+id/jobs">
+    <group
+        android:id="@+id/jobs"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_my_jobs"
             android:icon="@drawable/my_jobs_vendor"
@@ -57,9 +50,9 @@
 
         <item
             android:id="@+id/nav_my_service"
-            app:itemIconTint="@color/colorBlack"
             android:icon="@drawable/my_services_and_offers_vendor"
-            android:title="@string/nav_my_service_offers" />
+            android:title="@string/nav_my_service_offers"
+            app:itemIconTint="@color/colorBlack" />
 
     </group>
 
@@ -69,9 +62,9 @@
 
         <item
             android:id="@+id/nav_rating_reviws"
-            app:itemIconTint="@color/colorBlack"
             android:icon="@drawable/rating_and_reviews_vendor"
-            android:title="@string/nav_rating_raviews" />
+            android:title="@string/nav_rating_raviews"
+            app:itemIconTint="@color/colorBlack" />
 
     </group>
 
@@ -81,9 +74,9 @@
 
         <item
             android:id="@+id/nav_myprofile"
-            app:itemIconTint="@color/colorBlack"
-            android:icon="@drawable/rating_and_reviews_vendor"
-            android:title="My Profile" />
+            android:icon="@drawable/my_profile_vendor"
+            android:title="My Profile"
+            app:itemIconTint="@color/colorBlack" />
 
     </group>
 

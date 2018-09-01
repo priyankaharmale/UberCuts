@@ -229,7 +229,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
         loadingDialog = new LoadingDialog(BookNowPayment.this);
 
         if (connectionDetector.isConnectingToInternet()) {
-            getCardDetailsInfo();
+          //  getCardDetailsInfo();
         } else {
            /* Snackbar snackbar = Snackbar
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
@@ -379,7 +379,7 @@ public class BookNowPayment extends AppCompatActivity implements OnCallBack {
 
 
     private void newStripePaymentAPIRequest(final String token_id, final String cardNumber, final String strExpiryDate, final String cvv_value, final String expiryMonth, final String expiryYearfourDigit) {
-
+        loadingDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_REGULAR_BOOKING,
                 new Response.Listener<String>() {
                     @Override

@@ -204,7 +204,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                                         String user_state = jsonObject.getString("u_state");
                                                         String user_country = jsonObject.getString("u_country");
                                                         String user_zipcode = jsonObject.getString("u_zipcode");
-                                                        String user_is_card = jsonObject.getString("is_credit_card_added");
+                                                //        String user_is_card = jsonObject.getString("is_credit_card_added");
                                                         String user_type = jsonObject.getString("user_type");
                                                         String type = jsonObject.getString("type");
 
@@ -221,7 +221,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                                         editorUser.putString(AppConstant.KEY_ZIPCODE, user_zipcode);
                                                         editorUser.putString(AppConstant.KEY_TYPE, type);
                                                         editorUser.putString(AppConstant.KEY_USERTYPE, user_type);
-                                                        editorUser.putString(AppConstant.KEY_ISCREDIT, user_is_card);
+                                                      //  editorUser.putString(AppConstant.KEY_ISCREDIT, user_is_card);
                                                         editorUser.commit();
 
                                                         if (user_type.equals("User")) {

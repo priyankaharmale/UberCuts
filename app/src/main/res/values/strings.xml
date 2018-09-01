@@ -174,4 +174,11 @@
     <string name="text_promo_code">Promo Code</string>
     <string name="text_total_amount">Total</string>
     <string name="text_pay_now">Pay Now</string>
+
+    <!--Rating And Review-->
+    <string name="text_based_on">Based On 80 user Rating</string>
+    <string name="text_review">Review</string>
+    <string name="text_review_comment">Review Comment</string>
+    <string name="hint_experience_colon">Experience :</string>
+
 </resources>

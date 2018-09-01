@@ -236,7 +236,7 @@ public class PostYourTaskPayNowActivity extends AppCompatActivity implements OnC
         loadingDialog = new LoadingDialog(PostYourTaskPayNowActivity.this);
 
         if (connectionDetector.isConnectingToInternet()) {
-            getCardDetailsInfo();
+            //getCardDetailsInfo();
         } else {
            /* Snackbar snackbar = Snackbar
                     .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);

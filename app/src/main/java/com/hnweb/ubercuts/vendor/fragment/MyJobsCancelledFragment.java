@@ -1,4 +1,4 @@
-package com.hnweb.ubercuts.user.fragment;
+package com.hnweb.ubercuts.vendor.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -26,10 +26,12 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -40,8 +42,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hnweb.ubercuts.R;
 import com.hnweb.ubercuts.contants.AppConstant;
+import com.hnweb.ubercuts.interfaces.AdapterCallback;
 import com.hnweb.ubercuts.interfaces.OnCallBack;
-import com.hnweb.ubercuts.user.adaptor.MyTaskAadapter;
 import com.hnweb.ubercuts.user.adaptor.ServiceAdaptor;
 import com.hnweb.ubercuts.user.bo.MyTaskModel;
 import com.hnweb.ubercuts.user.bo.Services;
@@ -50,6 +52,7 @@ import com.hnweb.ubercuts.utils.AppUtils;
 import com.hnweb.ubercuts.utils.ConnectionDetector;
 import com.hnweb.ubercuts.utils.LoadingDialog;
 import com.hnweb.ubercuts.utils.Utils;
+import com.hnweb.ubercuts.vendor.adaptor.MyJobsVendorAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,48 +70,37 @@ import java.util.Map;
 import static android.content.Context.MODE_PRIVATE;
 
 @SuppressLint("ValidFragment")
-public class BookedFragment extends Fragment implements View.OnClickListener, OnCallBack {
+public class MyJobsCancelledFragment extends Fragment implements AdapterCallback, View.OnClickListener, OnCallBack {
 
     RecyclerView recyclerViewPostedList;
     SharedPreferences prefs;
-    String user_id;
+    String vendor_id;
     ConnectionDetector connectionDetector;
     LoadingDialog loadingDialog;
     private ArrayList<MyTaskModel> myTaskModels = new ArrayList<MyTaskModel>();
-    ;
-    MyTaskAadapter myTaskAadapter;
+    MyJobsVendorAdapter myTaskAadapter;
     TextView textViewList;
     TextView textViewListCount;
-    int position;
+    ServiceAdaptor serviceAdaptor;
+    String serviceId;
+    AdapterCallback adapterCallback;
     ImageView imageViewFilter, imageViewSearch;
     private int mYear, mMonth, mDay;
     String value_date_filter = "";
-    ArrayList<String> selectedArrayList = new ArrayList<>();
     String replaceArrayListCategory = "";
     String category_id = "";
     LinearLayout linearLayout;
-    OnCallBack onCallBack;
     SearchView searchView;
+    OnCallBack OnCallBack;
     ImageView mCloseButton;
-    ServiceAdaptor serviceAdaptor;
-    String serviceId;
-    ArrayList<Services> servicesArrayList;
+    ProgressBar progressBarTask;
     ListView recyclerViewCate;
+    ArrayList<Services> servicesArrayList;
 
     @Override
-    public void setUserVisibleHint(boolean isUserVisible) {
-        super.setUserVisibleHint(isUserVisible);
-        // when fragment visible to user and view is not null then enter here.
-        if (isUserVisible) {
-            // do your stuff here.
-            getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -117,14 +109,12 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
 
         View view = inflater.inflate(R.layout.fragment_posted, container, false);
 
-        onCallBack = this;
         prefs = getActivity().getApplicationContext().getSharedPreferences("AOP_PREFS", MODE_PRIVATE);
-        user_id = prefs.getString(AppConstant.KEY_ID, null);
+        vendor_id = prefs.getString(AppConstant.KEY_ID, null);
+        OnCallBack = this;
         initViewById(view);
 
-        setUserVisibleHint(true);
-
-
+        adapterCallback = MyJobsCancelledFragment.this;
         return view;
     }
 
@@ -132,12 +122,14 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
         recyclerViewPostedList = view.findViewById(R.id.recylerview_posted_list);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerViewPostedList.setLayoutManager(layoutManager);
-
+        progressBarTask = view.findViewById(R.id.progressBar_task);
+        progressBarTask.setVisibility(View.VISIBLE);
         textViewList = view.findViewById(R.id.textView_empty_list);
         textViewListCount = view.findViewById(R.id.textView_list_count);
 
         imageViewFilter = view.findViewById(R.id.imageView_filter_booked);
         imageViewFilter.setOnClickListener(this);
+
         imageViewSearch = view.findViewById(R.id.imageView_search);
         imageViewSearch.setOnClickListener(this);
 
@@ -151,40 +143,51 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.toString().trim().length() == 0) {
-                    ///linearLayout.setVisibility(View.VISIBLE);
-                    //searchView.setVisibility(View.GONE);
-                    // mCloseButton.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
-                    mCloseButton.setVisibility(View.VISIBLE);
-                    mCloseButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            linearLayout.setVisibility(View.VISIBLE);
-                            searchView.setVisibility(View.GONE);
-                        }
-                    });
+                try {
+                    if (query.toString().trim().length() == 0) {
+                        ///linearLayout.setVisibility(View.VISIBLE);
+                        //searchView.setVisibility(View.GONE);
+                        // mCloseButton.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
+                        mCloseButton.setVisibility(View.VISIBLE);
+                        mCloseButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                linearLayout.setVisibility(View.VISIBLE);
+                                searchView.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                    myTaskAadapter.getFilter().filter(query.toString());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-                myTaskAadapter.getFilter().filter(query.toString());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Toast.makeText(getActivity(), "New Text "+newText, Toast.LENGTH_SHORT).show();
-                if (newText.toString().trim().length() == 0) {
-                    //linearLayout.setVisibility(View.VISIBLE);
-                    //searchView.setVisibility(View.GONE);
-                    mCloseButton.setVisibility(View.VISIBLE);
-                    mCloseButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            linearLayout.setVisibility(View.VISIBLE);
-                            searchView.setVisibility(View.GONE);
-                        }
-                    });
+                try {
+                    if (newText.toString().trim().length() == 0) {
+                        //linearLayout.setVisibility(View.VISIBLE);
+                        //searchView.setVisibility(View.GONE);
+                        mCloseButton.setVisibility(View.VISIBLE);
+                        mCloseButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                linearLayout.setVisibility(View.VISIBLE);
+                                searchView.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                    myTaskAadapter.getFilter().filter(newText.toString());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-                myTaskAadapter.getFilter().filter(newText.toString());
-
                 return true;
             }
         });
@@ -207,62 +210,79 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
             value_date_filter = "";
             getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
         } else {
+           /* Snackbar snackbar = Snackbar
+                    .make(((MainActivityUser) getActivity()).coordinatorLayout, "No Internet Connection, Please try Again!!", Snackbar.LENGTH_LONG);
+
+            snackbar.show();*/
             Toast.makeText(getActivity(), "No Internet Connection, Please try Again!!", Toast.LENGTH_SHORT).show();
         }
 
 
     }
 
-    private void getPostedTaskList(final String category_id, final String sub_category_id, final String value_date_filter) {
+    private void getPostedTaskList(final String category_ids, final String replaceArrayListCategorys, final String value_date_filters) {
 
-        loadingDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_MYTASKLISTING,
+        //loadingDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstant.API_GET_VENDOR_JOB_LISTING,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("res_register" + response);
                         if (loadingDialog.isShowing()) {
                             loadingDialog.dismiss();
                         }
-                        Log.i("Response", "PostList :" + response);
+                        Log.i("Response", "CancelList :" + response);
+
                         try {
                             JSONObject jobj = new JSONObject(response);
                             int message_code = jobj.getInt("message_code");
+
                             String msg = jobj.getString("message");
                             Log.e("FLag", message_code + " :: " + msg);
-                            if (message_code == 1) {
 
-                                JSONArray userdetails = jobj.getJSONArray("details");
+                            if (message_code == 1) {
+                                progressBarTask.setVisibility(View.GONE);
                                 recyclerViewPostedList.setVisibility(View.VISIBLE);
+                                JSONArray userdetails = jobj.getJSONArray("details");
+
                                 int total_size = userdetails.length();
                                 String list_of_count = String.format("%02d", total_size);
                                 textViewListCount.setText(String.valueOf(list_of_count));
                                 myTaskModels.clear();
                                 for (int j = 0; j < userdetails.length(); j++) {
                                     JSONObject jsonObject = userdetails.getJSONObject(j);
+
                                     MyTaskModel myTaskModel = new MyTaskModel();
                                     myTaskModel.setMy_task_id(jsonObject.getString("my_task_id"));
                                     myTaskModel.setCategory_name(jsonObject.getString("category_name"));
                                     myTaskModel.setCategory_id(jsonObject.getString("category_id"));
-                                    myTaskModel.setBeautician(jsonObject.getString("beautician"));
+                                    myTaskModel.setVendor_name(jsonObject.getString("user"));
                                     myTaskModel.setDate(jsonObject.getString("date"));
-                                    myTaskModel.setTime(jsonObject.getString("time"));
                                     myTaskModel.setStatus(jsonObject.getString("status"));
-                                    myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
+                                    myTaskModel.setU_image(jsonObject.getString("user_image"));
+
                                     myTaskModel.setSub_category_id(jsonObject.getString("sub_category_id"));
+                                    myTaskModel.setSub_category_name(jsonObject.getString("sub_category_name"));
+                                    myTaskModel.setJob_location_name(jsonObject.getString("job_location"));
                                     myTaskModels.add(myTaskModel);
 
                                 }
                                 //getListOfdata(subCategoriesList);
                                 //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 
+                                FragmentManager fragmentManager = getChildFragmentManager();
+                                Fragment fragment = new Fragment();
 
-                                myTaskAadapter = new MyTaskAadapter(getActivity(), myTaskModels);
+                                category_id = "";
+                                replaceArrayListCategory = "";
+                                value_date_filter = "";
+
+                                myTaskAadapter = new MyJobsVendorAdapter(getActivity(), myTaskModels, adapterCallback);
                                 recyclerViewPostedList.setAdapter(myTaskAadapter);
                                 textViewList.setVisibility(View.GONE);
                             } else {
                                 //Utils.AlertDialog(getActivity(), msg);
+                                progressBarTask.setVisibility(View.GONE);
                                 textViewList.setVisibility(View.VISIBLE);
                                 recyclerViewPostedList.setVisibility(View.GONE);
                                 recyclerViewPostedList.setAdapter(null);
@@ -272,6 +292,8 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
                         } catch (JSONException e) {
                             System.out.println("jsonexeption" + e.toString());
                         }
+
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -287,8 +309,11 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 try {
-                    params.put("client_id", user_id);
-                    params.put("status", "1");
+                    params.put("vendor_id", vendor_id);
+                    params.put("status", "3");
+                    params.put("category_id", category_ids);
+                    params.put("sub_category_id", replaceArrayListCategorys);
+                    params.put("fdt", value_date_filters);
 
                 } catch (Exception e) {
                     System.out.println("error" + e.toString());
@@ -305,17 +330,24 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
     }
 
     @Override
+    public void onMethodCallPosted() {
+        category_id = "";
+        replaceArrayListCategory = "";
+        value_date_filter = "";
+        getPostedTaskList(category_id, replaceArrayListCategory, value_date_filter);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView_filter_booked:
-                // showAlertDialog();
+                showAlertDialog();
                 break;
 
             case R.id.imageView_search:
                 linearLayout.setVisibility(View.GONE);
                 searchView.setVisibility(View.VISIBLE);
                 break;
-
             default:
                 break;
         }
@@ -475,7 +507,7 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
                                         services.setServicesName(serviceName);
 
                                         servicesArrayList.add(services);
-                                        serviceAdaptor = new ServiceAdaptor(getActivity(), servicesArrayList, onCallBack);
+                                        serviceAdaptor = new ServiceAdaptor(getActivity(), servicesArrayList, OnCallBack);
                                         recyclerViewCate.setAdapter(serviceAdaptor);
                                     }
 
@@ -566,5 +598,4 @@ public class BookedFragment extends Fragment implements View.OnClickListener, On
     public void callrefresh() {
 
     }
-
 }

@@ -23,12 +23,12 @@
         android:layout_width="@dimen/dimens_60dp"
         android:layout_height="@dimen/dimens_60dp"
         android:layout_below="@+id/tv_offer"
-        android:layout_marginLeft="@dimen/dimens_5dp"
+        android:layout_marginLeft="@dimen/dimens_10dp"
         android:layout_marginTop="@dimen/text_20"
-        android:src="@drawable/user_register" />
+        android:src="@drawable/judy_ward_beautician_details" />
 
     <TextView
-        android:id="@+id/tv_vendroName"
+        android:id="@+id/tv_customerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_10dp"
@@ -40,24 +40,12 @@
         android:textColor="@color/yellow"
         android:textSize="@dimen/text_size_18dp" />
 
-    <TextView
-        android:id="@+id/tv_default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_serviceName"
-        android:layout_marginRight="@dimen/text_20"
-        android:layout_marginTop="@dimen/text_20"
-        android:text="$ 50"
-        android:textColor="@color/yellow"
-        android:textSize="@dimen/text_size_18dp"
-        />
 
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_vendroName"
+        android:layout_below="@+id/tv_customerName"
         android:layout_marginLeft="@dimen/dimens_10dp"
         android:layout_marginTop="@dimen/dimens_10dp"
         android:layout_toRightOf="@+id/iv_vendorimage"
@@ -68,16 +56,15 @@
         android:textSize="@dimen/text_size_16dp" />
 
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_vendroName"
+        android:layout_below="@+id/tv_customerName"
         android:layout_marginLeft="@dimen/dimens_20dp"
         android:layout_marginTop="@dimen/dimens_10dp"
         android:layout_toRightOf="@+id/tv_date"
-        android:drawableLeft="@drawable/time_post_your_task"
         android:drawablePadding="@dimen/dimens_10dp"
-        android:text="10.00 AM"
-        android:textColor="@color/yellow"
+        android:text="Customer Place"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_size_16dp" />
 </RelativeLayout>

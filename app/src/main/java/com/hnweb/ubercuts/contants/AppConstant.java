@@ -97,7 +97,10 @@ public class AppConstant {
     /*================================================= CANCLED TASK=========================================================*/
     public static final String API_CANCLEDTASK = BASE_URL + "cancel_my_task.php";
 
-
+    /*=================================================Give FeddBack =========================================================*/
+    public static final String API_GIVEFEEDBACK = BASE_URL + "add_review_rating.php";
+    /*=================================================PAYMENT HISTORY =========================================================*/
+    public static final String API_PAYMENTHOSTORY = BASE_URL + "payment_history.php";
 
     /*******************************Vendor***************************************************************************************************/
     /*=================================================Register Vendor=========================================================*/
@@ -132,7 +135,16 @@ public class AppConstant {
     public static final String API_SAVEPROFILE_VENDOR = BASE_URL + "change_profile_picture.php";
     /*=================================================SAve Profile Image of  Vendor  =========================================================*/
     public static final String API_DELETESERVICE_VENDOR = BASE_URL + "delete_my_service.php";
-
+    /*=================================================LEADS  List=========================================================*/
+    public static final String API_GET_LEADSLISTNEARBY = BASE_URL + "get_lead_near_by_me.php";
+    /*=================================================LEADS  DETAILS=========================================================*/
+    public static final String API_GET_LEADS_DEATAILS = BASE_URL + "get_lead_details.php";
+    /*=================================================GET VENDOR JOBS LISTING=========================================================*/
+    public static final String API_GET_VENDOR_JOB_LISTING = BASE_URL + "vendor_my_task_list.php";
+    /*=================================================GET VENDOR JOBS DETAILS=========================================================*/
+    public static final String API_GET_VENDOR_JOB_DETAILS = BASE_URL + "vendor_my_task_details.php";
+    /*=================================================PAYMENT HISTORY Vendor=========================================================*/
+    public static final String API_PAYMENTHOSTORY_VENDOR = BASE_URL + "vendor_payement_history.php";
 
     public static String dateToString(Date date, String format) {
         SimpleDateFormat df = new SimpleDateFormat(format);
